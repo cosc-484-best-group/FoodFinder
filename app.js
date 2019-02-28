@@ -12,24 +12,42 @@ app.use(express.static(__dirname + '/images/'));
 app.use(express.static(__dirname + '/css/'));
 
 
+var input = ""
+// GET method route
+app.get('/gettem', function (request, response) 
+{
+  input = request.query.input;
+  response.send('input: ' + input);
+})
+
+/*
+// POST method route
+app.post('/postman', function (request, response) 
+{
+  console.log('postman');
+  // var lname = request.param('lname');
+  console.log(request.query)
+  response.send('lname');
+})
+*/
+
 //add the router
-router.get('/',function(req,res)
+router.get('/',function(request, response)
 {
-  res.sendFile('index.html');
+  response.sendFile('index.html');
 });
-router.get('/about',function(req,res)
+router.get('/about',function(request, response)
 {
-  res.sendFile('about.html');
+  response.sendFile('about.html');
 });
-router.get('/sitemap',function(req,res)
+router.get('/sitemap',function(request, response)
 {
-  res.sendFile('sitemap.html');
+  response.sendFile('sitemap.html');
 });
 
 
 app.use('/', router);
 app.listen(process.env.port || port);
-
 console.log('Running at Port ' + port);
 
 
