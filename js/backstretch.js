@@ -1,3 +1,3 @@
 
 // set background image
-$.backstretch("images/poly.png");
+$.backstretch("poly.png");

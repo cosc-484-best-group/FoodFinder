@@ -1,14 +1,15 @@
 {
-  "name": "sample",
-  "version": "1.0.1",
+  "name": "myexpress",
+  "version": "1.0.0",
   "description": "",
-  "main": "sample.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "MIT",
+  "author": "matt",
+  "license": "ISC",
   "dependencies": {
+    "express": "^4.16.4",
     "yelp-fusion": "^2.0.2"
   }
 }
