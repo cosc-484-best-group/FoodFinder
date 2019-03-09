@@ -45,7 +45,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
     };
 
-    // Sends textbox input to Yelp in Nodejs backend, then pushes to Mongo if not already in there
+    // Sends textbox input to Yelp in Nodejs backend
     $scope.yelp = function () 
     {
 
@@ -92,6 +92,8 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
                         cates += ", " + yelpData.categories[i].title;
                 }
                 $scope.categories = cates;
+
+                $scope.favorite = unstar;
                 
                 var newSpot = {
                     name: yelpData.name,
@@ -108,15 +110,15 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
     };
 
-    // Sets textbox data to clicked marker, sends to Yelp and shows data in bottom
-    $scope.zoom = function () 
+    // ^ yelp but doesnt place markers (called when marker clicked)
+    $scope.zoom = function (markertype) 
     {
-
+        //alert(markertype);
         var term = document.getElementById("term").value;
         var loc = document.getElementById("location").value;
 
         // REST URL
-        var url = "/zoom?term=\"" + term +"\"&location=\"" + loc + "\"";
+        var url = "/yelp?term=\"" + term +"\"&location=\"" + loc + "\"";
         var data = new FormData();
 
         // Set the configurations for the uploaded file
@@ -145,6 +147,11 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
                 $scope.price = yelpData.price;
                 $scope.phone = yelpData.display_phone;
                 $scope.location = yelpData.location.city + ", " + yelpData.location.state;
+
+                if(markertype == starred)
+                    $scope.favorite = star;
+                else
+                    $scope.favorite = unstar;
                 
                 var cates = "";
                 for(i = 0; i < yelpData.categories.length; i++)
@@ -160,8 +167,11 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
     };
 
+    var star = "goldstar.png";
+    var unstar = "unfilledstar.png";
+
     // Toggles if saved in mongo
-    $scope.favorite = function () 
+    $scope.favor = function () 
     {
 
         var term = document.getElementById("term").value;
@@ -188,6 +198,11 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             function (response)
             {
                 var result = response.data;
+                $scope.ress = result;
+                if(result)
+                    $scope.favorite = unstar;
+                else
+                    $scope.favorite = star;
             }
         );
 

@@ -18,12 +18,12 @@
 
             <div class="form-inline" id="searchbar">
                 <div class="form-group">
-                    <label for="term"> Term: </label>
-                    <input type="text" class="form-control" name="term" id="term" placeholder="Term" value="World of Beer">
+                    <!-- <label for="term"> Term: </label> -->
+                    <input type="text" class="form-control" name="term" id="term" placeholder="Term"> <!-- value="World of Beer"> -->
                 </div>
                 <div class="form-group">
-                    <label for="location"> Location: </label> 
-                    <input type="text" class="form-control" name="location" id="location" placeholder="Location" value="Towson, MD">   
+                    <!-- <label for="location"> Location: </label> -->
+                    <input type="text" class="form-control" name="location" id="location" placeholder="Location"> <!-- value="Towson, MD"> -->  
                 </div>
                 <button class="btn btn-light" ng-click="yelp()"> Submit </button>
             </div>
@@ -38,7 +38,9 @@
                 </h1>
                     <img id="resturantimage" ng-src="{{ image }}" alt="Resturant image" />
                     <br/>
-                    <button class="btn btn-light" ng-click="favorite()"> {{ saved }}favorite </button>
+                    <img id="favorite" ng-src="{{ favorite }}" ng-click="favor()" alt="Favorite" />
+                    <br/>
+                    {{ ress }}
                     Shutdown: {{ shutdown }} <br/>
                     Rating: {{ rating }} <br/>
                     Price: {{ price }} <br/>

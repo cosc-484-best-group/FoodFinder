@@ -64,3 +64,8 @@ html, body {
     padding: 5px;
     width: 150px;
 }
+
+#favorite
+{
+    cursor: pointer;
+}

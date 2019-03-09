@@ -1,4 +1,6 @@
 
+// change marker color, delete database entries
+
 const express = require('express');
 const app = express();
 const router = express.Router();
@@ -41,9 +43,11 @@ console.log('Running at Port ' + port);
 
 
 
+// ======================================
+//   REQUESTS
+// ======================================
 
-// yelp data for each mongo datapoint
-// GET method route
+// yelp data for each mongo datapoint on load
 app.get('/init', function (request, resp) 
 {
     pullmongo(function callback() 
@@ -69,9 +73,23 @@ app.get('/init', function (request, resp)
 });
 
 
-// GET method route
+// sends off yelp data on params passed in
 app.get('/yelp', function (request, resp) 
 {
+  var term = request.query.term;
+  var location = request.query.location;
+  yelp(term, location, function callback() 
+  {
+        resp.send(yelpData);
+
+  });
+});
+
+
+// GET method route pushes to mongo
+app.get('/favorite', function (request, resp) 
+{
+console.log('butt');
   var term = request.query.term;
   var location = request.query.location;
   yelp(term, location, function callback() 
@@ -88,39 +106,16 @@ app.get('/yelp', function (request, resp)
               {
                   console.log("already saved");
                   alreadySaved = true;
+                  // removeMongo
               }
           }
           if(!alreadySaved)
           {
               pushmongo({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state});
           }
-          resp.send(yelpData);
+          resp.send(alreadySaved);
       });
   });
-});
-
-
-// GET method route
-app.get('/zoom', function (request, resp) 
-{
-    var term = request.query.term;
-    var location = request.query.location;
-    yelp(term, location, function callback() 
-    { 
-        resp.send(yelpData);
-    });
-});
-
-
-// GET method route
-app.get('/favorite', function (request, resp) 
-{
-    var term = request.query.term;
-    var location = request.query.location;
-    yelp(term, location, function callback() 
-    { 
-        resp.send(yelpData);
-    });
 });
 
 

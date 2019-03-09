@@ -45,7 +45,7 @@ function addMarker(resturant, type) {
         document.getElementById("term").value = resturant.name;
         document.getElementById("location").value = resturant.loc;
         // $scope.zoom();
-        angular.element(document.getElementById('peace')).scope().zoom();
+        angular.element(document.getElementById('peace')).scope().zoom(type);
     });
 
     marker.setMap(map);
