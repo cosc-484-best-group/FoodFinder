@@ -1,31 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="myApp" ng-controller="MainController" id="peace"> 
     <head>
         <meta charset="utf-8" />
-        <title> Food Finder </title>       
+        <title> {{ title }} </title>       
         
-        <link rel="icon" href="favicon.png" type="image/png"/>
-
+        <!-- Bootstrap CDN -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+        <link rel="icon" href="favicon.png" type="image/png"/>
         <link rel="stylesheet" href="artzfartz.css">                
     </head>
-    <body>
+    <body ng-init="init()"> <!-- tells the document its using angjs-->
         <div class="container fill">
             <h1>
-                Food Finder MD
+                {{ title }}
             </h1>
 
-            <div id="map"> </div>
+            <div class="form-inline" id="searchbar">
+                <div class="form-group">
+                    <label for="term"> Term: </label>
+                    <input type="text" class="form-control" name="term" id="term" placeholder="Term" value="World of Beer">
+                </div>
+                <div class="form-group">
+                    <label for="location"> Location: </label> 
+                    <input type="text" class="form-control" name="location" id="location" placeholder="Location" value="Towson, MD">   
+                </div>
+                <button class="btn btn-light" ng-click="yelp()"> Submit </button>
+            </div>
 
-            <p id="json">
-                hello world
-            </p>
+            <div id="map" style="padding: 10px;"> </div>
 
-            <form action="/gettem" method="get">
-                Term: <input type="text" name="term" value="Four Barrel Coffee"><br>
-                Location: <input type="text" name="location" value="san francisco, ca"><br>
-                <input type="submit" value="Submit">
-            </form> 
+
+
+            <div id="details">
+                <h1>
+                    {{ name }}
+                </h1>
+                    <img id="resturantimage" ng-src="{{ image }}" alt="Resturant image" />
+                    <br/>
+                    <button class="btn btn-light" ng-click="favorite()"> {{ saved }}favorite </button>
+                    Shutdown: {{ shutdown }} <br/>
+                    Rating: {{ rating }} <br/>
+                    Price: {{ price }} <br/>
+                    Phone: {{ phone }} <br/>
+                    Location: {{ location }} <br/>
+                    Categories: {{ categories }}
+            </div>
+
 
             <script type="text/javascript" src="maps.js"></script>
             <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQUvuEdmTO1JRZWHILlN2hbWuCJ8PyrN8&callback=initMap"> </script>
@@ -34,6 +55,20 @@
             <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
             <script type="text/javascript" src="jquery.backstretch.min.js"></script>
             <script type="text/javascript" src="backstretch.js"></script>
+
+            <!-- AngularJS CDN -->
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script> 
+
+            <!-- Modules -->
+            <script src="angapp.js"></script>
+
+            <!-- Controllers -->
+            <script src="MainController.js"></script>
+
+            <!-- Services -->
+
+            <!-- Directives -->
+
 
         </div>
     </body>
