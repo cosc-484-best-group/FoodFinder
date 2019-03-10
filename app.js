@@ -172,7 +172,7 @@ function removemongo(json)
 {
     var database = "foodfinder";
     var collection = "stars";
-    MongoClient.connect(url, function(err, db) {
+    MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
         if (err) 
             throw err;
         var dbo = db.db(database);

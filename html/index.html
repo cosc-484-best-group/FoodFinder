@@ -30,9 +30,7 @@
 
             <div id="map" style="padding: 10px;"> </div>
 
-
-
-            <div id="details">
+            <div id="details" ng-show="isvisible">
                 <h1>
                     {{ name }}
                 </h1>
@@ -40,7 +38,6 @@
                     <br/>
                     <img id="favorite" ng-src="{{ favorite }}" ng-click="favor()" alt="Favorite" />
                     <br/>
-                    {{ ress }}
                     Shutdown: {{ shutdown }} <br/>
                     Rating: {{ rating }} <br/>
                     Price: {{ price }} <br/>

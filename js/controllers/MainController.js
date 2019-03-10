@@ -22,6 +22,9 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             }
         }
 
+        // hides bottom data panel
+        $scope.isvisible = false;
+        
         // Sends the file data off
         $http.get(url, data, config).then(
             // Success
@@ -56,6 +59,9 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         var url = "/yelp?term=\"" + term +"\"&location=\"" + loc + "\"";
         var data = new FormData();
 
+        // shows bottom data panel
+        $scope.isvisible = true;
+        
         // Set the configurations for the uploaded file
         var config =
         {
@@ -121,6 +127,9 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         var url = "/yelp?term=\"" + term +"\"&location=\"" + loc + "\"";
         var data = new FormData();
 
+        // shows bottom data panel
+        $scope.isvisible = true;
+        
         // Set the configurations for the uploaded file
         var config =
         {
