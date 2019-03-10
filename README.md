@@ -1,5 +1,12 @@
 # Project
 
+Written by Matt Stillwell
+
+## Accessing
+To access project go to:
+www.foodfinder.xyz
+
+## Installing Locally
 To install dependencies:  
 `npm install`  
 
