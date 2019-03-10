@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express();
 const router = express.Router();
-const port = 3000;
+const port = 80;
 
 
 var MongoClient = require('mongodb').MongoClient;
