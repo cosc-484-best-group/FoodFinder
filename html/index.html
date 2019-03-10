@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="myApp" ng-controller="MainController" id="peace"> 
+<html lang="en"> 
     <head>
         <meta charset="utf-8" />
         <title> Food Finder </title>       
@@ -10,8 +10,8 @@
         <link rel="icon" href="favicon.png" type="image/png"/>
         <link rel="stylesheet" href="artzfartz.css">                
     </head>
-    <body ng-init="init()"> <!-- tells the document its using angjs-->
-        <div class="container fill">
+    <body ng-app="myApp"> <!-- tells the document its using angjs-->
+        <div class="container fill" id="main" ng-controller="MainController" ng-init="init()">
             <h1>
                 Food Finder
             </h1>
@@ -30,22 +30,24 @@
 
             <div id="map" style="padding: 10px;"> </div>
 
-            <div id="details" ng-show="isvisible">
+            <div id="details" ng-show="visible">
                 <h1>
                     {{ name }}
                 </h1>
-                    <img id="resturantimage" ng-src="{{ image }}" alt="Resturant image" />
-                    <br/>
-                    <img id="favorite" ng-src="{{ favorite }}" ng-click="favor()" alt="Favorite" />
-                    <br/>
-                    Shutdown: {{ shutdown }} <br/>
-                    Rating: {{ rating }} <br/>
-                    Price: {{ price }} <br/>
-                    Phone: {{ phone }} <br/>
-                    Location: {{ location }} <br/>
-                    Categories: {{ categories }}
+                
+                <img id="resturantimage" ng-src="{{ image }}" alt="Resturant image" />
+                <br/>
+                <img id="favorite" ng-src="{{ favorite }}" ng-click="favor()" alt="Favorite" />
+                <br/>
+                Shutdown: {{ shutdown }} <br/>
+                Rating: {{ rating }} <br/>
+                Price: {{ price }} <br/>
+                Phone: {{ phone }} <br/>
+                Location: {{ location }} <br/>
+                Categories: {{ categories }}
             </div>
 
+            <p id="demo"></p>
 
             <script type="text/javascript" src="maps.js"></script>
             <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQUvuEdmTO1JRZWHILlN2hbWuCJ8PyrN8&callback=initMap"> </script>

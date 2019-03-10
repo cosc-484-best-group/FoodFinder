@@ -1,20 +1,37 @@
 
 var map;
+//var myloc = "";
 
 function initMap() 
 {
-    //alert(Object.entries(addtionalSpots).length === 0);
-    var towsonu = new google.maps.LatLng(39.3938317, -76.6074833);
-    
+    getLocation();
+}
+
+function getLocation() 
+{
+    if (navigator.geolocation)
+        navigator.geolocation.getCurrentPosition(showPosition);
+    else 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+}
+
+function showPosition(position) 
+{
+    var lat = position.coords.latitude;
+    var long = position.coords.longitude;
+    //myloc = lat + ", " + long;
+    var mycenter = new google.maps.LatLng(lat, long);
+
     var mapOptions = {
-        center: towsonu,
-        zoom: 13,
+        center: mycenter,
+        zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     
     map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
 }
+
 
 var normal = "redfeather.png";
 var starred = "goldfeather.png";
@@ -45,7 +62,7 @@ function addMarker(resturant, type) {
         document.getElementById("term").value = resturant.name;
         document.getElementById("location").value = resturant.loc;
         // $scope.zoom();
-        angular.element(document.getElementById('peace')).scope().zoom(type);
+        angular.element(document.getElementById('main')).scope().zoom(type);
     });
 
     marker.setMap(map);

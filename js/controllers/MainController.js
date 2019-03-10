@@ -23,7 +23,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         }
 
         // hides bottom data panel
-        $scope.isvisible = false;
+        $scope.visible = false;
         
         // Sends the file data off
         $http.get(url, data, config).then(
@@ -55,12 +55,16 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         var term = document.getElementById("term").value;
         var loc = document.getElementById("location").value;
 
+        // need to use google api for coords to city state
+        //if (loc === "")
+        //    loc = myloc;
+
         // REST URL
         var url = "/yelp?term=\"" + term +"\"&location=\"" + loc + "\"";
         var data = new FormData();
 
         // shows bottom data panel
-        $scope.isvisible = true;
+        $scope.visible = true;
         
         // Set the configurations for the uploaded file
         var config =
@@ -128,7 +132,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         var data = new FormData();
 
         // shows bottom data panel
-        $scope.isvisible = true;
+        $scope.visible = true;
         
         // Set the configurations for the uploaded file
         var config =
