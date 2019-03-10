@@ -197,12 +197,28 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             // Success
             function (response)
             {
-                var result = response.data;
+                var dataList = response.data;
+                var result = dataList[0];
+                var yelpData = dataList[1];
                 $scope.ress = result;
+                
+                var newSpot = {
+                    name: yelpData.name,
+                    lat: yelpData.coordinates.latitude, 
+                    lon: yelpData.coordinates.longitude, 
+                    loc: yelpData.location.city + ", " + yelpData.location.state
+                };
+
                 if(result)
+                {
+                    editMarker(newSpot, normal);
                     $scope.favorite = unstar;
+                }
                 else
+                {
+                    editMarker(newSpot, starred);
                     $scope.favorite = star;
+                }
             }
         );
 

@@ -1,6 +1,4 @@
 
-// change marker color, delete database entries
-
 const express = require('express');
 const app = express();
 const router = express.Router();
@@ -63,7 +61,7 @@ app.get('/init', function (request, resp)
                 yelpDataList.push(yelpData);
             });
         }
-        //wait and then send list off 
+        //wait and then send list off    // MAKE BETTER!!!!!!!!!!!!!!!!!!!!!!!!1
         proxy(1200, function callback3()
         {
             //console.log(yelpDataList);
@@ -89,7 +87,6 @@ app.get('/yelp', function (request, resp)
 // GET method route pushes to mongo
 app.get('/favorite', function (request, resp) 
 {
-console.log('butt');
   var term = request.query.term;
   var location = request.query.location;
   yelp(term, location, function callback() 
@@ -106,14 +103,17 @@ console.log('butt');
               {
                   console.log("already saved");
                   alreadySaved = true;
-                  // removeMongo
               }
           }
-          if(!alreadySaved)
+          if(!alreadySaved) // favorite
           {
               pushmongo({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state});
           }
-          resp.send(alreadySaved);
+          else // unfavorite
+          {
+              removemongo({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state});
+          }
+          resp.send([alreadySaved, yelpData]);
       });
   });
 });
@@ -167,6 +167,24 @@ function pullmongo(callback)
         });
     });
 }
+
+function removemongo(json)
+{
+    var database = "foodfinder";
+    var collection = "stars";
+    MongoClient.connect(url, function(err, db) {
+        if (err) 
+            throw err;
+        var dbo = db.db(database);
+        dbo.collection(collection).deleteOne(json, function(err, obj) 
+        {
+            if (err) 
+                throw err;
+            console.log("1 document deleted");
+            db.close();
+        });
+    });
+} 
 
 
 // ======================================
