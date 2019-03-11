@@ -4,6 +4,12 @@ body
     background-color: rgb(240, 240, 240);
 }
 
+#topline img
+{
+    float: left;
+    margin-right: 30px;
+}
+
 h1
 {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -13,8 +19,8 @@ h1
 
 #map
 {
-    height: 700px;
-    width: 1110px;
+    height: 60%;
+    width: 100%;
     border:3px solid darkslategray;
 }
 

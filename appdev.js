@@ -1,11 +1,9 @@
 
 // Dependencies
 const express = require('express');
-const fs = require('fs');
 const http = require('http');
-const https = require('https');
+const path = require('path');
 const MongoClient = require('mongodb').MongoClient;
-
 
 const app = express();
 const router = express.Router();
@@ -13,16 +11,20 @@ const router = express.Router();
 var mongourl = "mongodb://localhost:27017/";
 
 
-// Certificate
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/chain.pem', 'utf8');
+//add the router
+router.get('/',function(request, response)
+{
+  response.sendFile(path.join(__dirname + '/html/index.html'));
+});
+router.get('/create',function(request, response)
+{
+    response.sendFile(path.join(__dirname + '/html/create.html'));
+});
+router.get('/login',function(request, response)
+{
+    response.sendFile(path.join(__dirname + '/html/login.html'));
+});
 
-const credentials = {
-    key: privateKey,
-    cert: certificate,
-    ca: ca
-};
 
 //make all resources avaliable on same level
 app.use(express.static(__dirname + '/html/'));
@@ -35,21 +37,6 @@ app.use(express.static(__dirname + '/images/'));
 app.use(express.static(__dirname + '/css/'));
 
 
-//add the router
-router.get('/',function(request, response)
-{
-  response.sendFile('index.html');
-});
-router.get('/create',function(request, response)
-{
-  response.sendFile('create.html');
-});
-router.get('/login',function(request, response)
-{
-  response.sendFile('login.html');
-});
-
-//run
 app.use('/', router);
 
 
@@ -234,12 +221,7 @@ function yelp(term, loc, callmemaybe)
 //   Starting both http & https servers
 // ======================================
 const httpServer = http.createServer(app);
-const httpsServer = https.createServer(credentials, app);
 
 httpServer.listen(80, () => {
  	console.log('HTTP Server running on port 80');
-});
-
-httpsServer.listen(443, () => {
- 	console.log('HTTPS Server running on port 443');
 });

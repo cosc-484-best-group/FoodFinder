@@ -13,58 +13,34 @@
         <link rel="stylesheet" href="modal.css">                             
     </head>
     <body ng-app="myApp"> <!-- tells the document its using angjs-->
-        <div class="container fill" id="main" ng-controller="MainController" ng-init="init()">
-            
+        <div class="container fill" id="main" ng-controller="MainController">
             <div id="topline">
                 <a href="/">
                     <img id="logo" ng-src="favicon.png" alt="logo" width="100px" height="100px"/>
                 </a>
                 <h1>
-                    Food Finder
+                    Create Account
                 </h1>
             </div>
 
-            <div class="form-inline" id="searchbar">
+            <div class="form" id="loginpane">
                 <div class="form-group">
-                    <input type="text" class="form-control" name="term" id="term" placeholder="Term">
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Username">                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="location" id="location" placeholder="Location">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Repeat Password">
                 </div>
-                <button class="btn btn-light" ng-click="yelp()"> Submit </button>
-                <a class="btn btn-light" href="/login"> Login </a>
+                <button class="btn btn-light" ng-click="create()"> Create </button>
             </div>
 
-			      <!-- <div class="form-inline" id="login">
-                <input type="text" class="form-control" name="username" id="username" placeholder="Username">
-                <input type="text" class="form-control" name="password" id="password" placeholder="Password">
-                <button class="btn btn-light" ng-click="login()"> Login </button>
-            </div> -->
-            
-            
-
-            <div id="map" style="padding: 10px;"> </div>
-
-            <div id="details" ng-show="visible">
-                <h1>
-                    {{ name }}
-                </h1>
-                
-                <img id="resturantimage" ng-src="{{ image }}" alt="Resturant image" />
-                <br/>
-                <img id="favorite" ng-src="{{ favorite }}" ng-click="favor()" alt="Favorite" />
-                <br/>
-                Shutdown: {{ shutdown }} <br/>
-                Rating: {{ rating }} <br/>
-                Price: {{ price }} <br/>
-                Phone: {{ phone }} <br/>
-                Location: {{ location }} <br/>
-                Categories: {{ categories }}
+            <div id="details" ng-show="visible3">
+                {{ results }}
             </div>
 
 
 
-            <script type="text/javascript" src="maps.js"></script>
             <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQUvuEdmTO1JRZWHILlN2hbWuCJ8PyrN8&callback=initMap"> </script>
             <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
             <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>

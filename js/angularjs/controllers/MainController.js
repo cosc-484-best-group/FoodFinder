@@ -3,6 +3,12 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 {
     $scope.title = "Food Finder";
 
+    $scope.showModal = false;
+    $scope.toggleModal = function(){
+        $scope.showModal = !$scope.showModal;
+    };
+
+
     // Pull mongo saved datapoints passes to yelp and marks on map
     $scope.init = function () 
     {
