@@ -7,23 +7,13 @@ function initMap()
     getLocation();
 }
 
+// does not work in http
 function getLocation() 
 {
     if (navigator.geolocation)
         navigator.geolocation.getCurrentPosition(showPosition);
-    else 
-    {
-        alert('tu');
-        var towsonu = new google.maps.LatLng(39.3938317, -76.6074833);
-        var mapOptions = 
-        {
-            center: towsonu,
-            zoom: 12,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-            
-        map = new google.maps.Map(document.getElementById("map"), mapOptions);
-    }
+    else
+        console.log("Geolocation is not supported by this browser.");
 }
 
 function showPosition(position) 
