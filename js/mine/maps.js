@@ -4,10 +4,22 @@ var map;
 
 function initMap() 
 {
-    getLocation();
+    if (location.protocol == 'https:')
+        getLocation();
+    else  // does not work in http
+    {
+        var towsonu = new google.maps.LatLng(39.3938317, -76.6074833);
+
+        var mapOptions = {
+            center: towsonu,
+            zoom: 12,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        
+        map = new google.maps.Map(document.getElementById("map"), mapOptions); 
+    }
 }
 
-// does not work in http
 function getLocation() 
 {
     if (navigator.geolocation)
