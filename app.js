@@ -9,7 +9,6 @@ const MongoClient = require('mongodb').MongoClient;
 
 const app = express();
 const router = express.Router();
-const port = 443;
 
 var mongourl = "mongodb://localhost:27017/";
 
@@ -52,9 +51,6 @@ router.get('/sitemap',function(request, response)
 
 //run
 app.use('/', router);
-app.listen(process.env.port || port);
-console.log('Running at Port ' + port);
-
 
 
 // ======================================
