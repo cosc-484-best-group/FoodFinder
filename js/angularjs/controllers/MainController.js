@@ -1,13 +1,6 @@
 
 app.controller('MainController', ['$scope', '$http', function ($scope, $http) 
 {
-    $scope.title = "Food Finder";
-
-    $scope.showModal = false;
-    $scope.toggleModal = function(){
-        $scope.showModal = !$scope.showModal;
-    };
-
 
     // Pull mongo saved datapoints passes to yelp and marks on map
     $scope.init = function () 
@@ -30,7 +23,14 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
         // hides bottom data panel
         $scope.visible = false;
-        
+        $scope.loggedin = false;
+
+        if($scope.loggedin)
+            document.getElementById('loginbutton').innerHTML = "Logout";
+        else
+            document.getElementById('loginbutton').innerHTML = "Login";
+
+
         // Sends the file data off
         $http.get(url, data, config).then(
             // Success

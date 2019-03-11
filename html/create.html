@@ -16,7 +16,7 @@
         <div class="container fill" id="main" ng-controller="MainController">
             <div id="topline">
                 <a href="/">
-                    <img id="logo" ng-src="favicon.png" alt="logo" width="100px" height="100px"/>
+                    <img id="logo" ng-src="favicon.png" alt="logo"/>
                 </a>
                 <h1>
                     Create Account
@@ -33,6 +33,7 @@
                     <input type="password" class="form-control" name="password" id="password" placeholder="Repeat Password">
                 </div>
                 <button class="btn btn-light" ng-click="create()"> Create </button>
+                <button class="btn btn-light" onclick="goback()"> Cancel </button>
             </div>
 
             <div id="details" ng-show="visible3">
@@ -49,7 +50,7 @@
             <script type="text/javascript" src="jquery.backstretch.min.js"></script>
             <script type="text/javascript" src="backstretch.js"></script>
 
-            <script type="text/javascript" src="settings.js"></script>
+            <script type="text/javascript" src="utils.js"></script>
 
             <!-- AngularJS CDN -->
             <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script> 
