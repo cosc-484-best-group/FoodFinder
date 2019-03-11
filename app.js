@@ -1,11 +1,13 @@
 
-// Dependencies
+// ======================================
+//   DEPENDENCIES
+// ======================================
 const express = require('express');
 const fs = require('fs');
+const path = require('path');
 const http = require('http');
 const https = require('https');
 const MongoClient = require('mongodb').MongoClient;
-
 
 const app = express();
 const router = express.Router();
@@ -13,43 +15,30 @@ const router = express.Router();
 var mongourl = "mongodb://localhost:27017/";
 
 
-// Certificate
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/chain.pem', 'utf8');
-
-const credentials = {
-    key: privateKey,
-    cert: certificate,
-    ca: ca
-};
+// ======================================
+//   ROUTING
+// ======================================
+router.get('/',function(request, response)
+{
+  response.sendFile(path.join(__dirname + '/html/index.html'));
+});
+router.get('/create',function(request, response)
+{
+    response.sendFile(path.join(__dirname + '/html/create.html'));
+});
+router.get('/login',function(request, response)
+{
+    response.sendFile(path.join(__dirname + '/html/login.html'));
+});
 
 //make all resources avaliable on same level
 app.use(express.static(__dirname + '/html/'));
 app.use(express.static(__dirname + '/js/angularjs/'));
 app.use(express.static(__dirname + '/js/angularjs/controllers/'));
-app.use(express.static(__dirname + '/js/angularjs/directives/'));
 app.use(express.static(__dirname + '/js/backstretch/'));
 app.use(express.static(__dirname + '/js/mine/'));
 app.use(express.static(__dirname + '/images/'));
 app.use(express.static(__dirname + '/css/'));
-
-
-//add the router
-router.get('/',function(request, response)
-{
-  response.sendFile('index.html');
-});
-router.get('/create',function(request, response)
-{
-  response.sendFile('create.html');
-});
-router.get('/login',function(request, response)
-{
-  response.sendFile('login.html');
-});
-
-//run
 app.use('/', router);
 
 
@@ -136,6 +125,7 @@ function proxy(time, cb)
 {
     setTimeout(cb, time);
 }
+
 
 // ======================================
 //   MONGO
@@ -229,6 +219,21 @@ function yelp(term, loc, callmemaybe)
     });
 
 }
+
+
+// ======================================
+//   HTTPS Certificate
+// ======================================
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/chain.pem', 'utf8');
+
+const credentials = {
+    key: privateKey,
+    cert: certificate,
+    ca: ca
+};
+
 
 // ======================================
 //   Starting both http & https servers
