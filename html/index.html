@@ -18,15 +18,20 @@
 
             <div class="form-inline" id="searchbar">
                 <div class="form-group">
-                    <!-- <label for="term"> Term: </label> -->
-                    <input type="text" class="form-control" name="term" id="term" placeholder="Term"> <!-- value="World of Beer"> -->
+                    <input type="text" class="form-control" name="term" id="term" placeholder="Term">
                 </div>
                 <div class="form-group">
-                    <!-- <label for="location"> Location: </label> -->
-                    <input type="text" class="form-control" name="location" id="location" placeholder="Location"> <!-- value="Towson, MD"> -->  
+                    <input type="text" class="form-control" name="location" id="location" placeholder="Location">
                 </div>
                 <button class="btn btn-light" ng-click="yelp()"> Submit </button>
+				<button class="btn btn-light" data-toggle="modal" data-target="#exampleModal"> Login </button>
             </div>
+
+			<div class="form-inline" id="login">
+                <input type="text" class="form-control" name="username" id="username" placeholder="Username">
+                <input type="text" class="form-control" name="password" id="password" placeholder="Password">
+                <button class="btn btn-light" ng-click="login()"> Login </button>
+			</div>
 
             <div id="map" style="padding: 10px;"> </div>
 
