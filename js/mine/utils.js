@@ -7,7 +7,7 @@ function goback()
 function forcehttps()
 {
     if (location.protocol !== "https:") 
-    {
         location.protocol = "https:";
-    }
 }
+
+forcehttps();

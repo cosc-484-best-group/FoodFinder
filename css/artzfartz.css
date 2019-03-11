@@ -53,8 +53,7 @@ h1
 
 #loginbutton
 {
-    position: fixed;
-    left: 75%;
+    margin-left: 50px;
 }
 
 /* CENTER */
