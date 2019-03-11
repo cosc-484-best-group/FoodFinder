@@ -1,5 +1,0 @@
-
-function hey()
-{
-    alert('hi');
-}

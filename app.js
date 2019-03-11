@@ -26,10 +26,9 @@ const credentials = {
 
 //make all resources avaliable on same level
 app.use(express.static(__dirname + '/html/'));
-app.use(express.static(__dirname + '/js/'));
-app.use(express.static(__dirname + '/js/controllers/'));
-app.use(express.static(__dirname + '/js/services/'));
-app.use(express.static(__dirname + '/js/shared/'));
+app.use(express.static(__dirname + '/js/angularjs/'));
+app.use(express.static(__dirname + '/js/angularjs/controllers/'));
+app.use(express.static(__dirname + '/js/backstretch/'));
 app.use(express.static(__dirname + '/js/mine/'));
 app.use(express.static(__dirname + '/images/'));
 app.use(express.static(__dirname + '/css/'));
