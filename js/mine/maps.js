@@ -1,6 +1,6 @@
 
 var map;
-//var myloc = "";
+// var myloc = "";
 
 function initMap() 
 {

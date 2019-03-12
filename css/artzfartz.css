@@ -37,18 +37,23 @@ h1
 
 #searchbar
 {
+    width: 100%;
     background-color: slategray;
     padding: 10px;
+    border:3px solid rgb(92, 92, 92);
 }
 
-#searchbar div
+#searchbar #oneliner
 {
-    padding-right:16px;
+    display: inline;
 }
 
-#loginbutton
+#searchbar #loginbutton
 {
-    margin-left: 50px;
+    margin-top: 8px;
+    float: right;
+    right: 5px;
+    color: white;
 }
 
 /* CENTER */
@@ -58,7 +63,7 @@ h1
 {
     height: 600px;
     width: 100%;
-    border:3px solid darkslategray;
+    border:3px solid rgb(92, 92, 92);
 }
 
 /* BOTTOM */
@@ -74,10 +79,8 @@ h1
 
 #detailshead h1
 {
-	margin-top: 15px;
+	/* margin-top: 15px; */
 	display: inline;
-	//font-size: large;
-	//text-decoration: underline;
 }
 
 #detailshead img
@@ -115,12 +118,13 @@ hr
     cursor: pointer;
 }
 
-footer
+#footer
 {
-	background-color: rgb(200, 200, 200);
-	padding: 10px;
- 	position: absolute;
- 	bottom: 0;
+    background-color: rgb(47, 45, 54);
+    color: rgb(180, 180, 180);
+    margin-top: 10px;
+    text-align: center;
+    padding: 10px;
 	height: 60px;
  	width: 100%;
 }
