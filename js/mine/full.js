@@ -3,14 +3,9 @@ fullheight();
 function fullheight() 
 {
     var element = document.getElementById('main');
-
-    var body = document.body,
-    var html = document.documentElement;
-    var windowheight = Math.max( body.scrollHeight, body.offsetHeight, 
-                       html.clientHeight, html.scrollHeight, html.offsetHeight );
-
+    var windowheight = document.body.scrollheight + "px";
     alert(windowheight);
-    element.style.height = windowheight + "px";
+    element.style.height = windowheight;
 }
 
 window.onresize = function(event)
