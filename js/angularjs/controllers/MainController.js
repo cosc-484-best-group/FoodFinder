@@ -19,8 +19,10 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 			else if(yelpData.price == "$$")
 				$scope.price = "medium";
 			else if(yelpData.price == "$$$")
-				$scope.price = "high";
-            
+				$scope.price = "high";            
+			else if(yelpData.price == "$$$$")
+				$scope.price = "very high";
+
 			var cates = "";
             for(i = 0; i < yelpData.categories.length; i++)
                 if(i == 0)
@@ -28,6 +30,18 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
                 else
                     cates += ", " + yelpData.categories[i].title;
             $scope.categories = cates;
+
+			$scope.resloc = yelpData.mfkmdfkmkfdm;
+            $scope.resloc = yelpData.location.address1 + " " + yelpData.location.address2 + " " + yelpData.location.address3 + " " + $scope.location + " " + yelpData.location.country + " " + yelpData.location.zip_code;
+			//$scope.distance = yelpData.distance + " miles";
+			
+			var trans = "";
+            for(i = 0; i < yelpData.transactions.length; i++)
+                if(i == 0)
+                    trans += yelpData.transactions[i];
+                else
+                    trans += ", " + yelpData.transactions[i];
+            $scope.transactions = trans;
 
 	}
 	
@@ -175,6 +189,12 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             {
                 var yelpData = response.data;
 				setYelpScopes(yelpData);
+				
+				if(markertype == starred)
+					$scope.favorite = star;
+				else
+					$scope.favorite = unstar;
+
             }
         );
 

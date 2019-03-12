@@ -11,6 +11,7 @@ body
 
 .container
 {
+	height: 100%;
     background-color: rgb(220, 220, 220);
     opacity: 0.9;
     width: 85%;
@@ -112,4 +113,14 @@ hr
 #favorite
 {
     cursor: pointer;
+}
+
+footer
+{
+	background-color: rgb(200, 200, 200);
+	padding: 10px;
+ 	position: absolute;
+ 	bottom: 0;
+	height: 60px;
+ 	width: 100%;
 }
