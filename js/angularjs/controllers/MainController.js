@@ -2,7 +2,35 @@
 app.controller('MainController', ['$scope', '$http', function ($scope, $http) 
 {
 
-	var hoffset = 200;	
+	var hoffset = 200;
+	function setYelpScopes(yelpData)
+	{	
+     		$scope.all = yelpData;
+            $scope.name = yelpData.name;
+            $scope.image = yelpData.image_url;
+            $scope.shutdown = yelpData.is_closed;
+            $scope.rating = yelpData.rating + "/5";
+            $scope.price = yelpData.price;
+            $scope.phone = yelpData.display_phone;
+            $scope.location = yelpData.location.city + ", " + yelpData.location.state;
+            
+			if(yelpData.price == "$")
+				$scope.price = "low";
+			else if(yelpData.price == "$$")
+				$scope.price = "medium";
+			else if(yelpData.price == "$$$")
+				$scope.price = "high";
+            
+			var cates = "";
+            for(i = 0; i < yelpData.categories.length; i++)
+                if(i == 0)
+                    cates += yelpData.categories[i].title;
+                else
+                    cates += ", " + yelpData.categories[i].title;
+            $scope.categories = cates;
+
+	}
+	
 
     // Pull mongo saved datapoints passes to yelp and marks on map
     $scope.init = function () 
@@ -88,28 +116,9 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             function (response)
             {
                 var yelpData = response.data;
+				setYelpScopes(yelpData);
+            	$scope.favorite = unstar;
 
-                $scope.all = yelpData;
-                $scope.name = yelpData.name;
-                $scope.image = yelpData.image_url;
-                $scope.shutdown = yelpData.is_closed;
-                $scope.rating = yelpData.rating;
-                $scope.price = yelpData.price;
-                $scope.phone = yelpData.display_phone;
-                $scope.location = yelpData.location.city + ", " + yelpData.location.state;
-                
-                var cates = "";
-                for(i = 0; i < yelpData.categories.length; i++)
-                {
-                    if(i == 0)
-                        cates += yelpData.categories[i].title;
-                    else
-                        cates += ", " + yelpData.categories[i].title;
-                }
-                $scope.categories = cates;
-
-                $scope.favorite = unstar;
-                
                 var newSpot = {
                     name: yelpData.name,
                     lat: yelpData.coordinates.latitude, 
@@ -165,30 +174,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             function (response)
             {
                 var yelpData = response.data;
-
-                $scope.all = yelpData;
-                $scope.name = yelpData.name;
-                $scope.image = yelpData.image_url;
-                $scope.shutdown = yelpData.is_closed;
-                $scope.rating = yelpData.rating;
-                $scope.price = yelpData.price;
-                $scope.phone = yelpData.display_phone;
-                $scope.location = yelpData.location.city + ", " + yelpData.location.state;
-
-                if(markertype == starred)
-                    $scope.favorite = star;
-                else
-                    $scope.favorite = unstar;
-                
-                var cates = "";
-                for(i = 0; i < yelpData.categories.length; i++)
-                {
-                    if(i == 0)
-                        cates += yelpData.categories[i].title;
-                    else
-                        cates += ", " + yelpData.categories[i].title;
-                }
-                $scope.categories = cates;
+				setYelpScopes(yelpData);
             }
         );
 

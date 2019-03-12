@@ -40,20 +40,26 @@
 
 
             <div id="details" ng-show="visible">
-                <h1>
-                    {{ name }}
-                </h1>
-                
-                <img id="resturantimage" ng-src="{{ image }}" alt="Resturant image" />
-                <br/>
-                <img id="favorite" ng-src="{{ favorite }}" ng-click="favor()" alt="Favorite" />
-                <br/>
-                Shutdown: {{ shutdown }} <br/>
-                Rating: {{ rating }} <br/>
-                Price: {{ price }} <br/>
-                Phone: {{ phone }} <br/>
-                Location: {{ location }} <br/>
-                Categories: {{ categories }}
+                <div id="detailshead">
+                    <h1> {{ name }} </h1>
+            	    <img id="favorite" ng-src="{{ favorite }}" ng-click="favor()" alt="Favorite" />        
+                </div>
+				<hr>
+				<div id="deatilsbody">
+					<div class="row">
+						<div class="col-3">
+			    			<img id="resturantimage" ng-src="{{ image }}" alt="Resturant image" />
+						</div>
+						<div class="col-5">
+                    		<h6> Shutdown: {{ shutdown }} </h6>
+                 			<h6> Rating: {{ rating }} </h6>
+                 			<h6> Price: {{ price }} </h6>
+                 			<h6> Phone: {{ phone }} </h6>
+                 			<h6> Location: {{ location }} </h6>
+                 			<h6> Categories: {{ categories }} </h6>
+						</div>
+					</div>
+				</div>
             </div>
 
 

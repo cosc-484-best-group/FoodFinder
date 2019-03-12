@@ -71,6 +71,36 @@ h1
     padding: 10px;
 }
 
+#detailshead h1
+{
+	margin-top: 15px;
+	display: inline;
+	//font-size: large;
+	//text-decoration: underline;
+}
+
+#detailshead img
+{
+	margin-left: 10px;
+	margin-top: -12px;
+}
+
+hr
+{ 
+  	display: block;
+  	margin-top: 0.5em;
+ 	margin-bottom: 0.5em;
+  	margin-left: auto;
+  	margin-right: auto;
+  	border-style: inset;
+  	border-width: 1px;
+} 
+
+#detailsbody
+{
+	float: right;
+}
+
 #resturantimage
 {
     border: 1px solid #ddd;
