@@ -1,15 +1,15 @@
+fullheight(0);
 
-fullheight();
-function fullheight() 
+function fullheight(offset) 
 {
     var element = document.getElementById('main');
-    var h = document.body.scrollHeight + 120;
+    var h = document.body.scrollHeight + offset;
     var windowHeight = h + "px";
     // alert(h);
     element.style.height = windowHeight;
 }
 
-window.onresize = function(event)
+/*window.onresize = function(event)
 {
     fullheight();
-}
+}*/

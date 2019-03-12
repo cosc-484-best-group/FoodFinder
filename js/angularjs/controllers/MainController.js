@@ -2,6 +2,8 @@
 app.controller('MainController', ['$scope', '$http', function ($scope, $http) 
 {
 
+	var hoffset = 200;	
+
     // Pull mongo saved datapoints passes to yelp and marks on map
     $scope.init = function () 
     {
@@ -123,7 +125,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
                 $scope.visible = true;
 
                 // change height
-                fullheight();
+                fullheight(hoffset);
             }
         );
 
@@ -144,7 +146,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         $scope.visible = true;
 
         // change height
-        fullheight();
+        fullheight(hoffset);
         
         // Set the configurations for the uploaded file
         var config =
