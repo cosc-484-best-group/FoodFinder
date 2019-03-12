@@ -2,7 +2,7 @@
 fullheight();
 function fullheight() 
 {
-    var elements = document.getElementsById('main');
+    var elements = document.getElementById('main');
     var windowheight = window.innerHeight + "px";
     alert(windowheight);
     for(let el in elements)
