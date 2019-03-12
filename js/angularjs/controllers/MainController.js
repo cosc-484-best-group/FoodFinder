@@ -68,9 +68,6 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         // REST URL
         var url = "/yelp?term=\"" + term +"\"&location=\"" + loc + "\"";
         var data = new FormData();
-
-        // shows bottom data panel
-        $scope.visible = true;
         
         // Set the configurations for the uploaded file
         var config =
@@ -121,6 +118,9 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
                 document.getElementById("term").value = yelpData.name;
                 document.getElementById("location").value = yelpData.location.city + ", " + yelpData.location.state;
+
+                // shows bottom data panel
+                $scope.visible = true;
             }
         );
 
