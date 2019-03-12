@@ -123,12 +123,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
                 $scope.visible = true;
 
                 // change height
-                var delayInMilliseconds = 2000; //1 second
-                setTimeout(function() 
-                {
-                    fullheight();
-                }, delayInMilliseconds);
-
+                fullheight();
             }
         );
 
@@ -149,11 +144,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         $scope.visible = true;
 
         // change height
-        var delayInMilliseconds = 2000; //1 second
-        setTimeout(function() 
-        {
-            fullheight();
-        }, delayInMilliseconds);
+        fullheight();
         
         // Set the configurations for the uploaded file
         var config =
