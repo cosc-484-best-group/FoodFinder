@@ -40,7 +40,34 @@ app.use('/', router);
 
 
 // ======================================
-//   REQUESTS
+//   USER ACCOUNT REQUESTS
+// ======================================
+
+app.get('/login', function (request, resp) 
+{
+    var username = request.query.username;
+    var password = request.query.password;
+
+    // logic
+
+    return true;
+});
+
+app.get('/create', function (request, resp) 
+{
+    var email = request.query.email;
+    var username = request.query.username;
+    var password = request.query.password;
+
+    // logic
+
+    return true;
+});
+
+
+
+// ======================================
+//   MAIN REQUESTS
 // ======================================
 
 // yelp data for each mongo datapoint on load

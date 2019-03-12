@@ -9,11 +9,10 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
         <link rel="icon" href="favicon.png" type="image/png"/>
-        <link rel="stylesheet" href="artzfartz.css">   
-        <link rel="stylesheet" href="modal.css">                             
+        <link rel="stylesheet" href="artzfartz.css">                          
     </head>
     <body ng-app="myApp"> <!-- tells the document its using angjs-->
-        <div class="container fill" id="main" ng-controller="MainController">
+        <div class="container fill" id="main" ng-controller="LoginController">
             <div id="topline">
                 <a href="/">
                     <img id="logo" ng-src="favicon.png" alt="logo"/>
@@ -25,16 +24,17 @@
 
             <div class="form" id="loginpane">
                 <div class="form-group">
-                    <input type="text" class="form-control" name="username" id="username" placeholder="Username">                </div>
+                    <input type="username" class="form-control" name="username" id="username" placeholder="Username" required>                
+                </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
                 </div>
                 <button class="btn btn-light" ng-click="login()"> Login </button>
                 <a class="btn btn-light" href="/create"> Create Account </a>
                 <button class="btn btn-light" onclick="goback()"> Cancel </button>
             </div>
 
-            <div id="details" ng-show="visible2">
+            <div id="details" ng-show="visible">
                 {{ results }}
             </div>
 
@@ -57,7 +57,7 @@
             <script type="text/javascript" src="angapp.js"></script>
 
             <!-- Controllers -->
-            <script type="text/javascript" src="MainController.js"></script>
+            <script type="text/javascript" src="AccountController.js"></script>
 
             <!-- Services -->
 
