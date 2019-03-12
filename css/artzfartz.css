@@ -9,11 +9,6 @@ body
     background-color: rgb(240, 240, 240);
 }
 
-.fill 
-{ 
-    /* height here set in full.js */
-}
-
 .container
 {
     background-color: rgb(220, 220, 220);
