@@ -11,8 +11,7 @@ body
 
 .fill 
 { 
-    min-height: 100%;
-    height: 110%;
+    /* height here set in full.js */
 }
 
 .container
@@ -72,7 +71,8 @@ h1
 #details
 {
     margin-top: 10px;
-    background-color: rgb(200, 200, 200);
+    border:3px solid darkslategray;
+    background-color: rgb(180, 180, 180);
     padding: 10px;
 }
 
