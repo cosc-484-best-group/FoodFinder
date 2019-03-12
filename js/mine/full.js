@@ -3,9 +3,9 @@ fullheight();
 function fullheight() 
 {
     var element = document.getElementById('main');
-    var windowheight = document.body.scrollheight + "px";
-    alert(windowheight);
-    element.style.height = windowheight;
+    var windowHeight = document.body.scrollHeight + "px";
+    alert(windowHeight);
+    element.style.height = windowHeight;
 }
 
 window.onresize = function(event)
