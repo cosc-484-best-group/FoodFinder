@@ -1,9 +1,10 @@
-var elements = document.getElementsByClassName('fill');
-var windowheight = window.innerHeight + "px";
 
-fullheight(elements);
-function fullheight(elements) 
+fullheight();
+function fullheight() 
 {
+    var elements = document.getElementsByClassName('fill');
+    var windowheight = window.innerHeight + "px";
+    alert('a');
     for(let el in elements)
         if(elements.hasOwnProperty(el))
             elements[el].style.height = windowheight;
@@ -11,5 +12,5 @@ function fullheight(elements)
 
 window.onresize = function(event)
 {
-    fullheight(elements);
+    fullheight();
 }

@@ -121,6 +121,9 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
                 // shows bottom data panel
                 $scope.visible = true;
+
+                // change height
+                fullheight();
             }
         );
 
@@ -139,6 +142,9 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
         // shows bottom data panel
         $scope.visible = true;
+
+        // change height
+        fullheight();
         
         // Set the configurations for the uploaded file
         var config =
