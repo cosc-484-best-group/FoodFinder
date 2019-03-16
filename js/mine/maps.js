@@ -119,7 +119,7 @@ function editMarker(resturant, type) {
         map.setCenter(marker.getPosition());
         // map.setZoom(18);
         smoothZoom(map, 18, map.getZoom()); // call smoothZoom, parameters map, final zoomLevel, and starting zoom level
-        if(resturant.name != "me")
+        if(resturant.name !== "me")
         {
             console.log('hey')
             document.getElementById("term").value = resturant.name;

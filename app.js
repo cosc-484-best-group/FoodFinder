@@ -280,7 +280,7 @@ function yelps(lat, long, range, callmemaybe)
     var client = yelp.client(apiKey);
     client.search(searchRequest).then(response => {
         yelpArray = response.jsonBody.businesses;
-        // console.log(yelpArray);
+        console.log(yelpArray);
         // yelpData = yelpArray[0];
         // prettyJson = JSON.stringify(yelpData, null, 4);
 
