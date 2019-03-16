@@ -1,6 +1,6 @@
 
 var map;
-// var myloc = "";
+var mycoords = [0, 0];
 
 function initMap() 
 {
@@ -9,6 +9,7 @@ function initMap()
     else  // does not work in http
     {
         var towsonu = new google.maps.LatLng(39.3938317, -76.6074833);
+        mycoords = [39.3938317, -76.6074833]
 
         var mapOptions = {
             center: towsonu,
@@ -32,7 +33,8 @@ function showPosition(position)
 {
     var lat = position.coords.latitude;
     var long = position.coords.longitude;
-    //myloc = lat + ", " + long;
+    mycoords = [lat, long]
+
     var mycenter = new google.maps.LatLng(lat, long);
 
     var mapOptions = {
@@ -46,7 +48,8 @@ function showPosition(position)
 }
 
 
-var normal = "redfeather.png";
+var found = "bluefeather.png"
+var selected = "redfeather.png";
 var starred = "goldfeather.png";
 
 function addMarker(resturant, type) {
@@ -82,6 +85,7 @@ function addMarker(resturant, type) {
 }
 
 function editMarker(resturant, type) {
+    console.log("fdf: " + type);
     //var image = 'img/flagred.png';
     var marker = new google.maps.Marker({
         position: new google.maps.LatLng(resturant.lat, resturant.lon),

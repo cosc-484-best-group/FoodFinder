@@ -10,6 +10,7 @@
         <!-- Bootstrap CDN -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="artzfartz.css">   
+        <link rel="stylesheet" href="slider.css">   
         <link rel="stylesheet" href="custombuttons.css">   
     </head>
     <body ng-app="myApp"> <!-- tells the document its using angjs-->
@@ -28,11 +29,19 @@
                 <div class="form-inline" id="oneliner">
                         <input type="text" class="form-control" name="term" id="term" placeholder="Term">
                         <input type="text" class="form-control" name="location" id="location" placeholder="Location">
-                        <button class="btn btn-yelp" ng-click="yelp()"> Submit </button>
+                        <button class="btn btn-light" ng-click="place()"> Submit </button>
                 </div>
+                <button class="btn btn-light" ng-click="nearby()"> Nearby </button>
                 <a id="loginbutton" href="/login"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
             </div>
             
+            <!-- <div class="slidecontainer">
+                <p>Default range slider:</p>
+                <input type="range" min="1" max="100" value="50">
+                
+                <p>Custom range slider:</p>
+                <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+              </div> -->
 
             <div id="map"> 
             </div>
@@ -50,18 +59,17 @@
 			    			<img id="resturantimage" ng-src="{{ image }}" alt="Resturant image" />
 						</div>
 						<div class="col-8">
-                    		<h6> Shutdown: {{ shutdown }} </h6>
+                    		<h6> Open Now: {{ open }} </h6>
                  			<h6> Rating: {{ rating }} </h6>
                  			<h6> Price: {{ price }} </h6>
-                 			<h6> Phone: {{ phone }} </h6>
                  			<h6> Location: {{ location }} </h6>
                  			<h6> Categories: {{ categories }} </h6>
-							<h6> Address: {{ resloc }} </h6>
-							<h6> Transactions: {{ transactions }} </h6>
 						</div>
 					</div>
 				</div>
             </div>
+
+            {{ dta }}
 
             <div id="footer">
 				Made by Matt Stillwell 2019 with the MEAN stack
