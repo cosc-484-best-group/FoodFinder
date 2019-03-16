@@ -51,7 +51,7 @@ function showPosition(position)
         name: "me",
         lat: lat,
         lon: long, 
-        location: lat + ", " + long
+        loc: "(" + lat + ", " + long + ")"
     };
     addMarker(meSpot, me);
 
@@ -59,7 +59,7 @@ function showPosition(position)
 
 
 var me = "greenfeather.png";
-var found = "purplefeather.png";
+var found = "grayfeather.png";
 var selected = "redfeather.png";
 var starred = "goldfeather.png";
 

@@ -159,7 +159,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         var loc = document.getElementById("location").value;
 
         // both text fields empty
-        if(!term && !loc)
+        if(!term && !loc || term == "me")
         {
             // hides bottom data panel
             $scope.visible = false;
