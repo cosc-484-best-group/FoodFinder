@@ -108,8 +108,12 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
     $scope.nearby = function () 
     {
 
+        var range = 200; //meters
+
         // REST URL
-        var url = "/places?lat=" + mycoords[0] + "&long=" + mycoords[1];
+        var url = "/places?lat=" + mycoords[0] + 
+            "&long=" + mycoords[1] +
+            "&range=" + range;
         var data = new FormData();
         
         // Set the configurations for the uploaded file
@@ -129,14 +133,15 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             function (response)
             {
                 var places = response.data;
+                console.log(places);
                 places.forEach(place => {
                     // console.log(place)
                     // console.log(place.vicinity);
                     var newSpot = {
                         name: place.name,
-                        lat: place.geometry.location.lat, 
-                        lon: place.geometry.location.lng, 
-                        loc: place.vicinity
+                        lat: place.coordinates.latitude, 
+                        lon: place.coordinates.longitude, 
+                        loc: place.location.city + ", " + place.location.state
                     };
                     addMarker(newSpot, found);
                 });

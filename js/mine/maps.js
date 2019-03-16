@@ -37,6 +37,15 @@ function showPosition(position)
 
     var mycenter = new google.maps.LatLng(lat, long);
 
+    console.log('here');
+    // add me marker
+    var meSpot = {
+        name: "me",
+        lat: lat,
+        lon: long, 
+    };
+    addMarker(meSpot, me);
+
     var mapOptions = {
         center: mycenter,
         zoom: 12,
@@ -48,7 +57,8 @@ function showPosition(position)
 }
 
 
-var found = "bluefeather.png"
+var me = "greenfeather.png";
+var found = "bluefeather.png";
 var selected = "redfeather.png";
 var starred = "goldfeather.png";
 
@@ -108,8 +118,11 @@ function editMarker(resturant, type) {
         map.setCenter(marker.getPosition());
         // map.setZoom(18);
         smoothZoom(map, 18, map.getZoom()); // call smoothZoom, parameters map, final zoomLevel, and starting zoom level
-        document.getElementById("term").value = resturant.name;
-        document.getElementById("location").value = resturant.loc;
+        if(!resturant.name == "me")
+        {
+            document.getElementById("term").value = resturant.name;
+            document.getElementById("location").value = resturant.loc;
+        }
         // $scope.zoom();
         angular.element(document.getElementById('peace')).scope().zoom(type);
     });
