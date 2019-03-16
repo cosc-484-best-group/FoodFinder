@@ -58,7 +58,7 @@ function showPosition(position)
 }
 
 
-var me = "bluefeather.png";
+var me = "orangefeather.png";
 var found = "grayfeather.png";
 var selected = "redfeather.png";
 var starred = "goldfeather.png";
