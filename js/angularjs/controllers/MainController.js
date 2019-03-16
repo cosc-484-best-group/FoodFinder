@@ -275,7 +275,8 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 				
 				if(markertype == starred)
 					$scope.favorite = star;
-				else
+                else
+                {
 					$scope.favorite = unstar;
 
                     var newSpot = {
@@ -285,6 +286,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
                         loc: yelpData.location.city + ", " + yelpData.location.state
                     };
                     editMarker(newSpot, selected);
+                }
             }
         );
 

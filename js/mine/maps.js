@@ -125,8 +125,7 @@ function editMarker(resturant, type) {
         document.getElementById("location").value = resturant.loc;
 
         // $scope.zoom();
-        var ele = document.getElementById('peace');
-        angular.element(ele).scope().zoom(type);
+        angular.element(document.getElementById('peace')).scope().zoom(type);
     });
 
     marker.setMap(map);
