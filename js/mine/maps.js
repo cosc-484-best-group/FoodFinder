@@ -45,7 +45,7 @@ function showPosition(position)
     
     map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-    
+
     // add me marker
     var meSpot = {
         name: "me",
@@ -58,7 +58,7 @@ function showPosition(position)
 
 
 var me = "greenfeather.png";
-var found = "bluefeather.png";
+var found = "purplefeather.png";
 var selected = "redfeather.png";
 var starred = "goldfeather.png";
 
@@ -96,7 +96,7 @@ function addMarker(resturant, type)
 }
 
 function editMarker(resturant, type) {
-    console.log("fdf: " + type);
+    // console.log("fdf: " + type);
     //var image = 'img/flagred.png';
     var marker = new google.maps.Marker({
         position: new google.maps.LatLng(resturant.lat, resturant.lon),
@@ -119,8 +119,9 @@ function editMarker(resturant, type) {
         map.setCenter(marker.getPosition());
         // map.setZoom(18);
         smoothZoom(map, 18, map.getZoom()); // call smoothZoom, parameters map, final zoomLevel, and starting zoom level
-        if(!resturant.name == "me")
+        if(resturant.name != "me")
         {
+            console.log('hey')
             document.getElementById("term").value = resturant.name;
             document.getElementById("location").value = resturant.loc;
         }

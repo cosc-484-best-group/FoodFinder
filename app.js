@@ -111,6 +111,18 @@ app.get('/yelp', function (request, resp)
   });
 });
 
+// sends off yelp data on params passed in
+app.get('/places', function (request, resp) 
+{
+    var lat = request.query.lat;
+    var long = request.query.long;
+    var range = request.query.range;
+  yelps(lat, long, range, function callback() 
+  {
+        resp.send(yelpArray);
+  });
+});
+
 
 // GET method route pushes to mongo
 app.get('/favorite', function (request, resp) 
@@ -243,6 +255,41 @@ function yelp(term, loc, callmemaybe)
 
       }).catch(e => {
         console.log(e);
+    });
+
+}
+
+// ======================================
+//   YELP API
+// ======================================
+function yelps(lat, long, range, callmemaybe)
+{
+    const yelp = require('yelp-fusion');
+
+    // from https://www.yelp.com/developers/v3/manage_app
+    const apiKey = '4dIx9HKv-klKh_nvUWaHAZqe_a-wQqi49uoJICQIfxdWFj0VS-8uw1TfrFoe2CVsKJeX7BRv0nntSA4svU-G_qiSkfHxYIfk_D83YWoAjRMfuz21UMnzT5_PPA53XHYx';
+
+    const searchRequest = 
+    {
+        term: 'food',
+        latitude: lat,
+        longitude: long,
+        radius: range   // meters
+    };
+
+    var client = yelp.client(apiKey);
+    client.search(searchRequest).then(response => {
+        yelpArray = response.jsonBody.businesses;
+        // console.log(yelpArray);
+        // yelpData = yelpArray[0];
+        // prettyJson = JSON.stringify(yelpData, null, 4);
+
+        //console.log(prettyJson);
+        console.log("yelp data pulled");
+        callmemaybe();
+
+      }).catch(e => {
+        console.log("yelp data not found");
     });
 
 }
