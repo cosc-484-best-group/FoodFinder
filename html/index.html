@@ -29,7 +29,7 @@
                 <div class="form-inline" id="oneliner">
                         <input type="text" class="form-control" name="term" id="term" placeholder="Term">
                         <input type="text" class="form-control" name="location" id="location" placeholder="Location">
-                        <button class="btn btn-light" ng-click="place()"> Submit </button>
+                        <button class="btn btn-yelp" ng-click="yelp()"> Submit </button>
                 </div>
                 <button class="btn btn-light" ng-click="nearby()"> Nearby </button>
                 <a id="loginbutton" href="/login"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
@@ -59,11 +59,14 @@
 			    			<img id="resturantimage" ng-src="{{ image }}" alt="Resturant image" />
 						</div>
 						<div class="col-8">
-                    		<h6> Open Now: {{ open }} </h6>
+                    		<h6> Shutdown: {{ shutdown }} </h6>
                  			<h6> Rating: {{ rating }} </h6>
                  			<h6> Price: {{ price }} </h6>
+                 			<h6> Phone: {{ phone }} </h6>
                  			<h6> Location: {{ location }} </h6>
                  			<h6> Categories: {{ categories }} </h6>
+							<h6> Address: {{ resloc }} </h6>
+							<h6> Transactions: {{ transactions }} </h6>
 						</div>
 					</div>
 				</div>

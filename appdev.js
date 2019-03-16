@@ -66,110 +66,6 @@ app.get('/create', function (request, resp)
     return true;
 });
 
-
-
-// ======================================
-//   GOOGLE PLACES REQUESTS
-// ======================================
-app.get('/places', function(request, resp)
-{
-    var lat = request.query.lat;
-    var long = request.query.long;
-    console.log("Coords: (" + lat + ", " + long + ")");
-
-    var key = 'AIzaSyCQUvuEdmTO1JRZWHILlN2hbWuCJ8PyrN8';
-    var outputtype = 'json';
-    var location = lat + "," + long;
-    var radius = 1000;
-    var sensor = false;
-    var types = "restaurant";
-    var keyword = "fast";
-
-    var url = "https://maps.googleapis.com/maps/api/place/nearbysearch/" + outputtype + "?" + 
-        "key=" + key + 
-        "&location=" + location + 
-        "&radius=" + radius + 
-        "&sensor=" + sensor + 
-        "&types=" + types + 
-        "&keyword=" + keyword;
-    console.log("URL: " + url);
-
-    https.get(url, function(response) {
-        var body = '';
-    response.on('data', function(chunk) {
-        body += chunk;
-    });
-
-    response.on('end', function() {
-        var places = JSON.parse(body);
-        var locations = places.results;
-        // var randLoc = locations[Math.floor(Math.random() * locations.length)];
-        // console.log(locations);
-        resp.send(locations);
-    });
-    }).on('error', function(e) {
-        console.log("Got error: " + e.message);
-    });
-});
-
-
-
-// ======================================
-//   GOOGLE PLACE REQUESTS
-// ======================================
-app.get('/place', function(request, resp)
-{
-    var term = request.query.term;
-    var loc = request.query.location;
-
-    var lat = request.query.lat;
-    var long = request.query.long;
-
-    console.log("Coords: (" + lat + ", " + long + ")");
-
-
-    // required
-    var key = 'AIzaSyCQUvuEdmTO1JRZWHILlN2hbWuCJ8PyrN8';
-    var input = term;
-    var inputtype = "textquery";
-
-    // optional
-    var outputtype = 'json';
-    var location;
-    if(loc)
-        location = loc;
-    else
-        location = lat + "," + long;
-
-    var radius = 1000;
-    var sensor = false;
-    var types = "restaurant";
-    var keyword = "fast";
-
-    https://maps.googleapis.com/maps/api/place/textsearch/json?key=AIzaSyCQUvuEdmTO1JRZWHILlN2hbWuCJ8PyrN8&query=%22Ginos%20burgers%22&location=%22towson,%20md%22&radius=1000&sensor=false&types=restaurant&keyword=fast
-    // https://maps.googleapis.com/maps/api/place/textsearch/output?parameters
-    var url = "https://maps.googleapis.com/maps/api/place/findplacefromtext/" + outputtype + "?" + 
-        "key=" + key +
-        "&input=\"" + input + 
-        "\"&inputtype=" + inputtype
-    console.log("URL: " + url);
-
-    https.get(url, function(response) {
-        var body = '';
-        response.on('data', function(chunk) {
-            body += chunk;
-    });
-
-    response.on('end', function() {
-        var places = JSON.parse(body);
-        var loc = places.results;
-        resp.send(loc);
-    });
-    }).on('error', function(e) {
-        console.log("Got error: " + e.message);
-    });
-});
-
 // ======================================
 //   MAIN REQUESTS
 // ======================================
@@ -334,7 +230,7 @@ function yelp(term, loc, callmemaybe)
     var client = yelp.client(apiKey);
     client.search(searchRequest).then(response => {
         yelpArray = response.jsonBody.businesses;
-        // console.log()
+        console.log(yelpArray);
         yelpData = yelpArray[0];
         prettyJson = JSON.stringify(yelpData, null, 4);
     
