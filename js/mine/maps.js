@@ -37,15 +37,6 @@ function showPosition(position)
 
     var mycenter = new google.maps.LatLng(lat, long);
 
-    console.log('here');
-    // add me marker
-    var meSpot = {
-        name: "me",
-        lat: lat,
-        lon: long, 
-    };
-    addMarker(meSpot, me);
-
     var mapOptions = {
         center: mycenter,
         zoom: 12,
@@ -53,6 +44,15 @@ function showPosition(position)
     };
     
     map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+    
+    // add me marker
+    var meSpot = {
+        name: "me",
+        lat: lat,
+        lon: long, 
+    };
+    addMarker(meSpot, me);
 
 }
 
@@ -62,7 +62,8 @@ var found = "bluefeather.png";
 var selected = "redfeather.png";
 var starred = "goldfeather.png";
 
-function addMarker(resturant, type) {
+function addMarker(resturant, type) 
+{
     //var image = 'img/flagred.png';
     var marker = new google.maps.Marker({
         position: new google.maps.LatLng(resturant.lat, resturant.lon),
