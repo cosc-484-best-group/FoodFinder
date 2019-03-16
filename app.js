@@ -119,6 +119,7 @@ app.get('/places', function (request, resp)
     var range = request.query.range;
   yelps(lat, long, range, function callback() 
   {
+        console.log("ARR: " + yelpArray);
         resp.send(yelpArray);
   });
 });
@@ -274,13 +275,12 @@ function yelps(lat, long, range, callmemaybe)
         term: 'food',
         latitude: lat,
         longitude: long,
-        radius: range   // meters
+        // radius: range   // meters
     };
 
     var client = yelp.client(apiKey);
     client.search(searchRequest).then(response => {
         yelpArray = response.jsonBody.businesses;
-        console.log(yelpArray);
         // yelpData = yelpArray[0];
         // prettyJson = JSON.stringify(yelpData, null, 4);
 

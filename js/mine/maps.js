@@ -51,6 +51,7 @@ function showPosition(position)
         name: "me",
         lat: lat,
         lon: long, 
+        location: lat + ", " + long
     };
     addMarker(meSpot, me);
 
@@ -119,12 +120,10 @@ function editMarker(resturant, type) {
         map.setCenter(marker.getPosition());
         // map.setZoom(18);
         smoothZoom(map, 18, map.getZoom()); // call smoothZoom, parameters map, final zoomLevel, and starting zoom level
-        if(resturant.name !== "me")
-        {
-            console.log('hey')
-            document.getElementById("term").value = resturant.name;
-            document.getElementById("location").value = resturant.loc;
-        }
+
+        document.getElementById("term").value = resturant.name;
+        document.getElementById("location").value = resturant.loc;
+
         // $scope.zoom();
         angular.element(document.getElementById('peace')).scope().zoom(type);
     });
