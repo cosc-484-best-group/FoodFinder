@@ -45,25 +45,47 @@ app.use('/', router);
 //   USER ACCOUNT REQUESTS
 // ======================================
 
-app.get('/login', function (request, resp) 
+app.get('/loginaccount', function (request, resp) 
 {
     var username = request.query.username;
     var password = request.query.password;
+    var valid = false;
 
-    // logic
+    // cut off quotes
+    username = username.substring(1, username.length - 1);
+    password = password.substring(1, password.length - 1);
 
-    return true;
+    pullaccount(function ()
+    {
+        console.log(mongoData);
+        mongoData.forEach(account => 
+        {
+            console.log(username + " vs " + account.username);
+            console.log(password + " vs " + account.password);
+            if(username == account.username && password == account.password)
+                valid = true;
+        });
+        resp.send(valid);
+    });
+
+    // return true;
 });
 
-app.get('/create', function (request, resp) 
+app.get('/createaccount', function (request, resp) 
 {
     var email = request.query.email;
     var username = request.query.username;
     var password = request.query.password;
 
-    // logic
+    // cut off quotes
+    email = email.substring(1, email.length - 1);
+    username = username.substring(1, username.length - 1);
+    password = password.substring(1, password.length - 1);
 
-    return true;
+
+    pushaccount({"email": email, "username": username, "password": password});
+    resp.send(true);  // catach if bad!!!
+
 });
 
 // ======================================
@@ -73,7 +95,7 @@ app.get('/create', function (request, resp)
 // yelp data for each mongo datapoint on load
 app.get('/init', function (request, resp) 
 {
-    pullmongo(function callback() 
+    pullfavorite(function callback() 
     { 
         yelpDataList = [];
         for (i = 0; i < mongoData.length; i++)
@@ -94,7 +116,6 @@ app.get('/init', function (request, resp)
         });
     });
 });
-
 
 // sends off yelp data on params passed in
 app.get('/yelp', function (request, resp) 
@@ -119,8 +140,6 @@ app.get('/places', function (request, resp)
   });
 });
 
-
-
 // GET method route pushes to mongo
 app.get('/favorite', function (request, resp) 
 {
@@ -128,7 +147,7 @@ app.get('/favorite', function (request, resp)
   var location = request.query.location;
   yelp(term, location, function callback() 
   { 
-      pullmongo(function callback2()
+      pullfavorite(function callback2()
       {
           // make sure not in there
           var alreadySaved = false;
@@ -144,11 +163,11 @@ app.get('/favorite', function (request, resp)
           }
           if(!alreadySaved) // favorite
           {
-              pushmongo({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state});
+              pushfavorite({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state});
           }
           else // unfavorite
           {
-              removemongo({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state});
+              removefavorite({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state});
           }
           resp.send([alreadySaved, yelpData]);
       });
@@ -165,7 +184,10 @@ function proxy(time, cb)
 // ======================================
 //   MONGO
 // ======================================
-function pushmongo(json)
+
+// FAVORITES
+
+function pushfavorite(json)
 {
     var database = "foodfinder";
     var collection = "stars";
@@ -178,13 +200,13 @@ function pushmongo(json)
         {
             if (err) 
                 throw err;
-            console.log("mongo data pushed");
+            console.log("mongo favorite pushed");
             db.close();
         });
     });
 }
 
-function pullmongo(callback)
+function pullfavorite(callback)
 {
     var database = "foodfinder";
     var collection = "stars";
@@ -198,14 +220,14 @@ function pullmongo(callback)
             if (err) 
                 throw err;
             mongoData = res;
-            console.log("mongo data pulled");
+            console.log("mongo favorite pulled");
             db.close();
             callback();
         });
     });
 }
 
-function removemongo(json)
+function removefavorite(json)
 {
     var database = "foodfinder";
     var collection = "stars";
@@ -217,16 +239,63 @@ function removemongo(json)
         {
             if (err) 
                 throw err;
-            console.log("1 document deleted");
+            console.log("mongo favorite deleted");
             db.close();
         });
     });
 } 
 
 
+// ACCOUNTS
+
+function pushaccount(json)
+{
+    var database = "foodfinder";
+    var collection = "accounts";
+    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db) 
+    {
+        if (err) 
+            throw err;
+        var dbo = db.db(database);
+        dbo.collection(collection).insertOne(json, function(err, res) 
+        {
+            if (err) 
+                throw err;
+            console.log("mongo account pushed");
+            db.close();
+        });
+    });
+}
+
+function pullaccount(callback)
+{
+    var database = "foodfinder";
+    var collection = "accounts";
+    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
+    {
+        if (err) 
+            throw err;
+        var dbo = db.db(database);
+        dbo.collection(collection).find({}).toArray(function(err, res)
+        {
+            if (err) 
+                throw err;
+            mongoData = res;
+            console.log("mongo account pulled");
+            db.close();
+            callback();
+        });
+    });
+}
+
+// function removeaccount(json)
+
+
+
 // ======================================
 //   YELP API
 // ======================================
+// one place
 function yelp(term, loc, callmemaybe)
 {
     const yelp = require('yelp-fusion');
@@ -257,10 +326,7 @@ function yelp(term, loc, callmemaybe)
 
 }
 
-
-// ======================================
-//   YELP API
-// ======================================
+// several places
 function yelps(lat, long, range, callmemaybe)
 {
     const yelp = require('yelp-fusion');

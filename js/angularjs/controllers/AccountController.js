@@ -1,5 +1,5 @@
 
-app.controller('LoginController', ['$scope', '$http', function ($scope, $http) 
+app.controller('AccountController', ['$scope', '$http', function ($scope, $http) 
 {
 
     function successColor()
@@ -19,9 +19,39 @@ app.controller('LoginController', ['$scope', '$http', function ($scope, $http)
         location.href = "/";
     }
 
-    function redirectLogin()
+    function redirectLogin(username, password)
     {
-        location.href = "/login";
+        location.href = "/login?username=" + username + "&password=" + password;
+    }
+
+
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+    }
+
+    function isEmpty(obj) {
+        return Object.keys(obj).length === 0;
+      }            
+    
+    $scope.init = function()
+    {    
+        parameters = getUrlVars();
+        if(!isEmpty(parameters))
+        {
+            var username = parameters.username;
+            var password = parameters.password;
+
+            // remove literal quotes
+            username = username.substring(1, username.length - 1);
+            password = password.substring(1, password.length - 1);
+
+            document.getElementById("username").value = username;
+            document.getElementById("password").value = password;
+        }
     }
 
     // Sends textbox input to Yelp in Nodejs backend
@@ -32,7 +62,7 @@ app.controller('LoginController', ['$scope', '$http', function ($scope, $http)
         var password = document.getElementById("password").value;
 
         // REST URL
-        var url = "/login?username=\"" + username +"\"&password=\"" + password + "\"";
+        var url = "/loginaccount?username=\"" + username +"\"&password=\"" + password + "\"";
         var data = new FormData();
         
         // Set the configurations for the uploaded file
@@ -52,15 +82,18 @@ app.controller('LoginController', ['$scope', '$http', function ($scope, $http)
             function (response)
             {
                 var result = response.data;
+                // console.log(result);
                 if(result)
                 {
                     $scope.results = "Logged in!";
                     successColor();
-                    setTimeout(redirectHome(), 20000);
+                    setTimeout(redirectHome(), 50000);
                 }
                 else
                 {
                     $scope.results = "Invalid Credentials"
+                    document.getElementById("username").value = "";
+                    document.getElementById("password").value = "";
                     failureColor();
                 }
                 $scope.visible = true;
@@ -78,6 +111,23 @@ app.controller('LoginController', ['$scope', '$http', function ($scope, $http)
         var password = document.getElementById("password").value;
         var passwordrepeat = document.getElementById("passwordrepeat").value;
 
+        if(!email | !username | !password | !passwordrepeat)
+        {
+            $scope.results = "Required field(s) left empty";
+            failureColor();
+            $scope.visible = true;
+            return;
+        }
+
+        if(email.includes(' '))
+        {
+            $scope.results = "No spaces are allowed in email";
+            document.getElementById("email").value = "";
+            failureColor();
+            $scope.visible = true;
+            return;
+        }
+
         if(password !== passwordrepeat)
         {
             $scope.results = "Passwords unmatching";
@@ -89,7 +139,7 @@ app.controller('LoginController', ['$scope', '$http', function ($scope, $http)
         }
 
         // REST URL
-        var url = "/create?email=\"" + email +"\"&username=\"" + username +"\"&password=\"" + password + "\"";
+        var url = "/createaccount?email=\"" + email +"\"&username=\"" + username +"\"&password=\"" + password + "\"";
         var data = new FormData();
         
         // Set the configurations for the uploaded file
@@ -113,7 +163,7 @@ app.controller('LoginController', ['$scope', '$http', function ($scope, $http)
                 {
                     $scope.results = "Account created!";
                     successColor();
-                    setTimeout(redirectLogin(), 20000);
+                    setTimeout(redirectLogin(username, password), 50000);
                 }
                 else
                 {
