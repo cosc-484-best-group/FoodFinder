@@ -81,6 +81,8 @@ app.get('/createaccount', function (request, resp)
     var username = request.query.username;
     var password = request.query.password;
 
+    console.log("creeeeee");
+    
     // cut off quotes
     email = email.substring(1, email.length - 1);
     username = username.substring(1, username.length - 1);
