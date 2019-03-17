@@ -118,6 +118,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         {
             $scope.loggedin = false;
             document.getElementById('loginbutton').innerHTML = "Login";
+            sessionStorage.removeItem('username');  // delete data from local storage
         }
         else
             location.href = "/login";

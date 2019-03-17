@@ -11,7 +11,6 @@ const MongoClient = require('mongodb').MongoClient;
 
 const app = express();
 const router = express.Router();
-
 var mongourl = "mongodb://localhost:27017/";
 
 
@@ -58,40 +57,8 @@ app.use(express.static(__dirname + '/css/'));
 app.use('/', router);
 
 
-
 // ======================================
-//   ENCRYPTION
-// ======================================
-
-var bcrypt = require('bcrypt');
-
-var cryptPassword = function(password, callback) 
-{
-    bcrypt.genSalt(10, function(err, salt) 
-    {
-        if (err) 
-            return callback(err);
-
-        bcrypt.hash(password, salt, function(err, hash)
-        {
-            return callback(err, hash);
-        });
-    });
-};
-
-var comparePassword = function(plainPass, hashword, callback)
-{
-   bcrypt.compare(plainPass, hashword, function(err, isPasswordMatch)
-   {   
-        return err == null ?
-            callback(null, isPasswordMatch) :
-            callback(err);
-    });
-};
-
-
-// ======================================
-//   USER ACCOUNT REQUESTS
+//   USER ACCOUNTS URL REQUESTS
 // ======================================
 
 app.get('/loginaccount', function (request, resp) 
@@ -158,7 +125,7 @@ app.get('/createaccount', function (request, resp)
 
 
 // ======================================
-//   MAIN REQUESTS
+//   MAIN URL REQUESTS
 // ======================================
 
 // yelp data for each mongo datapoint on load
@@ -177,7 +144,7 @@ app.get('/init', function (request, resp)
                 yelpDataList.push(yelpData);
             });
         }
-        //wait and then send list off    // MAKE BETTER!!!!!!!!!!!!!!!!!!!!!!!!1
+        //wait and then send list off    // TODO Make better
         proxy(1200, function callback3()
         {
             //console.log(yelpDataList);
@@ -256,11 +223,8 @@ function proxy(time, cb)
 
 
 // ======================================
-//   MONGO
+//   MONGO FAVORITES
 // ======================================
-
-// FAVORITES
-
 function pushfavorite(json)
 {
     var database = "foodfinder";
@@ -320,8 +284,9 @@ function removefavorite(json)
 } 
 
 
-// ACCOUNTS
-
+// ======================================
+//   MONGO USER ACCOUNTS
+// ======================================
 function pushaccount(json)
 {
     var database = "foodfinder";
@@ -395,7 +360,7 @@ function yelp(term, loc, callmemaybe)
 }
 
 // ======================================
-//   YELP API
+//   YELP PLACES NEARBY API
 // ======================================
 function yelps(lat, long, range, callmemaybe)
 {
@@ -429,11 +394,42 @@ function yelps(lat, long, range, callmemaybe)
 }
 
 
+// ======================================
+//   ENCRYPTION
+// ======================================
+
+var bcrypt = require('bcrypt');
+
+var cryptPassword = function(password, callback) 
+{
+    bcrypt.genSalt(10, function(err, salt) 
+    {
+        if (err) 
+            return callback(err);
+
+        bcrypt.hash(password, salt, function(err, hash)
+        {
+            return callback(err, hash);
+        });
+    });
+};
+
+var comparePassword = function(plainPass, hashword, callback)
+{
+   bcrypt.compare(plainPass, hashword, function(err, isPasswordMatch)
+   {   
+        return err == null ?
+            callback(null, isPasswordMatch) :
+            callback(err);
+    });
+};
+
+
+// ======================================
+//   HTTPS Certificate
+// ======================================
 if(debug == "false") // use https on server
 {
-    // ======================================
-    //   HTTPS Certificate
-    // ======================================
     const privateKey = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/privkey.pem', 'utf8');
     const certificate = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/cert.pem', 'utf8');
     const ca = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/chain.pem', 'utf8');
@@ -446,7 +442,7 @@ if(debug == "false") // use https on server
 
 
     // ======================================
-    //   Starting both http & https servers
+    //   Starting https server
     // ======================================
     const httpsServer = https.createServer(credentials, app);
     httpsServer.listen(443, () => {
@@ -454,6 +450,9 @@ if(debug == "false") // use https on server
     });
 }
 
+// ======================================
+//   Starting http server
+// ======================================
 // else test locally without https
 const httpServer = http.createServer(app);
 httpServer.listen(80, () => {
