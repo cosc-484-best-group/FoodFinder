@@ -8,13 +8,13 @@ $("#term").keyup(function (event)
 {
     if (event.keyCode == 13)  // enter
     {
-        textboxes = $("#location");
-        currentBoxNumber = textboxes.index(this);
-        if (textboxes[currentBoxNumber + 1] != null) 
+        textbox = $("#location");
+        boxNum = textbox.index(this);
+        if (textbox[boxNum + 1] != null) 
         {
-            nextBox = textboxes[currentBoxNumber + 1];
-            nextBox.focus();
-            nextBox.select();
+            next = textbox[boxNum + 1];
+            next.focus();
+            next.select();
         }
         event.preventDefault();
         return false;
@@ -26,13 +26,13 @@ $("#location").keyup(function (event)
 {
     if (event.keyCode == 13)  // enter
     {
-        textboxes = $("#submit");
-        currentBoxNumber = textboxes.index(this);
-        if (textboxes[currentBoxNumber + 1] != null) 
+        button = $("#submit");
+        buttonNum = button.index(this);
+        if (button[buttonNum + 1] != null) 
         {
-            nextBox = textboxes[currentBoxNumber + 1];
-            nextBox.focus();
-            nextBox.select();
+            next = button[buttonNum + 1];
+            next.focus();
+            next.select();
         }
         event.preventDefault();
         return false;
@@ -49,13 +49,13 @@ $("#myusername").keyup(function (event)
 {
     if (event.keyCode == 13)  // enter
     {
-        textboxes = $("#mypassword");
-        currentBoxNumber = textboxes.index(this);
-        if (textboxes[currentBoxNumber + 1] != null) 
+        textbox = $("#mypassword");
+        boxNum = textbox.index(this);
+        if (textbox[boxNum + 1] != null) 
         {
-            nextBox = textboxes[currentBoxNumber + 1];
-            nextBox.focus();
-            nextBox.select();
+            next = textbox[boxNum + 1];
+            next.focus();
+            next.select();
         }
         event.preventDefault();
         return false;
@@ -67,13 +67,14 @@ $("#mypassword").keyup(function (event)
 {
     if (event.keyCode == 13)  // enter
     {
-        textboxes = $("#login");
-        currentBoxNumber = textboxes.index(this);
-        if (textboxes[currentBoxNumber + 1] != null) 
+        button = $("#login");
+        buttonNum = button.index(this);
+        if (button[buttonNum + 1] != null) 
         {
-            nextBox = textboxes[currentBoxNumber + 1];
-            nextBox.focus();
-            nextBox.select();
+            next = button[buttonNum + 1];
+            next.focus();
+            next.select();
+            next.toggleClass('active');
         }
         event.preventDefault();
         return false;
@@ -90,13 +91,13 @@ $("#email").keyup(function (event)
 {
     if (event.keyCode == 13)  // enter
     {
-        textboxes = $("#username");
-        currentBoxNumber = textboxes.index(this);
-        if (textboxes[currentBoxNumber + 1] != null) 
+        textbox = $("#username");
+        boxNum = textbox.index(this);
+        if (textbox[boxNum + 1] != null) 
         {
-            nextBox = textboxes[currentBoxNumber + 1];
-            nextBox.focus();
-            nextBox.select();
+            next = textbox[boxNum + 1];
+            next.focus();
+            next.select();
         }
         event.preventDefault();
         return false;
@@ -108,13 +109,13 @@ $("#username").keyup(function (event)
 {
     if (event.keyCode == 13)  // enter
     {
-        textboxes = $("#password");
-        currentBoxNumber = textboxes.index(this);
-        if (textboxes[currentBoxNumber + 1] != null) 
+        textbox = $("#password");
+        boxNum = textbox.index(this);
+        if (textbox[boxNum + 1] != null) 
         {
-            nextBox = textboxes[currentBoxNumber + 1];
-            nextBox.focus();
-            nextBox.select();
+            next = textbox[boxNum + 1];
+            next.focus();
+            next.select();
         }
         event.preventDefault();
         return false;
@@ -126,13 +127,13 @@ $("#password").keyup(function (event)
 {
     if (event.keyCode == 13)  // enter
     {
-        textboxes = $("#passwordrepeat");
-        currentBoxNumber = textboxes.index(this);
-        if (textboxes[currentBoxNumber + 1] != null) 
+        textbox = $("#passwordrepeat");
+        boxNum = textbox.index(this);
+        if (textbox[boxNum + 1] != null) 
         {
-            nextBox = textboxes[currentBoxNumber + 1];
-            nextBox.focus();
-            nextBox.select();
+            next = textbox[boxNum + 1];
+            next.focus();
+            next.select();
         }
         event.preventDefault();
         return false;
@@ -144,13 +145,13 @@ $("#passwordrepeat").keyup(function (event)
 {
     if (event.keyCode == 13)  // enter
     {
-        textboxes = $("#create");
-        currentBoxNumber = textboxes.index(this);
-        if (textboxes[currentBoxNumber + 1] != null) 
+        button = $("#create");
+        buttonNum = button.index(this);
+        if (button[buttonNum + 1] != null) 
         {
-            nextBox = textboxes[currentBoxNumber + 1];
-            nextBox.focus();
-            nextBox.select();
+            next = button[buttonNum + 1];
+            next.focus();
+            next.select();
         }
         event.preventDefault();
         return false;
