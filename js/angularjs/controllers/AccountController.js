@@ -19,9 +19,9 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
         location.href = "/";
     }
 
-    function redirectLogin(username, password)
+    function redirectLogin()
     {
-        location.href = "/login?username=" + username + "&password=" + password;
+        location.href = "/login";
     }
 
 
@@ -61,7 +61,6 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
 
-        console.log("fdfdfdf");
         // REST URL
         var url = "/loginaccount?username=\"" + username +"\"&password=\"" + password + "\"";
         var data = new FormData();
@@ -111,8 +110,6 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
         var passwordrepeat = document.getElementById("passwordrepeat").value;
-
-        console.log("erererererer");
 
         if(!email | !username | !password | !passwordrepeat)
         {
@@ -166,7 +163,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
                 {
                     $scope.results = "Account created!";
                     successColor();
-                    setTimeout(redirectLogin(username, password), 50000);
+                    setTimeout(redirectLogin(), 50000);
                 }
                 else
                 {

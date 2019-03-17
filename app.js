@@ -22,6 +22,10 @@ router.get('/',function(request, response)
 {
   response.sendFile(path.join(__dirname + '/html/index.html'));
 });
+router.get('/about',function(request, response)
+{
+    response.sendFile(path.join(__dirname + '/html/about.html'));
+});
 router.get('/create',function(request, response)
 {
     response.sendFile(path.join(__dirname + '/html/create.html'));
@@ -62,8 +66,8 @@ app.get('/loginaccount', function (request, resp)
         console.log(mongoData);
         mongoData.forEach(account => 
         {
-            console.log(username + " vs " + account.username);
-            console.log(password + " vs " + account.password);
+            // console.log(username + " vs " + account.username);
+            // console.log(password + " vs " + account.password);
             if(username == account.username && password == account.password)
                 valid = true;
         });
