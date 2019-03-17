@@ -17,6 +17,7 @@ var mongourl = "mongodb://localhost:27017/";
 
 var debug = "false"; // run with https on server
 var input = process.argv[2]; // set as argument passed
+console.log(input);
 if(input || input == "app" || input == "app.js") //nonempty or passed with prior parameter
     debug = input;
 
