@@ -24,11 +24,6 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
         location.href = "/login";
     }         
     
-    $scope.init = function()
-    {    
-
-    }
-
     // Sends textbox input to Yelp in Nodejs backend
     $scope.login = function () 
     {
