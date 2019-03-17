@@ -133,7 +133,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             function (response)
             {
                 var places = response.data;
-                console.log(places);
+                // console.log(places);
                 places.forEach(place => {
                     // console.log(place)
                     // console.log(place.vicinity);
