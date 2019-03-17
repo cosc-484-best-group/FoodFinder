@@ -75,8 +75,16 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         $scope.visible = false;
         $scope.loggedin = false;
 
+
+        // pull from HTML5 local storage
+        var user = sessionStorage.getItem('username');
+        if(user)
+            $scope.loggedin = true;
+
+            
+
         if($scope.loggedin)
-            document.getElementById('loginbutton').innerHTML = "Logout";
+            document.getElementById('loginbutton').innerHTML = user;
         else
             document.getElementById('loginbutton').innerHTML = "Login";
 
