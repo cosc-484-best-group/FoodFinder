@@ -96,7 +96,7 @@ app.get('/loginaccount', function (request, resp)
 
     pullaccount(function ()
     {
-        console.log(mongoData);
+        // console.log(mongoData);
         mongoData.forEach(account => 
         {
             // console.log(username + " vs " + account.username);
