@@ -39,19 +39,19 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
     
     $scope.init = function()
     {    
-        parameters = getUrlVars();
-        if(!isEmpty(parameters))
-        {
-            var username = parameters.username;
-            var password = parameters.password;
+        // parameters = getUrlVars();
+        // if(!isEmpty(parameters))
+        // {
+        //     var username = parameters.username;
+        //     var password = parameters.password;
 
-            // remove literal quotes
-            username = username.substring(1, username.length - 1);
-            password = password.substring(1, password.length - 1);
+        //     // remove literal quotes
+        //     username = username.substring(1, username.length - 1);
+        //     password = password.substring(1, password.length - 1);
 
-            document.getElementById("username").value = username;
-            document.getElementById("password").value = password;
-        }
+        //     document.getElementById("username").value = username;
+        //     document.getElementById("password").value = password;
+        // }
     }
 
     // Sends textbox input to Yelp in Nodejs backend

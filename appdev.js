@@ -17,6 +17,10 @@ router.get('/',function(request, response)
 {
   response.sendFile(path.join(__dirname + '/html/index.html'));
 });
+router.get('/about',function(request, response)
+{
+    response.sendFile(path.join(__dirname + '/html/about.html'));
+});
 router.get('/create',function(request, response)
 {
     response.sendFile(path.join(__dirname + '/html/create.html'));
