@@ -75,6 +75,10 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         $scope.visible = false;
         $scope.loggedin = false;
 
+        // clear textboxes on refresh
+        document.getElementById("term").value = "";
+        document.getElementById("location").value = "";
+        
 
         // pull from HTML5 local storage
         var user = sessionStorage.getItem('username');
