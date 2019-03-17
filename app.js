@@ -15,6 +15,12 @@ const router = express.Router();
 var mongourl = "mongodb://localhost:27017/";
 
 
+var debug = "false"; // run with https on server
+var input = process.argv[2]; // set as argument passed
+if(input)
+    debug = input;
+
+
 // ======================================
 //   ROUTING
 // ======================================
@@ -44,6 +50,7 @@ app.use(express.static(__dirname + '/js/cors/'));
 app.use(express.static(__dirname + '/js/mine/'));
 app.use(express.static(__dirname + '/images/'));
 app.use(express.static(__dirname + '/css/'));
+
 app.use('/', router);
 
 
@@ -195,7 +202,7 @@ app.get('/places', function (request, resp)
     var range = request.query.range;
   yelps(lat, long, range, function callback() 
   {
-        console.log("ARR: " + yelpArray);
+        // console.log("ARR: " + yelpArray);
         resp.send(yelpArray);
   });
 });
@@ -417,30 +424,35 @@ function yelps(lat, long, range, callmemaybe)
 }
 
 
-// ======================================
-//   HTTPS Certificate
-// ======================================
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/chain.pem', 'utf8');
+if(debug == "false") // use https on server
+{
+    // ======================================
+    //   HTTPS Certificate
+    // ======================================
+    const privateKey = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/privkey.pem', 'utf8');
+    const certificate = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/cert.pem', 'utf8');
+    const ca = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/chain.pem', 'utf8');
 
-const credentials = {
-    key: privateKey,
-    cert: certificate,
-    ca: ca
-};
+    const credentials = {
+        key: privateKey,
+        cert: certificate,
+        ca: ca
+    };
 
 
-// ======================================
-//   Starting both http & https servers
-// ======================================
+    // ======================================
+    //   Starting both http & https servers
+    // ======================================
+    const httpsServer = https.createServer(credentials, app);
+    httpsServer.listen(443, () => {
+ 	    console.log('HTTPS Server running on port 443');
+    });
+}
+
+// else test locally without https
 const httpServer = http.createServer(app);
-const httpsServer = https.createServer(credentials, app);
-
 httpServer.listen(80, () => {
  	console.log('HTTP Server running on port 80');
 });
 
-httpsServer.listen(443, () => {
- 	console.log('HTTPS Server running on port 443');
-});
+

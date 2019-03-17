@@ -3,9 +3,10 @@
 //   DEPENDENCIES
 // ======================================
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const http = require('http');
 const https = require('https');
-const path = require('path');
 const MongoClient = require('mongodb').MongoClient;
 
 const app = express();
@@ -34,7 +35,6 @@ router.get('/login',function(request, response)
     response.sendFile(path.join(__dirname + '/html/login.html'));
 });
 
-
 //make all resources avaliable on same level
 app.use(express.static(__dirname + '/html/'));
 app.use(express.static(__dirname + '/js/angularjs/'));
@@ -44,7 +44,6 @@ app.use(express.static(__dirname + '/js/cors/'));
 app.use(express.static(__dirname + '/js/mine/'));
 app.use(express.static(__dirname + '/images/'));
 app.use(express.static(__dirname + '/css/'));
-
 
 app.use('/', router);
 
