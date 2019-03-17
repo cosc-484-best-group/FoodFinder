@@ -81,7 +81,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         if(user)
             $scope.loggedin = true;
 
-            
+
 
         if($scope.loggedin)
             document.getElementById('loginbutton').innerHTML = user;
@@ -111,6 +111,14 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         );
 
     };
+
+    $scope.login = function()
+    {
+        if($scope.loggedin)
+            $scope.loggedin = false;
+        else
+            location.href = "/login";
+    }
 
     // Sends textbox input to Yelp in Nodejs backend
     $scope.nearby = function () 
