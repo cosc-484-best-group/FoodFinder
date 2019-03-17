@@ -115,7 +115,10 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
     $scope.login = function()
     {
         if($scope.loggedin)
+        {
             $scope.loggedin = false;
+            document.getElementById('loginbutton').innerHTML = "Login";
+        }
         else
             location.href = "/login";
     }

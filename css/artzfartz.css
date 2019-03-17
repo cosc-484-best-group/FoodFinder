@@ -48,12 +48,21 @@ h1
     display: inline;
 }
 
-#searchbar #loginbutton
+#searchbar
 {
     margin-top: 8px;
     float: right;
     right: 5px;
     color: white;
+}
+
+#loginbutton
+{
+    margin-top: 8px;
+    float: right;
+    right: 5px;
+    color: white;
+    cursor: pointer;
 }
 
 /* CENTER */
