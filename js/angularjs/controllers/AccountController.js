@@ -28,8 +28,8 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
     $scope.login = function () 
     {
 
-        var username = document.getElementById("username").value;
-        var password = document.getElementById("password").value;
+        var username = document.getElementById("myusername").value;
+        var password = document.getElementById("mypassword").value;
 
         // REST URL
         var url = "/loginaccount?username=\"" + username +"\"&password=\"" + password + "\"";
@@ -67,8 +67,8 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
                 else
                 {
                     $scope.results = "Invalid Credentials"
-                    document.getElementById("username").value = "";
-                    document.getElementById("password").value = "";
+                    document.getElementById("myusername").value = "";
+                    document.getElementById("mypassword").value = "";
                     failureColor();
                 }
                 $scope.visible = true;
