@@ -17,11 +17,12 @@ var mongourl = "mongodb://localhost:27017/";
 
 var debug = "false"; // run with https on server
 var input = process.argv[2]; // set as argument passed
-console.log(input);
 if(input) //nonempty
     debug = input;
 if(debug == "app" || debug == "app.js") //passed with prior parameter
     debug = "false";
+if(debug == "true")
+    console.log("DEBUG MODE");
 
 
 // ======================================
