@@ -74,7 +74,6 @@ $("#mypassword").keyup(function (event)
             next = button[buttonNum + 1];
             next.focus();
             next.select();
-            next.toggleClass('active');
         }
         event.preventDefault();
         return false;
