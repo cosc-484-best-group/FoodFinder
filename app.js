@@ -14,13 +14,19 @@ const router = express.Router();
 var mongourl = "mongodb://localhost:27017/";
 
 
-var debug = "false"; // run with https on server
+const SERVER_MODE = "server"; // run with https on server
+const DEBUG_MODE = "debug"; // run locally
+var mode = SERVER_MODE; 
+
 var input = process.argv[2]; // set as argument passed
 if(input) //nonempty
-    debug = input;
-if(debug == "app" || debug == "app.js") //passed with prior parameter
-    debug = "false";
-if(debug == "true")
+    mode = input;
+if(mode == "app" || mode == "app.js") //passed with prior parameter
+    mode = SERVER_MODE;
+
+if(mode == SERVER_MODE)
+    console.log("SERVER MODE");
+if(mode == DEBUG_MODE)
     console.log("DEBUG MODE");
 
 
@@ -94,7 +100,7 @@ app.get('/loginaccount', function (request, resp)
             });
 
         });
-        proxy(1000, function()
+        proxy(1000, function()  // TODO Make better!
         {
             resp.send(valid);
         });
@@ -144,8 +150,8 @@ app.get('/init', function (request, resp)
                 yelpDataList.push(yelpData);
             });
         }
-        //wait and then send list off    // TODO Make better
-        proxy(1200, function callback3()
+        //wait and then send list off    // TODO Make better!!!
+        proxy(2000, function callback3()
         {
             //console.log(yelpDataList);
             resp.send(yelpDataList);
@@ -428,7 +434,7 @@ var comparePassword = function(plainPass, hashword, callback)
 // ======================================
 //   HTTPS Certificate
 // ======================================
-if(debug == "false") // use https on server
+if(mode == SERVER_MODE) // use https on server
 {
     const privateKey = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/privkey.pem', 'utf8');
     const certificate = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/cert.pem', 'utf8');
