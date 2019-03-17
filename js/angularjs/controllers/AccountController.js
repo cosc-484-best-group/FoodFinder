@@ -61,6 +61,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
 
+        console.log("fdfdfdf");
         // REST URL
         var url = "/loginaccount?username=\"" + username +"\"&password=\"" + password + "\"";
         var data = new FormData();
@@ -110,6 +111,8 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
         var passwordrepeat = document.getElementById("passwordrepeat").value;
+
+        console.log("erererererer");
 
         if(!email | !username | !password | !passwordrepeat)
         {
