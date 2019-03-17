@@ -363,41 +363,6 @@ function yelps(lat, long, range, callmemaybe)
 
 }
 
-// // ======================================
-// //   YELP API
-// // ======================================
-// function yelps(lat, long, range, callmemaybe)
-// {
-//     const yelp = require('yelp-fusion');
-
-//     // from https://www.yelp.com/developers/v3/manage_app
-//     const apiKey = '4dIx9HKv-klKh_nvUWaHAZqe_a-wQqi49uoJICQIfxdWFj0VS-8uw1TfrFoe2CVsKJeX7BRv0nntSA4svU-G_qiSkfHxYIfk_D83YWoAjRMfuz21UMnzT5_PPA53XHYx';
-
-//     // https://www.yelp.com/developers/documentation/v3/business_search
-//     const searchRequest = 
-//     {
-//         // term: "ginos",
-//         // location: "towson, md",
-//         latitude: lat,
-//         longitude: long,
-//         range: range
-//     };
-
-//     var client = yelp.client(apiKey);
-//     client.search(searchRequest).then(response => {
-//         yelpArray = response.jsonBody.businesses;
-//         // console.log(yelpArray);
-    
-//         //console.log(prettyJson);
-//         console.log("yelp data pulled");
-//         callmemaybe();
-
-//       }).catch(e => {
-//         console.log("yelp data not found");
-//     });
-
-// }
-
 // ======================================
 //   Starting both http & https servers
 // ======================================

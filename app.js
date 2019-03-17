@@ -47,27 +47,48 @@ app.use('/', router);
 //   USER ACCOUNT REQUESTS
 // ======================================
 
-app.get('/login', function (request, resp) 
+app.get('/loginaccount', function (request, resp) 
 {
     var username = request.query.username;
     var password = request.query.password;
+    var valid = false;
 
-    // logic
+    // cut off quotes
+    username = username.substring(1, username.length - 1);
+    password = password.substring(1, password.length - 1);
 
-    return true;
+    pullaccount(function ()
+    {
+        console.log(mongoData);
+        mongoData.forEach(account => 
+        {
+            console.log(username + " vs " + account.username);
+            console.log(password + " vs " + account.password);
+            if(username == account.username && password == account.password)
+                valid = true;
+        });
+        resp.send(valid);
+    });
+
+    // return true;
 });
 
-app.get('/create', function (request, resp) 
+app.get('/createaccount', function (request, resp) 
 {
     var email = request.query.email;
     var username = request.query.username;
     var password = request.query.password;
 
-    // logic
+    // cut off quotes
+    email = email.substring(1, email.length - 1);
+    username = username.substring(1, username.length - 1);
+    password = password.substring(1, password.length - 1);
 
-    return true;
+
+    pushaccount({"email": email, "username": username, "password": password});
+    resp.send(true);  // catach if bad!!!
+
 });
-
 
 // ======================================
 //   MAIN REQUESTS
