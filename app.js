@@ -47,6 +47,38 @@ app.use(express.static(__dirname + '/css/'));
 app.use('/', router);
 
 
+
+// ======================================
+//   ENCRYPTION
+// ======================================
+
+var bcrypt = require('bcrypt');
+
+var cryptPassword = function(password, callback) 
+{
+    bcrypt.genSalt(10, function(err, salt) 
+    {
+        if (err) 
+            return callback(err);
+
+        bcrypt.hash(password, salt, function(err, hash)
+        {
+            return callback(err, hash);
+        });
+    });
+};
+
+var comparePassword = function(plainPass, hashword, callback)
+{
+   bcrypt.compare(plainPass, hashword, function(err, isPasswordMatch)
+   {   
+        return err == null ?
+            callback(null, isPasswordMatch) :
+            callback(err);
+    });
+};
+
+
 // ======================================
 //   USER ACCOUNT REQUESTS
 // ======================================
@@ -68,13 +100,28 @@ app.get('/loginaccount', function (request, resp)
         {
             // console.log(username + " vs " + account.username);
             // console.log(password + " vs " + account.password);
-            if(username == account.username && password == account.password)
-                valid = true;
+
+            // encryption
+            cryptPassword(password, function(error, hash)
+            {
+                // console.log("hash: " + hash);
+                comparePassword(password, account.password, function(error, isPasswordMatch)
+                {
+                    // console.log("match: " + isPasswordMatch);  
+                    if(isPasswordMatch)
+                    {
+                        valid = true;
+                    }
+                });
+            });
+
         });
-        resp.send(valid);
+        proxy(1000, function()
+        {
+            resp.send(valid);
+        });
     });
 
-    // return true;
 });
 
 app.get('/createaccount', function (request, resp) 
@@ -88,9 +135,13 @@ app.get('/createaccount', function (request, resp)
     username = username.substring(1, username.length - 1);
     password = password.substring(1, password.length - 1);
 
-
-    pushaccount({"email": email, "username": username, "password": password});
-    resp.send(true);  // catach if bad!!!
+    // encryption
+    cryptPassword(password, function(error, hash)
+    {
+        // console.log("hash: " + hash);
+        pushaccount({"email": email, "username": username, "password": hash});
+        resp.send(true);  // catch if bad!!!
+    });
 
 });
 
