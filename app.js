@@ -97,7 +97,7 @@ app.get('/createaccount', function (request, resp)
 // yelp data for each mongo datapoint on load
 app.get('/init', function (request, resp) 
 {
-    pullmongo(function callback() 
+    pullfavorite(function callback() 
     { 
         yelpDataList = [];
         for (i = 0; i < mongoData.length; i++)
@@ -153,7 +153,7 @@ app.get('/favorite', function (request, resp)
   var location = request.query.location;
   yelp(term, location, function callback() 
   { 
-      pullmongo(function callback2()
+      pullfavorite(function callback2()
       {
           // make sure not in there
           var alreadySaved = false;
@@ -169,11 +169,11 @@ app.get('/favorite', function (request, resp)
           }
           if(!alreadySaved) // favorite
           {
-              pushmongo({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state});
+              pushfavorite({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state});
           }
           else // unfavorite
           {
-              removemongo({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state});
+              removefavorite({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state});
           }
           resp.send([alreadySaved, yelpData]);
       });
@@ -191,7 +191,10 @@ function proxy(time, cb)
 // ======================================
 //   MONGO
 // ======================================
-function pushmongo(json)
+
+// FAVORITES
+
+function pushfavorite(json)
 {
     var database = "foodfinder";
     var collection = "stars";
@@ -210,7 +213,7 @@ function pushmongo(json)
     });
 }
 
-function pullmongo(callback)
+function pullfavorite(callback)
 {
     var database = "foodfinder";
     var collection = "stars";
@@ -231,7 +234,7 @@ function pullmongo(callback)
     });
 }
 
-function removemongo(json)
+function removefavorite(json)
 {
     var database = "foodfinder";
     var collection = "stars";
@@ -248,6 +251,49 @@ function removemongo(json)
         });
     });
 } 
+
+
+// ACCOUNTS
+
+function pushaccount(json)
+{
+    var database = "foodfinder";
+    var collection = "accounts";
+    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db) 
+    {
+        if (err) 
+            throw err;
+        var dbo = db.db(database);
+        dbo.collection(collection).insertOne(json, function(err, res) 
+        {
+            if (err) 
+                throw err;
+            console.log("mongo account pushed");
+            db.close();
+        });
+    });
+}
+
+function pullaccount(callback)
+{
+    var database = "foodfinder";
+    var collection = "accounts";
+    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
+    {
+        if (err) 
+            throw err;
+        var dbo = db.db(database);
+        dbo.collection(collection).find({}).toArray(function(err, res)
+        {
+            if (err) 
+                throw err;
+            mongoData = res;
+            console.log("mongo account pulled");
+            db.close();
+            callback();
+        });
+    });
+}
 
 
 // ======================================
