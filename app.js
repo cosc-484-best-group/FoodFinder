@@ -123,7 +123,7 @@ app.get('/createaccount', function (request, resp)
     cryptPassword(password, function(error, hash)
     {
         // console.log("hash: " + hash);
-        pushaccount({"email": email, "username": username, "password": hash});
+        pushaccount({"email": email, "username": username, "password": hash, "favid": 1}); //work on
         resp.send(true);  // catch if bad!!!
     });
 
