@@ -54,8 +54,6 @@ router.get('/login',function(request, response)
 app.use(express.static(__dirname + '/html/'));
 app.use(express.static(__dirname + '/js/angularjs/'));
 app.use(express.static(__dirname + '/js/angularjs/controllers/'));
-app.use(express.static(__dirname + '/js/backstretch/'));
-app.use(express.static(__dirname + '/js/cors/'));
 app.use(express.static(__dirname + '/js/mine/'));
 app.use(express.static(__dirname + '/images/'));
 app.use(express.static(__dirname + '/css/'));
