@@ -11,10 +11,20 @@ body
 
 .container
 {
-	height: 100%;
+    margin-top: 25px;
+	/* height: 100%; */
     background-color: rgb(220, 220, 220);
+    border-radius: 25px;
     opacity: 0.9;
     width: 85%;
+    padding: 30px 30px;
+}
+
+.smaller
+{
+    float: center;
+    width: auto;
+    max-width: 680px;
 }
 
 /* TOP */
@@ -24,14 +34,19 @@ body
 {
     float: left;
     margin-right: 30px;
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
+}
+
+#rightside
+{
+  float: right;
 }
 
 h1
 {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    padding-top: 30px;
+    padding-top: 10px;
     padding-bottom: 20px;
 }
 
@@ -58,7 +73,6 @@ h1
 
 #loginbutton
 {
-    margin-top: 8px;
     float: right;
     right: 5px;
     color: white;
@@ -81,6 +95,7 @@ h1
 #details
 {
     margin-top: 10px;
+    margin-bottom: 10px;
     border:3px solid darkslategray;
     background-color: rgb(180, 180, 180);
     padding: 10px;
@@ -88,7 +103,6 @@ h1
 
 #detailshead h1
 {
-	/* margin-top: 15px; */
 	display: inline;
 }
 
@@ -134,7 +148,6 @@ hr
     margin-top: 10px;
     text-align: center;
     padding: 10px;
-	/* height: 120px; */
  	width: 100%;
 }
 

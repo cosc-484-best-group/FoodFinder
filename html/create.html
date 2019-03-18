@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="artzfartz.css">                          
     </head>
     <body ng-app="myApp"> <!-- tells the document its using angjs-->
-        <div class="container fill" id="main" ng-controller="AccountController">
+        <div class="container smaller fill" id="main" ng-controller="AccountController">
             <div id="topline">
                 <a href="/">
                     <img id="logo" ng-src="favicon.png" alt="logo"/>
@@ -20,6 +20,10 @@
                 <h1>
                     Create Account
                 </h1>
+            </div>
+
+            <div id="details" ng-show="visible">
+                {{ results }}
             </div>
 
             <div class="form" id="loginpane">
@@ -35,12 +39,10 @@
                 <div class="form-group">
                     <input type="password" class="form-control" name="passwordrepeat" id="passwordrepeat" placeholder="Repeat Password" required>
                 </div>
-                <button class="btn btn-light" id="create" ng-click="create()"> Create </button>
-                <button class="btn btn-light" onclick="goback()"> Cancel </button>
-            </div>
-
-            <div id="details" ng-show="visible">
-                {{ results }}
+                <button class="btn btn-dark" id="create" ng-click="create()"> Create </button>
+                <div id="rightside">
+                    <button class="btn btn-dark" onclick="goback()"> Cancel </button>
+                </div>
             </div>
 
 
