@@ -6,7 +6,12 @@ html, body
 
 body
 {
-    background-color: rgb(240, 240, 240);
+    background-image: url('background.png'); /* The image used */
+    background-color: #cccccc; /* Used if the image is unavailable */
+    height: 500px; /* You must set a specified height */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
 }
 
 .container
@@ -170,6 +175,13 @@ hr
 }
 
 #github
+{
+    width: 25px;
+    height: 25px;
+    margin-left: 10px;
+}
+
+#linkedin
 {
     width: 30px;
     height: 30px;
