@@ -15,14 +15,23 @@
     </head>
     <body ng-app="myApp"> <!-- tells the document its using angjs-->
         <div class="container" id="main" ng-controller="MainController" ng-init="init()">
-            
+
             <div id="topline">
-                <a href="/">
-                    <img id="logo" src="favicon.png" alt="logo"/>
-                </a>
-                <h1>
-                    Food Finder
-                </h1>
+                <div class="lefty">
+                    <a href="/">
+                        <img id="logo" src="favicon.png" alt="logo"/>
+                    </a>
+                    <h1 class="pagename">
+                        Food Finder
+                    </h1>
+                </div>
+
+                <div class="pill-nav">
+                    <a class="active" href="/">Home</a>
+                    <a href="/news">News</a>
+                    <a href="/contact">Contact</a>
+                    <a href="/about">About</a>
+                </div> 
             </div>
 
             <div id="searchbar">
@@ -32,7 +41,7 @@
                         <button class="btn btn-dark" id="submit" ng-click="yelp()"> Submit </button>
                 </div>
                 <button class="btn btn-dark" ng-click="nearby()"> Nearby </button>
-                <a class="btn btn-dark" id="aboutbutton" href="/about"> About </a>
+                <!-- <a class="btn btn-dark" id="aboutbutton" href="/about"> About </a> -->
                 <a class="btn btn-danger" id="loginbutton" ng-click="login()"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
             </div>
             

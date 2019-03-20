@@ -49,6 +49,14 @@ router.get('/login',function(request, response)
 {
     response.sendFile(path.join(__dirname + '/html/login.html'));
 });
+router.get('/news',function(request, response)
+{
+    response.sendFile(path.join(__dirname + '/html/news.html'));
+});
+router.get('/contact',function(request, response)
+{
+    response.sendFile(path.join(__dirname + '/html/contact.html'));
+});
 
 //make all resources avaliable on same level
 app.use(express.static(__dirname + '/html/'));

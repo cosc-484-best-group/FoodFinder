@@ -43,9 +43,24 @@ body
     height: 70px;
 }
 
-#rightside
+#lefty
+{
+  float: left;
+}
+
+#righty
 {
   float: right;
+}
+
+#clearit
+{
+    clear: both;
+}
+
+.pagename
+{
+    float: left;
 }
 
 h1
@@ -54,6 +69,36 @@ h1
     padding-top: 10px;
     padding-bottom: 20px;
 }
+
+.pill-nav
+{
+    float:right; 
+    margin-top: 15px;
+}
+
+/* Style the links inside the pill navigation menu */
+.pill-nav a {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+    font-size: 17px;
+    border-radius: 5px;
+  }
+  
+  /* Change the color of links on mouse-over */
+  .pill-nav a:hover {
+    background-color: rgb(255, 183, 116);
+    color: white;
+  }
+  
+  /* Add a color to the active/current link */
+  .pill-nav a.active {
+    background-color: rgb(255, 139, 30);
+    color: white;
+  }
+
 
 #searchbar
 {
@@ -70,7 +115,8 @@ h1
 
 #searchbar
 {
-    margin-top: 8px;
+    border-radius: 10px 10px 0px 0px;
+    margin-top: 5px;
     float: right;
     right: 5px;
     color: white;
@@ -89,6 +135,7 @@ h1
 
 #map
 {
+    border-radius: 0px 0px 10px 10px;
     height: 600px;
     width: 100%;
     border:3px solid rgb(92, 92, 92);
@@ -148,6 +195,8 @@ hr
 
 #footer
 {
+    clear: both;            /* clears floating elements down */
+    border-radius: 5px 5px 10px 10px;
     background-color: rgb(47, 45, 54);
     color: rgb(180, 180, 180);
     margin-top: 10px;
@@ -191,4 +240,40 @@ hr
 #author
 {
     margin-top: 5px;
+}
+
+
+
+/* CONTACT */
+
+#subject, #message
+{
+    margin-bottom: 10px;
+}
+
+#contactpop
+{
+    clear: both;
+    background-color: rgb(150, 150, 150);
+    border:3px solid rgb(92, 92, 92);
+    border-radius: 5px 5px 10px 10px;
+    padding: 15px;
+}
+
+
+/* NEWS */
+
+/* #subject, #message
+{
+    margin-bottom: 10px;
+} */
+
+#newspop
+{
+    clear: both;
+    background-color: rgb(255, 255, 255);
+    border:3px solid rgb(92, 92, 92);
+    border-radius: 10px 10px 10px 10px;
+    padding: 15px;
+    margin-bottom: 5px;
 }
