@@ -99,7 +99,6 @@ h1
     color: white;
   }
 
-
 #searchbar
 {
     width: 100%;
@@ -254,8 +253,8 @@ hr
 #contactpop
 {
     clear: both;
-    background-color: rgb(150, 150, 150);
-    border:3px solid rgb(92, 92, 92);
+    background-color: rgb(156, 202, 96);
+    border:3px solid rgb(80, 102, 50);
     border-radius: 5px 5px 10px 10px;
     padding: 15px;
 }
@@ -271,8 +270,8 @@ hr
 #newspop
 {
     clear: both;
-    background-color: rgb(255, 255, 255);
-    border:3px solid rgb(92, 92, 92);
+    /* background-color: rgb(255, 255, 255); */
+    border:3px solid #81694e;
     border-radius: 10px 10px 10px 10px;
     padding: 15px;
     margin-bottom: 5px;

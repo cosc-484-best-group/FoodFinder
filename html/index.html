@@ -10,8 +10,6 @@
         <!-- Bootstrap CDN -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="artzfartz.css">   
-        <link rel="stylesheet" href="slider.css">   
-        <link rel="stylesheet" href="custombuttons.css">   
     </head>
     <body ng-app="myApp"> <!-- tells the document its using angjs-->
         <div class="container" id="main" ng-controller="MainController" ng-init="init()">
@@ -28,7 +26,7 @@
 
                 <div class="pill-nav">
                     <a class="active" href="/">Home</a>
-                    <a href="/news">News</a>
+                    <a href="/news">News  <span class="badge badge-light">2</span> </a>
                     <a href="/contact">Contact</a>
                     <a href="/about">About</a>
                 </div> 
@@ -53,8 +51,7 @@
                 <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
               </div> -->
 
-            <div id="map"> 
-            </div>
+            <div id="map"></div>
 
 
             <div id="details" ng-show="visible">
@@ -100,8 +97,11 @@
             <!-- Outside APIs -->
             <script type="text/javascript" src="maps.js"></script>
             <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQUvuEdmTO1JRZWHILlN2hbWuCJ8PyrN8&callback=initMap"> </script>
-            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-            <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+            <!-- Bootstrap -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
             <!-- Backstretch -->
             <script type="text/javascript" src="jquery.backstretch.min.js"></script>

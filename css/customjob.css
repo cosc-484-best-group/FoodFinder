@@ -1,0 +1,114 @@
+
+/* Speech bubbles */
+.speech-bubble 
+{ 
+    position: relative; 
+    background: #f1c694; 
+    border-radius: .4em; 
+} 
+
+.speech-bubble:after 
+{ 
+    content: ''; 
+    position: absolute; 
+    left: 0; 
+    top: 50%; 
+    width: 0; 
+    height: 0; 
+    border: 16px solid transparent; 
+    border-right-color: #81694e; 
+    border-left: 0; 
+    border-bottom: 0; 
+    margin-top: -18px; 
+    margin-left: -16px; 
+}
+
+/* Orange button */
+/* http://blog.koalite.com/bbg/ */
+
+.btn-yelp
+{ 
+    color: #FFFFFF; 
+    background-color: #F0782D; 
+    border-color: #FFD3B8; 
+  } 
+   
+  .btn-yelp:hover, 
+  .btn-yelp:focus, 
+  .btn-yelp:active, 
+  .btn-yelp.active, 
+  .open .dropdown-toggle.btn-yelp 
+  { 
+    color: #FFFFFF; 
+    background-color: #F55E00; 
+    border-color: #FFD3B8; 
+  } 
+   
+  .btn-yelp:active, 
+  .btn-yelp.active, 
+  .open .dropdown-toggle.btn-yelp 
+  { 
+    background-image: none; 
+  } 
+   
+  .btn-yelp.disabled, 
+  .btn-yelp[disabled], 
+  fieldset[disabled] .btn-yelp, 
+  .btn-yelp.disabled:hover, 
+  .btn-yelp[disabled]:hover, 
+  fieldset[disabled] .btn-yelp:hover, 
+  .btn-yelp.disabled:focus, 
+  .btn-yelp[disabled]:focus, 
+  fieldset[disabled] .btn-yelp:focus, 
+  .btn-yelp.disabled:active, 
+  .btn-yelp[disabled]:active, 
+  fieldset[disabled] .btn-yelp:active, 
+  .btn-yelp.disabled.active, 
+  .btn-yelp[disabled].active, 
+  fieldset[disabled] .btn-yelp.active 
+  { 
+    background-color: #F0782D; 
+    border-color: #FFD3B8; 
+  } 
+   
+  .btn-yelp .badge 
+  { 
+    color: #F0782D; 
+    background-color: #FFFFFF; 
+  }
+  
+  /* Slider */
+  .slidecontainer {
+    width: 100%;
+  }
+  
+  .slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #ffffff;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+  
+  .slider:hover {
+    opacity: 1;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: rgb(182, 255, 184);
+    cursor: pointer;
+  }
+  
+  .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+  }
