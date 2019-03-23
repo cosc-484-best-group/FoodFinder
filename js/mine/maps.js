@@ -5,7 +5,8 @@ var mycoords = [0, 0];
 function initMap() 
 {
     if (location.protocol == 'https:')
-        getLocation(new function(){         navigator.geolocation.watchPosition(function(position) {
+        getLocation(new function cb()
+        {         navigator.geolocation.watchPosition(function(position) {
             console.log("i'm tracking you!");
           },
           function(error) {
