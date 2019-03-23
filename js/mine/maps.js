@@ -21,6 +21,14 @@ function initMap()
     }
 }
 
+navigator.geolocation.watchPosition(function(position) {
+    console.log("i'm tracking you!");
+  },
+  function(error) {
+    if (error.code == error.PERMISSION_DENIED)
+      console.log("you denied me :-(");
+  });
+
 function getLocation() 
 {
     if (navigator.geolocation)
