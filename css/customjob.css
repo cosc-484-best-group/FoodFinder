@@ -24,6 +24,11 @@
     margin-left: -16px; 
 }
 
+.blockquote-footer
+{
+  color: rgb(78, 40, 17);
+}
+
 /* Orange button */
 /* http://blog.koalite.com/bbg/ */
 
