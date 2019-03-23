@@ -24,9 +24,14 @@
     margin-left: -16px; 
 }
 
+.quote
+{
+  color: rgb(92, 48, 20);
+}
+
 .blockquote-footer
 {
-  color: rgb(78, 40, 17);
+  color: rgb(126, 65, 28);
 }
 
 /* Orange button */
