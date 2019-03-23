@@ -27,16 +27,7 @@ function getLocation()
         navigator.geolocation.getCurrentPosition(showPosition);
     else
         console.log("Geolocation is not supported by this browser.");
-
-        navigator.geolocation.watchPosition(function(position) {
-            console.log("i'm tracking you!");
-          },
-          function(error) {
-            if (error.code == error.PERMISSION_DENIED)
-              console.log("you denied me :-(");
-          });
 }
-
 
 function showPosition(position) 
 {
