@@ -24,11 +24,10 @@ function initMap()
 function getLocation() 
 {
     if (navigator.geolocation)
-    {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    
+    {    
         navigator.geolocation.watchPosition(function(position) {
             console.log("i'm tracking you!");
+            navigator.geolocation.getCurrentPosition(showPosition);
           },
           function(error) {
             if (error.code == error.PERMISSION_DENIED)
