@@ -5,14 +5,7 @@ var mycoords = [0, 0];
 function initMap() 
 {
     if (location.protocol == 'https:')
-        getLocation(new function cb()
-        {         navigator.geolocation.watchPosition(function(position) {
-            console.log("i'm tracking you!");
-          },
-          function(error) {
-            if (error.code == error.PERMISSION_DENIED)
-              console.log("you denied me :-(");
-          }); });
+        getLocation();
     else  // does not work in http
     {
         var towsonu = new google.maps.LatLng(39.3938317, -76.6074833);
@@ -28,12 +21,11 @@ function initMap()
     }
 }
 
-function getLocation(cb) 
+function getLocation() 
 {
     if (navigator.geolocation)
     {    
         navigator.geolocation.getCurrentPosition(showPosition);
-        cb();
     }
     else
         console.log("Geolocation is not supported by this browser.");
