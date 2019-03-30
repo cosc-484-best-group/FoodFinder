@@ -13,6 +13,10 @@ const app = express();
 const router = express.Router();
 var mongourl = "mongodb://localhost:27017/";
 
+// from https://www.yelp.com/developers/v3/manage_app
+const YELP_API_KEY = "4dIx9HKv-klKh_nvUWaHAZqe_a-wQqi49uoJICQIfxdWFj0VS-8uw1TfrFoe2CVsKJeX7BRv0nntSA4svU-G_qiSkfHxYIfk_D83YWoAjRMfuz21UMnzT5_PPA53XHYx";
+const yelper = require('yelp-fusion');
+
 
 const SERVER_MODE = "server"; // run with https on server
 const DEBUG_MODE = "debug"; // run locally
@@ -347,10 +351,6 @@ function pullaccount(callback)
 // ======================================
 function yelp(term, loc, callmemaybe)
 {
-    const yelp = require('yelp-fusion');
-
-    // from https://www.yelp.com/developers/v3/manage_app
-    const apiKey = '4dIx9HKv-klKh_nvUWaHAZqe_a-wQqi49uoJICQIfxdWFj0VS-8uw1TfrFoe2CVsKJeX7BRv0nntSA4svU-G_qiSkfHxYIfk_D83YWoAjRMfuz21UMnzT5_PPA53XHYx';
 
     const searchRequest =
     {
@@ -358,7 +358,7 @@ function yelp(term, loc, callmemaybe)
         location:  loc //'san francisco, ca'
     };
 
-    var client = yelp.client(apiKey);
+    var client = yelper.client(YELP_API_KEY);
     client.search(searchRequest).then(response => {
         yelpData = response.jsonBody.businesses[0];
         prettyJson = JSON.stringify(yelpData, null, 4);
@@ -378,10 +378,6 @@ function yelp(term, loc, callmemaybe)
 // ======================================
 function yelps(lat, long, range, callmemaybe)
 {
-    const yelp = require('yelp-fusion');
-
-    // from https://www.yelp.com/developers/v3/manage_app
-    const apiKey = '4dIx9HKv-klKh_nvUWaHAZqe_a-wQqi49uoJICQIfxdWFj0VS-8uw1TfrFoe2CVsKJeX7BRv0nntSA4svU-G_qiSkfHxYIfk_D83YWoAjRMfuz21UMnzT5_PPA53XHYx';
 
     const searchRequest =
     {
@@ -391,7 +387,7 @@ function yelps(lat, long, range, callmemaybe)
         // radius: range   // meters
     };
 
-    var client = yelp.client(apiKey);
+    var client = yelper.client(YELP_API_KEY);
     client.search(searchRequest).then(response => {
         yelpArray = response.jsonBody.businesses;
         // yelpData = yelpArray[0];
