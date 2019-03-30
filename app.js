@@ -16,7 +16,7 @@ var mongourl = "mongodb://localhost:27017/";
 
 const SERVER_MODE = "server"; // run with https on server
 const DEBUG_MODE = "debug"; // run locally
-var mode = SERVER_MODE; 
+var mode = SERVER_MODE;
 
 var input = process.argv[2]; // set as argument passed
 if(input) //nonempty
@@ -75,7 +75,7 @@ app.use('/', router);
 //   USER ACCOUNTS URL REQUESTS
 // ======================================
 
-app.get('/loginaccount', function (request, resp) 
+app.get('/loginaccount', function (request, resp)
 {
     var username = request.query.username;
     var password = request.query.password;
@@ -88,7 +88,7 @@ app.get('/loginaccount', function (request, resp)
     pullaccount(function ()
     {
         // console.log(mongoData);
-        mongoData.forEach(account => 
+        mongoData.forEach(account =>
         {
             // console.log(username + " vs " + account.username);
             // console.log(password + " vs " + account.password);
@@ -99,7 +99,7 @@ app.get('/loginaccount', function (request, resp)
                 // console.log("hash: " + hash);
                 comparePassword(password, account.password, function(error, isPasswordMatch)
                 {
-                    // console.log("match: " + isPasswordMatch);  
+                    // console.log("match: " + isPasswordMatch);
                     if(isPasswordMatch)
                     {
                         valid = true;
@@ -116,7 +116,7 @@ app.get('/loginaccount', function (request, resp)
 
 });
 
-app.get('/createaccount', function (request, resp) 
+app.get('/createaccount', function (request, resp)
 {
     var email = request.query.email;
     var username = request.query.username;
@@ -143,10 +143,10 @@ app.get('/createaccount', function (request, resp)
 // ======================================
 
 // yelp data for each mongo datapoint on load
-app.get('/init', function (request, resp) 
+app.get('/init', function (request, resp)
 {
-    pullfavorite(function callback() 
-    { 
+    pullfavorite(function callback()
+    {
         yelpDataList = [];
         for (i = 0; i < mongoData.length; i++)
         {
@@ -169,11 +169,11 @@ app.get('/init', function (request, resp)
 
 
 // sends off yelp data on params passed in
-app.get('/yelp', function (request, resp) 
+app.get('/yelp', function (request, resp)
 {
   var term = request.query.term;
   var location = request.query.location;
-  yelp(term, location, function callback() 
+  yelp(term, location, function callback()
   {
         resp.send(yelpData);
 
@@ -181,12 +181,12 @@ app.get('/yelp', function (request, resp)
 });
 
 // sends off yelp data on params passed in
-app.get('/places', function (request, resp) 
+app.get('/places', function (request, resp)
 {
     var lat = request.query.lat;
     var long = request.query.long;
     var range = request.query.range;
-  yelps(lat, long, range, function callback() 
+  yelps(lat, long, range, function callback()
   {
         // console.log("ARR: " + yelpArray);
         resp.send(yelpArray);
@@ -195,19 +195,19 @@ app.get('/places', function (request, resp)
 
 
 // GET method route pushes to mongo
-app.get('/favorite', function (request, resp) 
+app.get('/favorite', function (request, resp)
 {
   var term = request.query.term;
   var location = request.query.location;
-  yelp(term, location, function callback() 
-  { 
+  yelp(term, location, function callback()
+  {
       pullfavorite(function callback2()
       {
           // make sure not in there
           var alreadySaved = false;
           for (i = 0; i < mongoData.length; i++)
           {
-              if(mongoData[i].name == yelpData.name && 
+              if(mongoData[i].name == yelpData.name &&
                  mongoData[i].city == yelpData.location.city &&
                  mongoData[i].state == yelpData.location.state)
               {
@@ -243,14 +243,14 @@ function pushfavorite(json)
 {
     var database = "foodfinder";
     var collection = "stars";
-    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db) 
+    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
     {
-        if (err) 
+        if (err)
             throw err;
         var dbo = db.db(database);
-        dbo.collection(collection).insertOne(json, function(err, res) 
+        dbo.collection(collection).insertOne(json, function(err, res)
         {
-            if (err) 
+            if (err)
                 throw err;
             console.log("mongo data pushed");
             db.close();
@@ -264,12 +264,12 @@ function pullfavorite(callback)
     var collection = "stars";
     MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
     {
-        if (err) 
+        if (err)
             throw err;
         var dbo = db.db(database);
         dbo.collection(collection).find({}).toArray(function(err, res)
         {
-            if (err) 
+            if (err)
                 throw err;
             mongoData = res;
             console.log("mongo data pulled");
@@ -284,18 +284,18 @@ function removefavorite(json)
     var database = "foodfinder";
     var collection = "stars";
     MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db) {
-        if (err) 
+        if (err)
             throw err;
         var dbo = db.db(database);
-        dbo.collection(collection).deleteOne(json, function(err, obj) 
+        dbo.collection(collection).deleteOne(json, function(err, obj)
         {
-            if (err) 
+            if (err)
                 throw err;
             console.log("1 document deleted");
             db.close();
         });
     });
-} 
+}
 
 
 // ======================================
@@ -305,14 +305,14 @@ function pushaccount(json)
 {
     var database = "foodfinder";
     var collection = "accounts";
-    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db) 
+    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
     {
-        if (err) 
+        if (err)
             throw err;
         var dbo = db.db(database);
-        dbo.collection(collection).insertOne(json, function(err, res) 
+        dbo.collection(collection).insertOne(json, function(err, res)
         {
-            if (err) 
+            if (err)
                 throw err;
             console.log("mongo account pushed");
             db.close();
@@ -326,12 +326,12 @@ function pullaccount(callback)
     var collection = "accounts";
     MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
     {
-        if (err) 
+        if (err)
             throw err;
         var dbo = db.db(database);
         dbo.collection(collection).find({}).toArray(function(err, res)
         {
-            if (err) 
+            if (err)
                 throw err;
             mongoData = res;
             console.log("mongo account pulled");
@@ -352,7 +352,7 @@ function yelp(term, loc, callmemaybe)
     // from https://www.yelp.com/developers/v3/manage_app
     const apiKey = '4dIx9HKv-klKh_nvUWaHAZqe_a-wQqi49uoJICQIfxdWFj0VS-8uw1TfrFoe2CVsKJeX7BRv0nntSA4svU-G_qiSkfHxYIfk_D83YWoAjRMfuz21UMnzT5_PPA53XHYx';
 
-    const searchRequest = 
+    const searchRequest =
     {
         term: term, //'Four Barrel Coffee',
         location:  loc //'san francisco, ca'
@@ -362,7 +362,7 @@ function yelp(term, loc, callmemaybe)
     client.search(searchRequest).then(response => {
         yelpData = response.jsonBody.businesses[0];
         prettyJson = JSON.stringify(yelpData, null, 4);
-    
+
         //console.log(prettyJson);
         console.log("yelp data pulled");
         callmemaybe();
@@ -383,7 +383,7 @@ function yelps(lat, long, range, callmemaybe)
     // from https://www.yelp.com/developers/v3/manage_app
     const apiKey = '4dIx9HKv-klKh_nvUWaHAZqe_a-wQqi49uoJICQIfxdWFj0VS-8uw1TfrFoe2CVsKJeX7BRv0nntSA4svU-G_qiSkfHxYIfk_D83YWoAjRMfuz21UMnzT5_PPA53XHYx';
 
-    const searchRequest = 
+    const searchRequest =
     {
         term: 'food',
         latitude: lat,
@@ -412,13 +412,13 @@ function yelps(lat, long, range, callmemaybe)
 //   ENCRYPTION
 // ======================================
 
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt-nodejs');
 
-var cryptPassword = function(password, callback) 
+var cryptPassword = function(password, callback)
 {
-    bcrypt.genSalt(10, function(err, salt) 
+    bcrypt.genSalt(10, function(err, salt)
     {
-        if (err) 
+        if (err)
             return callback(err);
 
         bcrypt.hash(password, salt, function(err, hash)
@@ -431,7 +431,7 @@ var cryptPassword = function(password, callback)
 var comparePassword = function(plainPass, hashword, callback)
 {
    bcrypt.compare(plainPass, hashword, function(err, isPasswordMatch)
-   {   
+   {
         return err == null ?
             callback(null, isPasswordMatch) :
             callback(err);
@@ -472,5 +472,3 @@ const httpServer = http.createServer(app);
 httpServer.listen(80, () => {
  	console.log('HTTP Server running on port 80');
 });
-
-

@@ -1,13 +1,13 @@
 
-function goback() 
+function goback()
 {
     window.history.back();
 }
 
 function forcehttps()
 {
-    if (location.protocol !== "https:") 
+    if (location.protocol !== "https:")
         location.protocol = "https:";
 }
 
-forcehttps();
+//forcehttps();
