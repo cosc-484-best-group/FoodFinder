@@ -138,7 +138,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
                 {
                     $scope.results = "Account created!";
                     successColor();
-                    // setTimeout(redirectLogin(), 50000);
+                    setTimeout(redirectLogin(), 50000);
                 }
                 else
                 {
