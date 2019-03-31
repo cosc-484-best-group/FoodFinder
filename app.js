@@ -150,27 +150,27 @@ app.get('/createaccount', function (request, resp)
 // ======================================
 
 // yelp data for each mongo datapoint on load
-app.get('/init', function (request, resp)
-{
-    // pullfavorite(function callback()
-    // {
-    //     yelpDataList = [];
-    //     for (i = 0; i < mongoData.length; i++)
-    //     {
-    //         term = mongoData[i].name;
-    //         loc = mongoData[i].city + ", " + mongoData[i].state;
-    //         yelp(term, loc, function callback2()
-    //         {
-    //             yelpDataList.push(yelpData);
-    //         });
-    //     }
-    //     //wait and then send list off    // TODO Make better!!!
-    //     proxy(2000, function callback3()
-    //     {
-    //         resp.send(yelpDataList);
-    //     });
-    // });
-});
+// app.get('/init', function (request, resp)
+// {
+//     // pullfavorite(function callback()
+//     // {
+//     //     yelpDataList = [];
+//     //     for (i = 0; i < mongoData.length; i++)
+//     //     {
+//     //         term = mongoData[i].name;
+//     //         loc = mongoData[i].city + ", " + mongoData[i].state;
+//     //         yelp(term, loc, function callback2()
+//     //         {
+//     //             yelpDataList.push(yelpData);
+//     //         });
+//     //     }
+//     //     //wait and then send list off    // TODO Make better!!!
+//     //     proxy(2000, function callback3()
+//     //     {
+//     //         resp.send(yelpDataList);
+//     //     });
+//     // });
+// });
 
 
 // sends off yelp data on params passed in

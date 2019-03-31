@@ -55,21 +55,6 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
     $scope.init = function () 
     {
 
-        // REST URL
-        var url = "/init";
-        var data = new FormData();
-
-        // Set the configurations for the uploaded file
-        var config =
-        {
-            transformRequest: angular.identity,
-            transformResponse: angular.identity,
-            headers: 
-            {
-                'Content-Type': undefined
-            }
-        }
-
         // hides bottom data panel
         $scope.visible = false;
         $scope.loggedin = false;
@@ -82,8 +67,58 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         // pull from HTML5 local storage
         var user = sessionStorage.getItem('username');
         if(user)
+        {
             $scope.loggedin = true;
+            var locs = sessionStorage.getItem('favorites');
 
+            for(i = 0; i < locs.length; i++)
+            {
+                var loc = locs[i];
+                var newSpot = {
+                    name: loc.name,
+                    lat: loc.lat, 
+                    lon: loc.long, 
+                    loc: loc.city + ", " + loc.state
+                };
+                addMarker(newSpot, starred);
+            }
+
+            // // REST URL
+            // var url = "/init?locations=" + locs;
+            // var data = new FormData();
+
+            // // Set the configurations for the uploaded file
+            // var config =
+            // {
+            //     transformRequest: angular.identity,
+            //     transformResponse: angular.identity,
+            //     headers: 
+            //     {
+            //         'Content-Type': undefined
+            //     }
+            // }
+
+            // // Sends the file data off
+            // $http.get(url, data, config).then(
+            //     // Success
+            //     function (response)
+            //     {
+            //         // yelp data for each mongo rid
+            //         var yelpDataList = response.data;
+            //         for(i = 0; i < yelpDataList.length; i++)
+            //         {
+            //             yelpData = yelpDataList[i];
+            //             var newSpot = {
+            //                 name: yelpData.name,
+            //                 lat: yelpData.coordinates.latitude, 
+            //                 lon: yelpData.coordinates.longitude, 
+            //                 loc: yelpData.location.city + ", " + yelpData.location.state
+            //             };
+            //             addMarker(newSpot, starred);
+            //         }
+            //     }
+            // );
+        }
 
 
         if($scope.loggedin)
@@ -92,26 +127,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             document.getElementById('loginbutton').innerHTML = "Login";
 
 
-        // Sends the file data off
-        $http.get(url, data, config).then(
-            // Success
-            function (response)
-            {
-                // yelp data for each mongo rid
-                var yelpDataList = response.data;
-                for(i = 0; i < yelpDataList.length; i++)
-                {
-                    yelpData = yelpDataList[i];
-                    var newSpot = {
-                        name: yelpData.name,
-                        lat: yelpData.coordinates.latitude, 
-                        lon: yelpData.coordinates.longitude, 
-                        loc: yelpData.location.city + ", " + yelpData.location.state
-                    };
-                    addMarker(newSpot, starred);
-                }
-            }
-        );
+        
 
     };
 
@@ -122,6 +138,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             $scope.loggedin = false;
             document.getElementById('loginbutton').innerHTML = "Login";
             sessionStorage.removeItem('username');  // delete data from local storage
+            sessionStorage.removeItem('favorites');  // delete data from local storage
         }
         else
             location.href = "/login";
