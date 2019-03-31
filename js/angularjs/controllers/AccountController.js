@@ -28,11 +28,11 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
     $scope.login = function () 
     {
 
-        var username = document.getElementById("myusername").value;
+        var email = document.getElementById("myemail").value;
         var password = document.getElementById("mypassword").value;
 
         // REST URL
-        var url = "/loginaccount?username=\"" + username +"\"&password=\"" + password + "\"";
+        var url = "/loginaccount?email=\"" + email +"\"&password=\"" + password + "\"";
         var data = new FormData();
         
         // Set the configurations for the uploaded file

@@ -100,14 +100,10 @@ app.get('/loginaccount', function (request, resp)
             // encryption
             cryptPassword(password, function(error, hash)
             {
-                // console.log("hash: " + hash);
                 comparePassword(password, account.password, function(error, isPasswordMatch)
                 {
-                    // console.log("match: " + isPasswordMatch);
                     if(isPasswordMatch)
-                    {
                         valid = true;
-                    }
                 });
             });
 
@@ -134,8 +130,7 @@ app.get('/createaccount', function (request, resp)
     // encryption
     cryptPassword(password, function(error, hash)
     {
-        // console.log("hash: " + hash);
-        pushaccount({"email": email, "username": username, "password": hash, "favid": 1}); //work on
+        pushaccount({email: email, username: username, password: hash, favorites: []});
         resp.send(true);  // catch if bad!!!
     });
 
@@ -154,7 +149,6 @@ app.get('/init', function (request, resp)
         yelpDataList = [];
         for (i = 0; i < mongoData.length; i++)
         {
-            //console.log(mongoData[i]);
             term = mongoData[i].name;
             loc = mongoData[i].city + ", " + mongoData[i].state;
             yelp(term, loc, function callback2()
@@ -165,7 +159,6 @@ app.get('/init', function (request, resp)
         //wait and then send list off    // TODO Make better!!!
         proxy(2000, function callback3()
         {
-            //console.log(yelpDataList);
             resp.send(yelpDataList);
         });
     });
@@ -192,7 +185,6 @@ app.get('/places', function (request, resp)
     var range = request.query.range;
   yelps(lat, long, range, function callback()
   {
-        // console.log("ARR: " + yelpArray);
         resp.send(yelpArray);
   });
 });
@@ -238,6 +230,27 @@ function proxy(time, cb)
 {
     setTimeout(cb, time);
 }
+
+
+// db.data.insert({email: "stillwell006@gmail.com", username: "matt", password: "goose", favorites: [{name: "Ginos", city: "Towson", state: "MD", lat: 20, long: 30}, {name: "Nandos", city: "Towson", state: "MD", lat: 40, long: 30}] })
+// ***********************************
+//  foodfinder
+//  data
+//  {
+//    * email:      STRING
+//      username:   STRING
+//      password:   STRING
+//
+//      favorites:  ARRAY
+//      [
+//          name:   STRING
+//          city:   STRING
+//          state   STRING
+//          lat:    FLOAT
+//          long:   FLOAT
+//      ]
+//  }
+// ***********************************
 
 
 // ======================================
@@ -308,7 +321,7 @@ function removefavorite(json)
 function pushaccount(json)
 {
     var database = "foodfinder";
-    var collection = "accounts";
+    var collection = "data";
     MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
     {
         if (err)
@@ -327,7 +340,7 @@ function pushaccount(json)
 function pullaccount(callback)
 {
     var database = "foodfinder";
-    var collection = "accounts";
+    var collection = "data";
     MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
     {
         if (err)
@@ -417,7 +430,7 @@ var cryptPassword = function(password, callback)
         if (err)
             return callback(err);
 
-        bcrypt.hash(password, salt, function(err, hash)
+        bcrypt.hash(password, salt, null, function(err, hash)
         {
             return callback(err, hash);
         });

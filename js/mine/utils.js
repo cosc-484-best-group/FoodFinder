@@ -10,4 +10,4 @@ function forcehttps()
         location.protocol = "https:";
 }
 
-//forcehttps();
+forcehttps();
