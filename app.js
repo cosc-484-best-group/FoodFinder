@@ -96,8 +96,8 @@ app.get('/loginaccount', function (request, resp)
         // console.log(mongoData);
         mongoData.forEach(account =>
         {
-            console.log(email + " vs " + account.email);
-            console.log(password + " vs " + account.password);
+            // console.log(email + " vs " + account.email);
+            // console.log(password + " vs " + account.password);
 
             if(email === account.email)
             {
@@ -116,7 +116,7 @@ app.get('/loginaccount', function (request, resp)
             }
 
         });
-        proxy(2000, function()
+        proxy(1000, function()
         {
             resp.send({valid: valid, username: username});
         });
@@ -152,24 +152,24 @@ app.get('/createaccount', function (request, resp)
 // yelp data for each mongo datapoint on load
 app.get('/init', function (request, resp)
 {
-    pullfavorite(function callback()
-    {
-        yelpDataList = [];
-        for (i = 0; i < mongoData.length; i++)
-        {
-            term = mongoData[i].name;
-            loc = mongoData[i].city + ", " + mongoData[i].state;
-            yelp(term, loc, function callback2()
-            {
-                yelpDataList.push(yelpData);
-            });
-        }
-        //wait and then send list off    // TODO Make better!!!
-        proxy(2000, function callback3()
-        {
-            resp.send(yelpDataList);
-        });
-    });
+    // pullfavorite(function callback()
+    // {
+    //     yelpDataList = [];
+    //     for (i = 0; i < mongoData.length; i++)
+    //     {
+    //         term = mongoData[i].name;
+    //         loc = mongoData[i].city + ", " + mongoData[i].state;
+    //         yelp(term, loc, function callback2()
+    //         {
+    //             yelpDataList.push(yelpData);
+    //         });
+    //     }
+    //     //wait and then send list off    // TODO Make better!!!
+    //     proxy(2000, function callback3()
+    //     {
+    //         resp.send(yelpDataList);
+    //     });
+    // });
 });
 
 
