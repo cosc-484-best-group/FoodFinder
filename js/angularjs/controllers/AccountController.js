@@ -58,16 +58,16 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
                     $scope.results = "Logged in!";
 
                     // push to HTML5 local storage
-                    sessionStorage.setItem('username', username);
+                    sessionStorage.setItem('username', email);  ///%^%^%^%
                     // sessionStorage.setItem('favid', 'value')
                     
                     successColor();
-                    setTimeout(redirectHome(), 50000);
+                    // setTimeout(redirectHome(), 50000);
                 }
                 else
                 {
                     $scope.results = "Invalid Credentials"
-                    document.getElementById("myusername").value = "";
+                    document.getElementById("myemail").value = "";
                     document.getElementById("mypassword").value = "";
                     failureColor();
                 }
