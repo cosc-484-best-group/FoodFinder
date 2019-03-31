@@ -51,15 +51,14 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
             // Success
             function (response)
             {
-                var result = response.data;
+                var result = response.data.valid;
                 // console.log(result);
                 if(result)
                 {
                     $scope.results = "Logged in!";
 
                     // push to HTML5 local storage
-                    sessionStorage.setItem('username', email);  ///%^%^%^%
-                    // sessionStorage.setItem('favid', 'value')
+                    sessionStorage.setItem('username', response.data.username);
                     
                     successColor();
                     setTimeout(redirectHome(), 50000);

@@ -81,12 +81,14 @@ app.use('/', router);
 
 app.get('/loginaccount', function (request, resp)
 {
-    var username = request.query.username;
+    var email = request.query.email;
     var password = request.query.password;
+
+    var username = "";
     var valid = false;
 
     // cut off quotes
-    username = username.substring(1, username.length - 1);
+    email = email.substring(1, email.length - 1);
     password = password.substring(1, password.length - 1);
 
     pullaccount(function ()
@@ -94,23 +96,29 @@ app.get('/loginaccount', function (request, resp)
         // console.log(mongoData);
         mongoData.forEach(account =>
         {
-            // console.log(username + " vs " + account.username);
-            // console.log(password + " vs " + account.password);
+            console.log(email + " vs " + account.email);
+            console.log(password + " vs " + account.password);
 
-            // encryption
-            cryptPassword(password, function(error, hash)
+            if(email === account.email)
             {
-                comparePassword(password, account.password, function(error, isPasswordMatch)
+                // and password == account.password
+                cryptPassword(password, function(error, hash)
                 {
-                    if(isPasswordMatch)
-                        valid = true;
+                    comparePassword(password, account.password, function(error, isPasswordMatch)
+                    {
+                        if(isPasswordMatch)
+                            valid = true;
+                    });
                 });
-            });
+
+                // remember username
+                username = account.username;
+            }
 
         });
-        proxy(1000, function()  // TODO Make better!
+        proxy(2000, function()
         {
-            resp.send(valid);
+            resp.send({valid: valid, username: username});
         });
     });
 
