@@ -7,7 +7,12 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
      		$scope.all = yelpData;
             $scope.name = yelpData.name;
             $scope.image = yelpData.image_url;
-            $scope.shutdown = yelpData.is_closed;
+
+            if(yelpData.is_closed)
+                $scope.isshutdown = "(Closed)";
+            else
+                $scope.isshutdown = "";
+
             $scope.rating = yelpData.rating + "/5";
             $scope.price = yelpData.price;
             $scope.phone = yelpData.display_phone;
@@ -260,6 +265,11 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
                 // shows bottom data panel
                 $scope.visible = true;
+
+                if(sessionStorage.getItem('email'))
+                    $scope.loggedin = true;
+                else
+                    $scope.loggedin = false;
 
             }
         );
