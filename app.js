@@ -114,10 +114,6 @@ app.get('/loginaccount', function (request, resp)
             resp.send({valid: false, email: null, username: null, favorites: null});
         }
 
-        // remember username and loc
-        username = account.username;
-        locs = account.favorites;
-
     });
 
 });
