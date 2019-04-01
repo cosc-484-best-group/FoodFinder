@@ -293,6 +293,7 @@ function addfavorite(email, json, cb)
     });
 }
 
+// TODO
 function removefavorite(email, json)
 {
     pullfavorites(email, function()
