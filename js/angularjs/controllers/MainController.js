@@ -74,8 +74,8 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
             for(i = 0; i < locs.length; i++)
             {
-                console.log('a');
                 var loc = locs[i];
+                console.log(loc);
                 var newSpot = {
                     name: loc.name,
                     lat: loc.lat, 
