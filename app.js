@@ -176,7 +176,7 @@ app.get('/favorite', function (request, resp)
   var location = request.query.location;
   yelp(term, location, function callback()
   {
-      pullfavorite(email, function callback2(favorites)
+      pullfavorites(email, function callback2(favorites)
       {
           // make sure not in there
           var alreadySaved = false;
@@ -192,14 +192,14 @@ app.get('/favorite', function (request, resp)
                   alreadySaved = true;
               }
           }
-        //   if(!alreadySaved) // favorite
-        //   {
-        //       pushfavorite({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude});
-        //   }
-        //   else // unfavorite
-        //   {
-        //       removefavorite({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude});
-        //   }
+          if(!alreadySaved) // favorite
+          {
+              pushfavorite(email, {"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude});
+          }
+          else // unfavorite
+          {
+              removefavorite(email, {"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude});
+          }
           resp.send([alreadySaved, yelpData]);
       });
   });
@@ -273,7 +273,7 @@ function pullaccount(email, callback)
 // ======================================
 //   MONGO FAVORITES
 // ======================================
-function pullfavorite(email, callback)
+function pullfavorites(email, callback)
 {
     pullaccount(email, function()
     {
@@ -281,26 +281,36 @@ function pullfavorite(email, callback)
     });
 }
 
-function pushfavorite(json)
+function pushfavorite(email, json)
 {
-    var database = "foodfinder";
-    var collection = "stars";
-    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
+
+    pullfavorites(email, function()
     {
-        if (err)
-            throw err;
-        var dbo = db.db(database);
-        dbo.collection(collection).insertOne(json, function(err, res)
-        {
-            if (err)
-                throw err;
-            console.log("mongo data pushed");
-            db.close();
-        });
+        var currentfavs = account.favorites;
+        currentfavs.push(json);
+
+        console.log("New favs: " + currentfavs);
+
     });
+
+    // var database = "foodfinder";
+    // var collection = "stars";
+    // MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
+    // {
+    //     if (err)
+    //         throw err;
+    //     var dbo = db.db(database);
+    //     dbo.collection(collection).insertOne(json, function(err, res)
+    //     {
+    //         if (err)
+    //             throw err;
+    //         console.log("mongo data pushed");
+    //         db.close();
+    //     });
+    // });
 }
 
-function removefavorite(json)
+function removefavorite(email, json)
 {
     var database = "foodfinder";
     var collection = "stars";
