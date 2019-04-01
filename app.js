@@ -95,7 +95,7 @@ app.get('/loginaccount', function (request, resp)
     pullaccounts(email, function ()
     {
 
-        console.log("DATA:  " + mongoData[0]);
+        console.log("DATA:  " + mongoData[0].email);
         mongoData.forEach(account =>
         {
             // console.log(email + " vs " + account.email);
