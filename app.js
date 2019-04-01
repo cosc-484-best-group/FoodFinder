@@ -195,17 +195,17 @@ app.get('/favorite', function (request, resp)
           if(!alreadySaved) // favorite
           {
               addfavorite(email, {"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude}, 
-                            new function()
+                            new function(editedfavs)
                             {
-                                editfavorites(email, currentfavs);
+                                editfavorites(email, editedfavs);
                             });
           }
           else // unfavorite
           {
               removefavorite(email, {"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude}, 
-                            new function()
+                            new function(editedfavs)
                             {
-                                editfavorites(email, currentfavs);
+                                editfavorites(email, editedfavs);
                             });
           }
           resp.send([alreadySaved, yelpData]);
@@ -294,10 +294,10 @@ function addfavorite(email, json, cb)
 {
     pullfavorites(email, function()
     {
-        var currentfavs = account.favorites;
-        currentfavs.push(json);
-        console.log("Added favs: " + JSON.stringify(currentfavs));
-        cb();
+        var editedfavs = account.favorites;
+        editedfavs.push(json);
+        console.log("Added favs: " + JSON.stringify(editedfavs));
+        cb(editedfavs);
     });
 }
 
@@ -305,10 +305,10 @@ function removefavorite(email, json)
 {
     pullfavorites(email, function()
     {
-        var currentfavs = account.favorites;
-        currentfavs.push(json);               // remove index where blah=blajh
-        console.log("Removed favs: " + JSON.stringify(currentfavs));
-        cb();
+        var editedfavs = account.favorites;
+        editedfavs.push(json);               // remove index where blah=blajh
+        console.log("Removed favs: " + JSON.stringify(editedfavs));
+        cb(editedfavs);
     });
 }
 
