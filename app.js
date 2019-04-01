@@ -183,7 +183,7 @@ app.get('/favorite', function (request, resp)
           for (i = 0; i < favorites.length; i++)
           {
               var fav = favorites[i];
-              console.log("YOOOOOO:"  + fav + "     FDFDF: " + yelpData);
+              console.log("YOOOOOO:"  + JSON.stringify(fav) + "     FDFDF: " + JSON.stringify(yelpData));
               if(fav.name == yelpData.name &&
                  fav.city == yelpData.location.city &&
                  fav.state == yelpData.location.state)
