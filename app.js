@@ -81,37 +81,43 @@ app.use('/', router);
 
 app.get('/loginaccount', function (request, resp)
 {
-    var username = request.query.username;
+    var email = request.query.email;
     var password = request.query.password;
-    var valid = false;
+
+    var username = "";
+    var locs = [];
 
     // cut off quotes
-    username = username.substring(1, username.length - 1);
+    email = email.substring(1, email.length - 1);
     password = password.substring(1, password.length - 1);
 
-    pullaccount(function ()
+    // pull account where email = account.email
+    pullaccount(email, function ()
     {
-        // console.log(mongoData);
-        mongoData.forEach(account =>
-        {
-            // console.log(username + " vs " + account.username);
-            // console.log(password + " vs " + account.password);
 
-            // encryption
+        if(account)
+        {
+            // and password == account.password
             cryptPassword(password, function(error, hash)
             {
                 comparePassword(password, account.password, function(error, isPasswordMatch)
                 {
                     if(isPasswordMatch)
-                        valid = true;
+                        resp.send({valid: true, email: account.email, username: account.username, favorites: account.favorites});
+                    else
+                        resp.send({valid: false, email: null, username: null, favorites: null});
                 });
             });
-
-        });
-        proxy(1000, function()  // TODO Make better!
+        }
+        else
         {
-            resp.send(valid);
-        });
+            resp.send({valid: false, email: null, username: null, favorites: null});
+        }
+
+        // remember username and loc
+        username = account.username;
+        locs = account.favorites;
+
     });
 
 });
@@ -140,29 +146,8 @@ app.get('/createaccount', function (request, resp)
 // ======================================
 //   MAIN URL REQUESTS
 // ======================================
-
-// yelp data for each mongo datapoint on load
-app.get('/init', function (request, resp)
-{
-    pullfavorite(function callback()
-    {
-        yelpDataList = [];
-        for (i = 0; i < mongoData.length; i++)
-        {
-            term = mongoData[i].name;
-            loc = mongoData[i].city + ", " + mongoData[i].state;
-            yelp(term, loc, function callback2()
-            {
-                yelpDataList.push(yelpData);
-            });
-        }
-        //wait and then send list off    // TODO Make better!!!
-        proxy(2000, function callback3()
-        {
-            resp.send(yelpDataList);
-        });
-    });
-});
+// goose
+// db.data.insert({email: "stillwell006@gmail.com", username: "matt", password: "$2a$10$HI1L0S/AaQiKd0TNPBZHQeRBMzE1k9idceKkN6Q9LTuDGv91nN4X.", favorites: [{name: "Gino's Burgers & Chicken", city: "Towson", state: "MD", lat: 39.3958819737623, long: -76.5775761064767}] })
 
 
 // sends off yelp data on params passed in
@@ -193,19 +178,23 @@ app.get('/places', function (request, resp)
 // GET method route pushes to mongo
 app.get('/favorite', function (request, resp)
 {
+  var email = request.query.email;
   var term = request.query.term;
   var location = request.query.location;
   yelp(term, location, function callback()
   {
-      pullfavorite(function callback2()
+      pullfavorites(email, function callback2(favorites)
       {
+        //   console.log("F: " + JSON.stringify(favorites));
           // make sure not in there
           var alreadySaved = false;
-          for (i = 0; i < mongoData.length; i++)
+          for (i = 0; i < favorites.length; i++)
           {
-              if(mongoData[i].name == yelpData.name &&
-                 mongoData[i].city == yelpData.location.city &&
-                 mongoData[i].state == yelpData.location.state)
+              var fav = favorites[i];
+            //   console.log("One:"  + JSON.stringify(fav.name) + "   Two: " + JSON.stringify(yelpData.name));
+              if(fav.name == yelpData.name &&
+                 fav.city == yelpData.location.city &&
+                 fav.state == yelpData.location.state)
               {
                   console.log("already saved");
                   alreadySaved = true;
@@ -213,23 +202,16 @@ app.get('/favorite', function (request, resp)
           }
           if(!alreadySaved) // favorite
           {
-              pushfavorite({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state});
+              addfavorite(email, {"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude});
           }
           else // unfavorite
           {
-              removefavorite({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state});
+              removefavorite(email, {"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude});
           }
           resp.send([alreadySaved, yelpData]);
       });
   });
 });
-
-
-
-function proxy(time, cb)
-{
-    setTimeout(cb, time);
-}
 
 
 // db.data.insert({email: "stillwell006@gmail.com", username: "matt", password: "goose", favorites: [{name: "Ginos", city: "Towson", state: "MD", lat: 20, long: 30}, {name: "Nandos", city: "Towson", state: "MD", lat: 40, long: 30}] })
@@ -243,77 +225,14 @@ function proxy(time, cb)
 //
 //      favorites:  ARRAY
 //      [
-//          name:   STRING
-//          city:   STRING
-//          state   STRING
-//          lat:    FLOAT
-//          long:   FLOAT
+//         * name:   STRING
+//         * city:   STRING
+//         * state   STRING
+//         * lat:    FLOAT
+//         * long:   FLOAT
 //      ]
 //  }
 // ***********************************
-
-
-// ======================================
-//   MONGO FAVORITES
-// ======================================
-function pushfavorite(json)
-{
-    var database = "foodfinder";
-    var collection = "stars";
-    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
-    {
-        if (err)
-            throw err;
-        var dbo = db.db(database);
-        dbo.collection(collection).insertOne(json, function(err, res)
-        {
-            if (err)
-                throw err;
-            console.log("mongo data pushed");
-            db.close();
-        });
-    });
-}
-
-function pullfavorite(callback)
-{
-    var database = "foodfinder";
-    var collection = "stars";
-    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
-    {
-        if (err)
-            throw err;
-        var dbo = db.db(database);
-        dbo.collection(collection).find({}).toArray(function(err, res)
-        {
-            if (err)
-                throw err;
-            mongoData = res;
-            console.log("mongo data pulled");
-            db.close();
-            callback();
-        });
-    });
-}
-
-function removefavorite(json)
-{
-    var database = "foodfinder";
-    var collection = "stars";
-    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db) {
-        if (err)
-            throw err;
-        var dbo = db.db(database);
-        dbo.collection(collection).deleteOne(json, function(err, obj)
-        {
-            if (err)
-                throw err;
-            console.log("1 document deleted");
-            db.close();
-        });
-    });
-}
-
 
 // ======================================
 //   MONGO USER ACCOUNTS
@@ -337,7 +256,7 @@ function pushaccount(json)
     });
 }
 
-function pullaccount(callback)
+function pullaccount(email, callback)
 {
     var database = "foodfinder";
     var collection = "data";
@@ -346,14 +265,119 @@ function pullaccount(callback)
         if (err)
             throw err;
         var dbo = db.db(database);
-        dbo.collection(collection).find({}).toArray(function(err, res)
+        var query = { email: email };
+        dbo.collection(collection).find(query).toArray(function(err, resp)
         {
             if (err)
                 throw err;
-            mongoData = res;
+            account = resp[0];
             console.log("mongo account pulled");
             db.close();
             callback();
+        });
+    });
+}
+
+
+// ===========================
+//  JS Fav Array Manipulation
+// ===========================
+function removeit(json, arr)
+{
+    var success = false;
+    for(var i = 0; i < arr.length; i++)
+    {
+        var ele = arr[i];
+        if (ele.name === json.name && ele.city === json.city && 
+            ele.state === json.state && ele.lat === json.lat && 
+            ele.long === json.long)
+        {
+            arr.splice(i, 1);
+            success = true;
+        }
+    }
+    return success;
+}
+
+function addit(json, arr)
+{
+    var exi = exists(json, arr);
+    var success = false;
+    if(!exi)
+    {
+        arr.push(json);
+        success = true;
+    }
+    return success;
+}
+
+function exists(json, arr)
+{
+    var exists = false;
+    for(var i = 0; i < arr.length; i++)
+    {
+        var ele = arr[i];
+        if (ele.name === json.name && ele.city === json.city && 
+            ele.state === json.state && ele.lat === json.lat && 
+            ele.long === json.long)
+        {
+            exists = true;
+        }
+    }
+    return exists;
+}
+
+// ======================================
+//   MONGO FAVORITES
+// ======================================
+function pullfavorites(email, callback)
+{
+    pullaccount(email, function()
+    {
+        callback(account.favorites);
+    });
+}
+
+function addfavorite(email, json, cb)
+{
+    pullfavorites(email, function()
+    {
+        var favs = account.favorites;
+        addit(json, favs);
+        editfavorites(email, favs);
+        console.log("1 item inserted");
+    });
+}
+
+// TODO
+function removefavorite(email, json)
+{
+    pullfavorites(email, function()
+    {
+        var favs = account.favorites;
+        removeit(json, favs);
+        editfavorites(email, favs);
+        console.log("1 item removed");
+    });
+}
+
+function editfavorites(email, json)
+{
+    var database = "foodfinder";
+    var collection = "data";
+
+    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db) {
+        if (err)
+            throw err;
+        var dbo = db.db(database);
+        var query = { email: email };
+        var newvals = { $set: { favorites: json } };
+        dbo.collection(collection).updateOne(query, newvals, function(err, obj)
+        {
+            if (err)
+                throw err;
+            // console.log("1 document updated");
+            db.close();
         });
     });
 }

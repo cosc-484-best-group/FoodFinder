@@ -7,7 +7,12 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
      		$scope.all = yelpData;
             $scope.name = yelpData.name;
             $scope.image = yelpData.image_url;
-            $scope.shutdown = yelpData.is_closed;
+
+            if(yelpData.is_closed)
+                $scope.isshutdown = "(Closed)";
+            else
+                $scope.isshutdown = "";
+
             $scope.rating = yelpData.rating + "/5";
             $scope.price = yelpData.price;
             $scope.phone = yelpData.display_phone;
@@ -55,21 +60,6 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
     $scope.init = function () 
     {
 
-        // REST URL
-        var url = "/init";
-        var data = new FormData();
-
-        // Set the configurations for the uploaded file
-        var config =
-        {
-            transformRequest: angular.identity,
-            transformResponse: angular.identity,
-            headers: 
-            {
-                'Content-Type': undefined
-            }
-        }
-
         // hides bottom data panel
         $scope.visible = false;
         $scope.loggedin = false;
@@ -77,13 +67,63 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         // clear textboxes on refresh
         document.getElementById("term").value = "";
         document.getElementById("location").value = "";
-        
 
         // pull from HTML5 local storage
         var user = sessionStorage.getItem('username');
         if(user)
+        {
             $scope.loggedin = true;
+            var locs = JSON.parse(sessionStorage.getItem('favorites'));
+            // console.log(locs);
+            for(i = 0; i < locs.length; i++)
+            {
+                var loc = locs[i];
+                // console.log(loc);
+                var newSpot = {
+                    name: loc.name,
+                    lat: loc.lat, 
+                    lon: loc.long, 
+                    loc: loc.city + ", " + loc.state
+                };
+                addMarker(newSpot, starred);
+            }
 
+            // // REST URL
+            // var url = "/init?locations=" + locs;
+            // var data = new FormData();
+
+            // // Set the configurations for the uploaded file
+            // var config =
+            // {
+            //     transformRequest: angular.identity,
+            //     transformResponse: angular.identity,
+            //     headers: 
+            //     {
+            //         'Content-Type': undefined
+            //     }
+            // }
+
+            // // Sends the file data off
+            // $http.get(url, data, config).then(
+            //     // Success
+            //     function (response)
+            //     {
+            //         // yelp data for each mongo rid
+            //         var yelpDataList = response.data;
+            //         for(i = 0; i < yelpDataList.length; i++)
+            //         {
+            //             yelpData = yelpDataList[i];
+            //             var newSpot = {
+            //                 name: yelpData.name,
+            //                 lat: yelpData.coordinates.latitude, 
+            //                 lon: yelpData.coordinates.longitude, 
+            //                 loc: yelpData.location.city + ", " + yelpData.location.state
+            //             };
+            //             addMarker(newSpot, starred);
+            //         }
+            //     }
+            // );
+        }
 
 
         if($scope.loggedin)
@@ -92,26 +132,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             document.getElementById('loginbutton').innerHTML = "Login";
 
 
-        // Sends the file data off
-        $http.get(url, data, config).then(
-            // Success
-            function (response)
-            {
-                // yelp data for each mongo rid
-                var yelpDataList = response.data;
-                for(i = 0; i < yelpDataList.length; i++)
-                {
-                    yelpData = yelpDataList[i];
-                    var newSpot = {
-                        name: yelpData.name,
-                        lat: yelpData.coordinates.latitude, 
-                        lon: yelpData.coordinates.longitude, 
-                        loc: yelpData.location.city + ", " + yelpData.location.state
-                    };
-                    addMarker(newSpot, starred);
-                }
-            }
-        );
+        
 
     };
 
@@ -121,7 +142,12 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         {
             $scope.loggedin = false;
             document.getElementById('loginbutton').innerHTML = "Login";
+            sessionStorage.removeItem('email');  // delete data from local storage
             sessionStorage.removeItem('username');  // delete data from local storage
+            sessionStorage.removeItem('favorites');  // delete data from local storage
+
+            // TODO refresh when logout
+            location.href = "/";
         }
         else
             location.href = "/login";
@@ -241,6 +267,11 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
                 // shows bottom data panel
                 $scope.visible = true;
 
+                if(sessionStorage.getItem('email'))
+                    $scope.loggedin = true;
+                else
+                    $scope.loggedin = false;
+
             }
         );
 
@@ -318,11 +349,12 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
     $scope.favor = function () 
     {
 
+        var email = sessionStorage.getItem('email');
         var term = document.getElementById("term").value;
         var loc = document.getElementById("location").value;
 
         // REST URL
-        var url = "/favorite?term=\"" + term +"\"&location=\"" + loc + "\"";
+        var url = "/favorite?email=" + email + "&term=\"" + term +"\"&location=\"" + loc + "\"";
         var data = new FormData();
 
         // Set the configurations for the uploaded file
@@ -342,9 +374,9 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             function (response)
             {
                 var dataList = response.data;
-                var result = dataList[0];
+                var isfavorited = dataList[0];
                 var yelpData = dataList[1];
-                $scope.ress = result;
+                $scope.ress = isfavorited;
                 
                 var newSpot = {
                     name: yelpData.name,
@@ -353,13 +385,28 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
                     loc: yelpData.location.city + ", " + yelpData.location.state
                 };
 
-                if(result)
+                if(isfavorited)
                 {
+                    // TODO edit session favorites to remove new spot
+                    var locs = JSON.parse(sessionStorage.getItem('favorites'));
+                    var newdata = {name: yelpData.name, city: yelpData.location.city, state: yelpData.location.state, lat: yelpData.coordinates.latitude, long: yelpData.coordinates.longitude};
+                    removeit(newdata, locs);
+                    sessionStorage.setItem('favorites', JSON.stringify(locs));
+                    // console.log("REM FAVS: " + sessionStorage.getItem('favorites'));
+
                     editMarker(newSpot, selected);
                     $scope.favorite = unstar;
                 }
                 else
                 {
+                    // edit session favorites to include new spot
+                    var locs = JSON.parse(sessionStorage.getItem('favorites'));
+                    var newdata = {name: yelpData.name, city: yelpData.location.city, state: yelpData.location.state, lat: yelpData.coordinates.latitude, long: yelpData.coordinates.longitude};
+                    addit(newdata, locs);
+                    sessionStorage.setItem('favorites', JSON.stringify(locs));
+                    // console.log("ADD FAVS: " + sessionStorage.getItem('favorites'));
+
+
                     editMarker(newSpot, starred);
                     $scope.favorite = star;
                 }
