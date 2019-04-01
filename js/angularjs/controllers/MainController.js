@@ -62,7 +62,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         // clear textboxes on refresh
         document.getElementById("term").value = "";
         document.getElementById("location").value = "";
-        
+        console.log("ddsdsdsd");
 
         // pull from HTML5 local storage
         var user = sessionStorage.getItem('username');
@@ -70,9 +70,11 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         {
             $scope.loggedin = true;
             var locs = sessionStorage.getItem('favorites');
+            console.log(locs);
 
             for(i = 0; i < locs.length; i++)
             {
+                console.log('a');
                 var loc = locs[i];
                 var newSpot = {
                     name: loc.name,
