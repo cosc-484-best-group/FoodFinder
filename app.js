@@ -92,37 +92,25 @@ app.get('/loginaccount', function (request, resp)
     email = email.substring(1, email.length - 1);
     password = password.substring(1, password.length - 1);
 
-    pullaccounts(email, function ()
+    pullaccount(email, function ()
     {
 
-        console.log("DATA:  " + mongoData[0].email);
-        mongoData.forEach(account =>
+        // and password == account.password
+        cryptPassword(password, function(error, hash)
         {
-            // console.log(email + " vs " + account.email);
-            // console.log(password + " vs " + account.password);
-
-            if(email === account.email)
+            comparePassword(password, account.password, function(error, isPasswordMatch)
             {
-                // and password == account.password
-                cryptPassword(password, function(error, hash)
-                {
-                    comparePassword(password, account.password, function(error, isPasswordMatch)
-                    {
-                        if(isPasswordMatch)
-                            valid = true;
-                    });
-                });
-
-                // remember username and loc
-                username = account.username;
-                locs = account.favorites;
-            }
-
+                if(isPasswordMatch)
+                    resp.send({valid: true, username: username, favorites: locs});
+                else
+                    resp.send({valid: false, username: username, favorites: locs});
+            });
         });
-        proxy(1000, function()
-        {
-            resp.send({valid: valid, username: username, favorites: locs});
-        });
+
+        // remember username and loc
+        username = account.username;
+        locs = account.favorites;
+
     });
 
 });
@@ -351,7 +339,7 @@ function pushaccount(json)
 // }
 
 
-function pullaccounts(email, callback)
+function pullaccount(email, callback)
 {
     var database = "foodfinder";
     var collection = "data";
@@ -360,14 +348,14 @@ function pullaccounts(email, callback)
         if (err)
             throw err;
         var dbo = db.db(database);
-        dbo.collection(collection).find({ email: email }).toArray(function(err, res)
+        dbo.collection(collection).find({ email: email }).toArray(function(err, resp)
         {
             if (err)
                 throw err;
-            mongoData = res;
+            account = resp[0];
             console.log("mongo account pulled");
             db.close();
-            console.log(email);
+            // console.log(email);
             callback();
         });
     });
