@@ -92,6 +92,7 @@ app.get('/loginaccount', function (request, resp)
     email = email.substring(1, email.length - 1);
     password = password.substring(1, password.length - 1);
 
+    // pull account where email = account.email
     pullaccount(email, function ()
     {
 
@@ -171,43 +172,39 @@ app.get('/places', function (request, resp)
 // GET method route pushes to mongo
 app.get('/favorite', function (request, resp)
 {
+  var email = request.query.email;
   var term = request.query.term;
   var location = request.query.location;
   yelp(term, location, function callback()
   {
-      pullfavorite(function callback2()
+      pullfavorite(email, function callback2(favorites)
       {
           // make sure not in there
           var alreadySaved = false;
-          for (i = 0; i < mongoData.length; i++)
+          for (i = 0; i < favorites.length; i++)
           {
-              if(mongoData[i].name == yelpData.name &&
-                 mongoData[i].city == yelpData.location.city &&
-                 mongoData[i].state == yelpData.location.state)
+              var fav = favorites[i];
+              console.log(fav);
+              if(fav.name == yelpData.name &&
+                 fav.city == yelpData.location.city &&
+                 fav.state == yelpData.location.state)
               {
                   console.log("already saved");
                   alreadySaved = true;
               }
           }
-          if(!alreadySaved) // favorite
-          {
-              pushfavorite({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude});
-          }
-          else // unfavorite
-          {
-              removefavorite({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude});
-          }
+        //   if(!alreadySaved) // favorite
+        //   {
+        //       pushfavorite({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude});
+        //   }
+        //   else // unfavorite
+        //   {
+        //       removefavorite({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude});
+        //   }
           resp.send([alreadySaved, yelpData]);
       });
   });
 });
-
-
-
-function proxy(time, cb)
-{
-    setTimeout(cb, time);
-}
 
 
 // db.data.insert({email: "stillwell006@gmail.com", username: "matt", password: "goose", favorites: [{name: "Ginos", city: "Towson", state: "MD", lat: 20, long: 30}, {name: "Nandos", city: "Towson", state: "MD", lat: 40, long: 30}] })
@@ -229,69 +226,6 @@ function proxy(time, cb)
 //      ]
 //  }
 // ***********************************
-
-
-// ======================================
-//   MONGO FAVORITES
-// ======================================
-function pushfavorite(json)
-{
-    var database = "foodfinder";
-    var collection = "stars";
-    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
-    {
-        if (err)
-            throw err;
-        var dbo = db.db(database);
-        dbo.collection(collection).insertOne(json, function(err, res)
-        {
-            if (err)
-                throw err;
-            console.log("mongo data pushed");
-            db.close();
-        });
-    });
-}
-
-function pullfavorite(callback)
-{
-    var database = "foodfinder";
-    var collection = "stars";
-    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
-    {
-        if (err)
-            throw err;
-        var dbo = db.db(database);
-        dbo.collection(collection).find({}).toArray(function(err, res)
-        {
-            if (err)
-                throw err;
-            mongoData = res;
-            console.log("mongo data pulled");
-            db.close();
-            callback();
-        });
-    });
-}
-
-function removefavorite(json)
-{
-    var database = "foodfinder";
-    var collection = "stars";
-    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db) {
-        if (err)
-            throw err;
-        var dbo = db.db(database);
-        dbo.collection(collection).deleteOne(json, function(err, obj)
-        {
-            if (err)
-                throw err;
-            console.log("1 document deleted");
-            db.close();
-        });
-    });
-}
-
 
 // ======================================
 //   MONGO USER ACCOUNTS
@@ -315,30 +249,6 @@ function pushaccount(json)
     });
 }
 
-
-// function pullaccount(email, callback)
-// {
-//     var database = "foodfinder";
-//     var collection = "data";
-//     MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
-//     {
-//         if (err)
-//             throw err;
-//         var dbo = db.db(database);
-//         var query = { email: email };
-//         dbo.collection(collection).find(query).toArray(function(err, res)
-//         {
-//             if (err)
-//                 throw err;
-//             mongoData = res;
-//             console.log("mongo account pulled");
-//             db.close();
-//             callback();
-//         });
-//     });
-// }
-
-
 function pullaccount(email, callback)
 {
     var database = "foodfinder";
@@ -355,8 +265,56 @@ function pullaccount(email, callback)
             account = resp[0];
             console.log("mongo account pulled");
             db.close();
-            // console.log(email);
             callback();
+        });
+    });
+}
+
+
+// ======================================
+//   MONGO FAVORITES
+// ======================================
+function pullfavorite(email, callback)
+{
+    pullaccount(email, function()
+    {
+        callback(account.favorites);
+    });
+}
+
+function pushfavorite(json)
+{
+    var database = "foodfinder";
+    var collection = "stars";
+    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
+    {
+        if (err)
+            throw err;
+        var dbo = db.db(database);
+        dbo.collection(collection).insertOne(json, function(err, res)
+        {
+            if (err)
+                throw err;
+            console.log("mongo data pushed");
+            db.close();
+        });
+    });
+}
+
+function removefavorite(json)
+{
+    var database = "foodfinder";
+    var collection = "stars";
+    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db) {
+        if (err)
+            throw err;
+        var dbo = db.db(database);
+        dbo.collection(collection).deleteOne(json, function(err, obj)
+        {
+            if (err)
+                throw err;
+            console.log("1 document deleted");
+            db.close();
         });
     });
 }

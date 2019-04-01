@@ -337,11 +337,12 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
     $scope.favor = function () 
     {
 
+        var email = sessionStorage.getItem('email');
         var term = document.getElementById("term").value;
         var loc = document.getElementById("location").value;
 
         // REST URL
-        var url = "/favorite?term=\"" + term +"\"&location=\"" + loc + "\"";
+        var url = "/favorite?email=" + email + "&term=\"" + term +"\"&location=\"" + loc + "\"";
         var data = new FormData();
 
         // Set the configurations for the uploaded file
