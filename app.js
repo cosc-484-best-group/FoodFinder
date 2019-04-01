@@ -107,9 +107,9 @@ app.get('/loginaccount', function (request, resp)
             });
         });
 
-        // remember username and loc
-        username = account.username;
-        locs = account.favorites;
+        // // remember username and loc
+        // username = account.username;
+        // locs = account.favorites;
 
     });
 
