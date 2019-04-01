@@ -265,7 +265,8 @@ function pullaccount(email, callback)
         if (err)
             throw err;
         var dbo = db.db(database);
-        dbo.collection(collection).find({ email: email }).toArray(function(err, resp)
+        var query = { email: email };
+        dbo.collection(collection).find(query).toArray(function(err, resp)
         {
             if (err)
                 throw err;
@@ -314,16 +315,18 @@ function removefavorite(email, json)
 function editfavorites(email, json)
 {
     var database = "foodfinder";
-    var collection = "stars";
+    var collection = "data";
+
     MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db) {
         if (err)
             throw err;
         var dbo = db.db(database);
-        dbo.collection(collection).deleteOne(json, function(err, obj)
+        var query = { email: email };
+        dbo.collection(collection).updateOne(query, json, function(err, obj)
         {
             if (err)
                 throw err;
-            console.log("1 document deleted");
+            console.log("1 document updated");
             db.close();
         });
     });
