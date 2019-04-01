@@ -304,7 +304,7 @@ function removefavorite(email, json)
     });
 }
 
-function editfavorites(email, newfavs)
+function editfavorites(email, json)
 {
     var database = "foodfinder";
     var collection = "data";
@@ -314,7 +314,8 @@ function editfavorites(email, newfavs)
             throw err;
         var dbo = db.db(database);
         var query = { email: email };
-        dbo.collection(collection).updateOne(query, newfavs, function(err, obj)
+        var newvals = { $set: { favorites: json } };
+        dbo.collection(collection).updateOne(query, newvals, function(err, obj)
         {
             if (err)
                 throw err;
