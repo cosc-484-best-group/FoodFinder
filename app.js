@@ -90,6 +90,7 @@ app.get('/loginaccount', function (request, resp)
 
     pullaccount(email, function ()
     {
+        console.log("account " + account);
         var username = account.username;
         var locs = account.favorites;
 
