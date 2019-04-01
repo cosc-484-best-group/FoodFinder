@@ -84,28 +84,44 @@ app.get('/loginaccount', function (request, resp)
     var email = request.query.email;
     var password = request.query.password;
 
+    var username = "";
+    var locs = [];
+    var valid = false;
+
     // cut off quotes
     email = email.substring(1, email.length - 1);
     password = password.substring(1, password.length - 1);
 
-    pullaccount(email, function ()
+    pullaccounts(email, function ()
     {
-        console.log("account " + account.email + "   " + account.password);
-        var username = account.username;
-        var locs = account.favorites;
-
-        // and password == account.password
-        cryptPassword(password, function(error, hash)
+        // console.log(mongoData);
+        mongoData.forEach(account =>
         {
-            comparePassword(password, account.password, function(error, isPasswordMatch)
-            {
-                if(isPasswordMatch)
-                    resp.send({valid: true, username: username, favorites: locs});
-                else
-                    resp.send({valid: false, username: username, favorites: locs});
-            });
-        });
+            // console.log(email + " vs " + account.email);
+            // console.log(password + " vs " + account.password);
 
+            if(email === account.email)
+            {
+                // and password == account.password
+                cryptPassword(password, function(error, hash)
+                {
+                    comparePassword(password, account.password, function(error, isPasswordMatch)
+                    {
+                        if(isPasswordMatch)
+                            valid = true;
+                    });
+                });
+
+                // remember username and loc
+                username = account.username;
+                locs = account.favorites;
+            }
+
+        });
+        proxy(1000, function()
+        {
+            resp.send({valid: valid, username: username, favorites: locs});
+        });
     });
 
 });
@@ -313,14 +329,23 @@ function pushaccount(json)
 
 function pullaccount(email, callback)
 {
-    console.log("Email: " + email);
-    pullaccounts(new function()
+    var database = "foodfinder";
+    var collection = "data";
+    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
     {
-        for(var i = 0; i < mongoData; i++)
+        if (err)
+            throw err;
+        var dbo = db.db(database);
+        var query = { email: email };
+        dbo.collection(collection).find(query).toArray(function(err, res)
         {
-            var account = mongoData[i];
-            console.log(account);
-        }
+            if (err)
+                throw err;
+            mongoData = res;
+            console.log("mongo account pulled");
+            db.close();
+            callback();
+        });
     });
 }
 
