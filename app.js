@@ -95,17 +95,24 @@ app.get('/loginaccount', function (request, resp)
     pullaccount(email, function ()
     {
 
-        // and password == account.password
-        cryptPassword(password, function(error, hash)
+        if(account)
         {
-            comparePassword(password, account.password, function(error, isPasswordMatch)
+            // and password == account.password
+            cryptPassword(password, function(error, hash)
             {
-                if(isPasswordMatch)
-                    resp.send({valid: true, email: email, username: username, favorites: locs});
-                else
-                    resp.send({valid: false, email: email, username: username, favorites: locs});
+                comparePassword(password, account.password, function(error, isPasswordMatch)
+                {
+                    if(isPasswordMatch)
+                        resp.send({valid: true, email: email, username: username, favorites: locs});
+                    else
+                        resp.send({valid: false, email: email, username: username, favorites: locs});
+                });
             });
-        });
+        }
+        else
+        {
+            resp.send({valid: false, email: null, username: null, favorites: null});
+        }
 
         // // remember username and loc
         // username = account.username;
