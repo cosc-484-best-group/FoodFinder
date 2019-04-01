@@ -73,14 +73,12 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         if(user)
         {
             $scope.loggedin = true;
-            var locsi = sessionStorage.getItem('favorites');
-            // console.log(locsi);
-            var locs = JSON.parse(locsi);
-
+            var locs = JSON.parse(sessionStorage.getItem('favorites'));
+            // console.log(locs);
             for(i = 0; i < locs.length; i++)
             {
                 var loc = locs[i];
-                console.log(loc);
+                // console.log(loc);
                 var newSpot = {
                     name: loc.name,
                     lat: loc.lat, 

@@ -345,6 +345,7 @@ function addfavorite(email, json, cb)
         var favs = account.favorites;
         addit(json, favs);
         editfavorites(email, favs);
+        console.log("1 item inserted");
     });
 }
 
@@ -356,6 +357,7 @@ function removefavorite(email, json)
         var favs = account.favorites;
         removeit(json, favs);
         editfavorites(email, favs);
+        console.log("1 item removed");
     });
 }
 
@@ -374,7 +376,7 @@ function editfavorites(email, json)
         {
             if (err)
                 throw err;
-            console.log("1 document updated");
+            // console.log("1 document updated");
             db.close();
         });
     });

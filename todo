@@ -1,6 +1,5 @@
+ - We need more speed
  - Put nearby markers in array
  - Add more nearby search parameters
- - Add lat, long, userid to favorites table
- - Add favid to users table
- - Figure out how best to pass passwords between pages
+
  - Deny location access make it still work
