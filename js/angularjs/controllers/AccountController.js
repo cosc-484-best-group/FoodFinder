@@ -59,7 +59,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
 
                     // push to HTML5 local storage
                     sessionStorage.setItem('username', response.data.username);
-                    sessionStorage.setItem('favorites', response.data.favorites);
+                    sessionStorage.setItem('favorites', JSON.stringify(response.data.favorites));
                     
                     successColor();
                     setTimeout(redirectHome(), 50000);

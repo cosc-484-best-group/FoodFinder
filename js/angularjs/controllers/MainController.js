@@ -68,8 +68,9 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         if(user)
         {
             $scope.loggedin = true;
-            var locs = sessionStorage.getItem('favorites');
-            console.log(locs);
+            var locsi = sessionStorage.getItem('favorites');
+            console.log(locsi);
+            var locs = JSON.parse(locs);
 
             for(i = 0; i < locs.length; i++)
             {
