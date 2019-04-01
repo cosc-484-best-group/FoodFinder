@@ -85,6 +85,7 @@ app.get('/loginaccount', function (request, resp)
     var password = request.query.password;
 
     var username = "";
+    var locs = [];
     var valid = false;
 
     // cut off quotes
@@ -111,14 +112,15 @@ app.get('/loginaccount', function (request, resp)
                     });
                 });
 
-                // remember username
+                // remember username and loc
                 username = account.username;
+                locs = account.favorites;
             }
 
         });
         proxy(1000, function()
         {
-            resp.send({valid: valid, username: username});
+            resp.send({valid: valid, username: username, favorites: locs});
         });
     });
 
