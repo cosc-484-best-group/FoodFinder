@@ -86,7 +86,6 @@ app.get('/loginaccount', function (request, resp)
 
     var username = "";
     var locs = [];
-    var valid = false;
 
     // cut off quotes
     email = email.substring(1, email.length - 1);
@@ -102,9 +101,9 @@ app.get('/loginaccount', function (request, resp)
             comparePassword(password, account.password, function(error, isPasswordMatch)
             {
                 if(isPasswordMatch)
-                    resp.send({valid: true, username: username, favorites: locs});
+                    resp.send({valid: true, email: email, username: username, favorites: locs});
                 else
-                    resp.send({valid: false, username: username, favorites: locs});
+                    resp.send({valid: false, email: email, username: username, favorites: locs});
             });
         });
 
