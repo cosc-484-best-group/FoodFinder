@@ -313,23 +313,14 @@ function pushaccount(json)
 
 function pullaccount(email, callback)
 {
-    var database = "foodfinder";
-    var collection = "data";
-    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
+    console.log("Email: " + email);
+    pullaccounts(new function()
     {
-        if (err)
-            throw err;
-        var dbo = db.db(database);
-        var query = { email: email };
-        dbo.collection(collection).find(query).toArray(function(err, resp)
+        for(var i = 0; i < mongoData; i++)
         {
-            if (err)
-                throw err;
-            account = resp;
-            console.log("mongo account pulled");
-            db.close();
-            callback();
-        });
+            var account = mongoData[i];
+            console.log(account);
+        }
     });
 }
 
