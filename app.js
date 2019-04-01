@@ -178,7 +178,7 @@ app.get('/favorite', function (request, resp)
   {
       pullfavorites(email, function callback2(favorites)
       {
-          console.log("F: " + JSON.stringify(favorites));
+        //   console.log("F: " + JSON.stringify(favorites));
           // make sure not in there
           var alreadySaved = false;
           for (i = 0; i < favorites.length; i++)
@@ -272,6 +272,54 @@ function pullaccount(email, callback)
 }
 
 
+// ===========================
+//  JS Fav Array Manipulation
+// ===========================
+function removeit(json, arr)
+{
+    var success = false;
+    for(var i = 0; i < arr.length; i++)
+    {
+        var ele = arr[i];
+        if (ele.name === json.name && ele.city === json.city && 
+            ele.state === json.state && ele.lat === json.lat && 
+            ele.long === json.long)
+        {
+            arr.splice(i, 1);
+            success = true;
+        }
+    }
+    return success;
+}
+
+function addit(json, arr)
+{
+    var exi = exists(json, arr);
+    var success = false;
+    if(!exi)
+    {
+        arr.push(json);
+        success = true;
+    }
+    return success;
+}
+
+function exists(json, arr)
+{
+    var exists = false;
+    for(var i = 0; i < arr.length; i++)
+    {
+        var ele = arr[i];
+        if (ele.name === json.name && ele.city === json.city && 
+            ele.state === json.state && ele.lat === json.lat && 
+            ele.long === json.long)
+        {
+            exists = true;
+        }
+    }
+    return exists;
+}
+
 // ======================================
 //   MONGO FAVORITES
 // ======================================
@@ -287,10 +335,9 @@ function addfavorite(email, json, cb)
 {
     pullfavorites(email, function()
     {
-        var editedfavs = account.favorites;
-        editedfavs.push(json);
-        // console.log("Added favs: " + JSON.stringify(editedfavs));
-        editfavorites(email, editedfavs);
+        var favs = account.favorites;
+        addit(json, favs);
+        editfavorites(email, favs);
     });
 }
 
@@ -299,11 +346,9 @@ function removefavorite(email, json)
 {
     pullfavorites(email, function()
     {
-        var editedfavs = account.favorites;
-        // TODO remove from favorites where ___
-        editedfavs.push(json);             
-        // console.log("Removed favs: " + JSON.stringify(editedfavs));
-        editfavorites(email, editedfavs);
+        var favs = account.favorites;
+        removeit(json, favs);
+        editfavorites(email, favs);
     });
 }
 
