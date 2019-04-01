@@ -289,7 +289,7 @@ function pushfavorite(email, json)
         var currentfavs = account.favorites;
         currentfavs.push(json);
 
-        console.log("New favs: " + typeOf(currentfavs));
+        console.log("New favs: " + JSON.stringify(currentfavs));
 
     });
 
