@@ -376,11 +376,19 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
                 if(result)
                 {
+                    // TODO edit session favorites to include new spot
+                    var locsstr = sessionStorage.getItem('favorites');
+                    var locs = JSON.parse(locsstr);
+                    locs.push({name: yelpData.name, city: yelpData.location.city, state: yelpData.location.state, lat: yelpData.coordinates.latitude, long: yelpData.coordinates.longitude});
+                    sessionStorage.setItem('favorites', JSON.stringify(locs));
+                    console.log("FAVSSSS: " + sessionStorage.getItem('favorites'));
+
                     editMarker(newSpot, selected);
                     $scope.favorite = unstar;
                 }
                 else
                 {
+                    // TODO edit session favorites to remove new spot
                     editMarker(newSpot, starred);
                     $scope.favorite = star;
                 }

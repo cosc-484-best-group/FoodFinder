@@ -298,7 +298,8 @@ function removefavorite(email, json)
     pullfavorites(email, function()
     {
         var editedfavs = account.favorites;
-        editedfavs.push(json);               // remove index where blah=blajh
+        // TODO remove from favorites where ___
+        editedfavs.push(json);             
         console.log("Removed favs: " + JSON.stringify(editedfavs));
         editfavorites(email, editedfavs);
     });
