@@ -327,30 +327,30 @@ function pushaccount(json)
 }
 
 
-function pullaccount(email, callback)
-{
-    var database = "foodfinder";
-    var collection = "data";
-    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
-    {
-        if (err)
-            throw err;
-        var dbo = db.db(database);
-        var query = { email: email };
-        dbo.collection(collection).find(query).toArray(function(err, res)
-        {
-            if (err)
-                throw err;
-            mongoData = res;
-            console.log("mongo account pulled");
-            db.close();
-            callback();
-        });
-    });
-}
+// function pullaccount(email, callback)
+// {
+//     var database = "foodfinder";
+//     var collection = "data";
+//     MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
+//     {
+//         if (err)
+//             throw err;
+//         var dbo = db.db(database);
+//         var query = { email: email };
+//         dbo.collection(collection).find(query).toArray(function(err, res)
+//         {
+//             if (err)
+//                 throw err;
+//             mongoData = res;
+//             console.log("mongo account pulled");
+//             db.close();
+//             callback();
+//         });
+//     });
+// }
 
 
-function pullaccounts(callback)
+function pullaccounts(email, callback)
 {
     var database = "foodfinder";
     var collection = "data";
@@ -366,6 +366,7 @@ function pullaccounts(callback)
             mongoData = res;
             console.log("mongo account pulled");
             db.close();
+            console.log(email);
             callback();
         });
     });
