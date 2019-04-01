@@ -84,44 +84,27 @@ app.get('/loginaccount', function (request, resp)
     var email = request.query.email;
     var password = request.query.password;
 
-    var username = "";
-    var locs = [];
-    var valid = false;
-
     // cut off quotes
     email = email.substring(1, email.length - 1);
     password = password.substring(1, password.length - 1);
 
-    pullaccount(function ()
+    pullaccount(email, function ()
     {
-        // console.log(mongoData);
-        mongoData.forEach(account =>
-        {
-            // console.log(email + " vs " + account.email);
-            // console.log(password + " vs " + account.password);
+        var username = account.username;
+        var locs = account.favorites;
 
-            if(email === account.email)
+        // and password == account.password
+        cryptPassword(password, function(error, hash)
+        {
+            comparePassword(password, account.password, function(error, isPasswordMatch)
             {
-                // and password == account.password
-                cryptPassword(password, function(error, hash)
-                {
-                    comparePassword(password, account.password, function(error, isPasswordMatch)
-                    {
-                        if(isPasswordMatch)
-                            valid = true;
-                    });
-                });
-
-                // remember username and loc
-                username = account.username;
-                locs = account.favorites;
-            }
-
+                if(isPasswordMatch)
+                    resp.send({valid: true, username: username, favorites: locs});
+                else
+                    resp.send({valid: false, username: username, favorites: locs});
+            });
         });
-        proxy(1000, function()
-        {
-            resp.send({valid: valid, username: username, favorites: locs});
-        });
+
     });
 
 });
@@ -151,31 +134,7 @@ app.get('/createaccount', function (request, resp)
 //   MAIN URL REQUESTS
 // ======================================
 // goose
-// // db.data.insert({email: "stillwell006@gmail.com", username: "matt", password: "$2a$10$HI1L0S/AaQiKd0TNPBZHQeRBMzE1k9idceKkN6Q9LTuDGv91nN4X.", favorites: [{name: "Gino's Burgers & Chicken", city: "Towson", state: "MD", lat: 39.3958819737623, long: 76.5775761064767}] })
-
-
-// yelp data for each mongo datapoint on load
-// app.get('/init', function (request, resp)
-// {
-//     // pullfavorite(function callback()
-//     // {
-//     //     yelpDataList = [];
-//     //     for (i = 0; i < mongoData.length; i++)
-//     //     {
-//     //         term = mongoData[i].name;
-//     //         loc = mongoData[i].city + ", " + mongoData[i].state;
-//     //         yelp(term, loc, function callback2()
-//     //         {
-//     //             yelpDataList.push(yelpData);
-//     //         });
-//     //     }
-//     //     //wait and then send list off    // TODO Make better!!!
-//     //     proxy(2000, function callback3()
-//     //     {
-//     //         resp.send(yelpDataList);
-//     //     });
-//     // });
-// });
+// db.data.insert({email: "stillwell006@gmail.com", username: "matt", password: "$2a$10$HI1L0S/AaQiKd0TNPBZHQeRBMzE1k9idceKkN6Q9LTuDGv91nN4X.", favorites: [{name: "Gino's Burgers & Chicken", city: "Towson", state: "MD", lat: 39.3958819737623, long: -76.5775761064767}] })
 
 
 // sends off yelp data on params passed in
@@ -226,11 +185,11 @@ app.get('/favorite', function (request, resp)
           }
           if(!alreadySaved) // favorite
           {
-              pushfavorite({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state});
+              pushfavorite({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude});
           }
           else // unfavorite
           {
-              removefavorite({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state});
+              removefavorite({"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude});
           }
           resp.send([alreadySaved, yelpData]);
       });
@@ -256,11 +215,11 @@ function proxy(time, cb)
 //
 //      favorites:  ARRAY
 //      [
-//          name:   STRING
-//          city:   STRING
-//          state   STRING
-//          lat:    FLOAT
-//          long:   FLOAT
+//         * name:   STRING
+//         * city:   STRING
+//         * state   STRING
+//         * lat:    FLOAT
+//         * long:   FLOAT
 //      ]
 //  }
 // ***********************************
@@ -350,7 +309,31 @@ function pushaccount(json)
     });
 }
 
-function pullaccount(callback)
+
+function pullaccount(email, callback)
+{
+    var database = "foodfinder";
+    var collection = "data";
+    MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
+    {
+        if (err)
+            throw err;
+        var dbo = db.db(database);
+        var query = { email: email };
+        dbo.collection(collection).find(query).toArray(function(err, res)
+        {
+            if (err)
+                throw err;
+            mongoData = res;
+            console.log("mongo account pulled");
+            db.close();
+            callback();
+        });
+    });
+}
+
+
+function pullaccounts(callback)
 {
     var database = "foodfinder";
     var collection = "data";

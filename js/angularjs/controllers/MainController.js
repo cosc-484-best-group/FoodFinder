@@ -69,7 +69,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         {
             $scope.loggedin = true;
             var locsi = sessionStorage.getItem('favorites');
-            console.log(locsi);
+            // console.log(locsi);
             var locs = JSON.parse(locsi);
 
             for(i = 0; i < locs.length; i++)
