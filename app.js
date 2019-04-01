@@ -194,11 +194,19 @@ app.get('/favorite', function (request, resp)
           }
           if(!alreadySaved) // favorite
           {
-              pushfavorite(email, {"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude});
+              addfavorite(email, {"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude}, 
+                            new function()
+                            {
+                                editfavorites(email, currentfavs);
+                            });
           }
           else // unfavorite
           {
-              removefavorite(email, {"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude});
+              removefavorite(email, {"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude}, 
+                            new function()
+                            {
+                                editfavorites(email, currentfavs);
+                            });
           }
           resp.send([alreadySaved, yelpData]);
       });
@@ -281,36 +289,29 @@ function pullfavorites(email, callback)
     });
 }
 
-function pushfavorite(email, json)
+function addfavorite(email, json, cb)
 {
-
     pullfavorites(email, function()
     {
         var currentfavs = account.favorites;
         currentfavs.push(json);
-
-        console.log("New favs: " + JSON.stringify(currentfavs));
-
+        console.log("Added favs: " + JSON.stringify(currentfavs));
+        cb();
     });
-
-    // var database = "foodfinder";
-    // var collection = "stars";
-    // MongoClient.connect(mongourl, { useNewUrlParser: true }, function(err, db)
-    // {
-    //     if (err)
-    //         throw err;
-    //     var dbo = db.db(database);
-    //     dbo.collection(collection).insertOne(json, function(err, res)
-    //     {
-    //         if (err)
-    //             throw err;
-    //         console.log("mongo data pushed");
-    //         db.close();
-    //     });
-    // });
 }
 
 function removefavorite(email, json)
+{
+    pullfavorites(email, function()
+    {
+        var currentfavs = account.favorites;
+        currentfavs.push(json);               // remove index where blah=blajh
+        console.log("Removed favs: " + JSON.stringify(currentfavs));
+        cb();
+    });
+}
+
+function editfavorites(email, json)
 {
     var database = "foodfinder";
     var collection = "stars";
