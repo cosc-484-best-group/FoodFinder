@@ -149,6 +149,9 @@ app.get('/createaccount', function (request, resp)
 //   MAIN URL REQUESTS
 // ======================================
 
+// // db.data.insert({email: "stillwell006@gmail.com", username: "matt", password: "goose", favorites: [{name: "Ginos", city: "Towson", state: "MD", lat: 20, long: 30}, {name: "Nandos", city: "Towson", state: "MD", lat: 40, long: 30}] })
+
+
 // yelp data for each mongo datapoint on load
 // app.get('/init', function (request, resp)
 // {
