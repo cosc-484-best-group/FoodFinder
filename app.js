@@ -94,7 +94,8 @@ app.get('/loginaccount', function (request, resp)
 
     pullaccounts(email, function ()
     {
-        // console.log(mongoData);
+
+        console.log("DATA:  " + mongoData);
         mongoData.forEach(account =>
         {
             // console.log(email + " vs " + account.email);
@@ -359,7 +360,7 @@ function pullaccounts(email, callback)
         if (err)
             throw err;
         var dbo = db.db(database);
-        dbo.collection(collection).find({}).toArray(function(err, res)
+        dbo.collection(collection).find({ email: email }).toArray(function(err, res)
         {
             if (err)
                 throw err;
