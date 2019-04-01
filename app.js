@@ -320,11 +320,11 @@ function pullaccount(email, callback)
             throw err;
         var dbo = db.db(database);
         var query = { email: email };
-        dbo.collection(collection).find(query).toArray(function(err, res)
+        dbo.collection(collection).find(query).toArray(function(err, resp)
         {
             if (err)
                 throw err;
-            mongoData = res;
+            account = resp;
             console.log("mongo account pulled");
             db.close();
             callback();
