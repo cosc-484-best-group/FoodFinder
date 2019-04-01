@@ -148,8 +148,8 @@ app.get('/createaccount', function (request, resp)
 // ======================================
 //   MAIN URL REQUESTS
 // ======================================
-
-// // db.data.insert({email: "stillwell006@gmail.com", username: "matt", password: "goose", favorites: [{name: "Ginos", city: "Towson", state: "MD", lat: 20, long: 30}, {name: "Nandos", city: "Towson", state: "MD", lat: 40, long: 30}] })
+// goose
+// // db.data.insert({email: "stillwell006@gmail.com", username: "matt", password: "$2a$10$HI1L0S/AaQiKd0TNPBZHQeRBMzE1k9idceKkN6Q9LTuDGv91nN4X.", favorites: [{name: "Gino's Burgers & Chicken", city: "Towson", state: "MD", lat: 39.3958819737623, long: 76.5775761064767}] })
 
 
 // yelp data for each mongo datapoint on load
