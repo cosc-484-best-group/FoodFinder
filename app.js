@@ -194,19 +194,11 @@ app.get('/favorite', function (request, resp)
           }
           if(!alreadySaved) // favorite
           {
-              addfavorite(email, {"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude}, 
-                            new function(editedfavs)
-                            {
-                                editfavorites(email, editedfavs);
-                            });
+              addfavorite(email, {"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude});
           }
           else // unfavorite
           {
-              removefavorite(email, {"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude}, 
-                            new function(editedfavs)
-                            {
-                                editfavorites(email, editedfavs);
-                            });
+              removefavorite(email, {"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude});
           }
           resp.send([alreadySaved, yelpData]);
       });
@@ -297,7 +289,7 @@ function addfavorite(email, json, cb)
         var editedfavs = account.favorites;
         editedfavs.push(json);
         console.log("Added favs: " + JSON.stringify(editedfavs));
-        cb(editedfavs);
+        editfavorites(email, editedfavs);
     });
 }
 
@@ -308,11 +300,11 @@ function removefavorite(email, json)
         var editedfavs = account.favorites;
         editedfavs.push(json);               // remove index where blah=blajh
         console.log("Removed favs: " + JSON.stringify(editedfavs));
-        cb(editedfavs);
+        editfavorites(email, editedfavs);
     });
 }
 
-function editfavorites(email, json)
+function editfavorites(email, newfavs)
 {
     var database = "foodfinder";
     var collection = "data";
@@ -322,7 +314,7 @@ function editfavorites(email, json)
             throw err;
         var dbo = db.db(database);
         var query = { email: email };
-        dbo.collection(collection).updateOne(query, json, function(err, obj)
+        dbo.collection(collection).updateOne(query, newfavs, function(err, obj)
         {
             if (err)
                 throw err;
