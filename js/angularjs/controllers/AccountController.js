@@ -58,6 +58,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
                     $scope.results = "Logged in!";
 
                     // push to HTML5 local storage
+                    sessionStorage.setItem('username', response.data.email);
                     sessionStorage.setItem('username', response.data.username);
                     sessionStorage.setItem('favorites', JSON.stringify(response.data.favorites));
                     

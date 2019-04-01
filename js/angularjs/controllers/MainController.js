@@ -139,6 +139,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         {
             $scope.loggedin = false;
             document.getElementById('loginbutton').innerHTML = "Login";
+            sessionStorage.removeItem('email');  // delete data from local storage
             sessionStorage.removeItem('username');  // delete data from local storage
             sessionStorage.removeItem('favorites');  // delete data from local storage
         }
