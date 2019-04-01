@@ -183,7 +183,7 @@ app.get('/favorite', function (request, resp)
           for (i = 0; i < favorites.length; i++)
           {
               var fav = favorites[i];
-              console.log(fav);
+              console.log("YOOOOOO:"  + fav + "     FDFDF: " + yelpData);
               if(fav.name == yelpData.name &&
                  fav.city == yelpData.location.city &&
                  fav.state == yelpData.location.state)
@@ -288,7 +288,7 @@ function addfavorite(email, json, cb)
     {
         var editedfavs = account.favorites;
         editedfavs.push(json);
-        console.log("Added favs: " + JSON.stringify(editedfavs));
+        // console.log("Added favs: " + JSON.stringify(editedfavs));
         editfavorites(email, editedfavs);
     });
 }
@@ -301,7 +301,7 @@ function removefavorite(email, json)
         var editedfavs = account.favorites;
         // TODO remove from favorites where ___
         editedfavs.push(json);             
-        console.log("Removed favs: " + JSON.stringify(editedfavs));
+        // console.log("Removed favs: " + JSON.stringify(editedfavs));
         editfavorites(email, editedfavs);
     });
 }

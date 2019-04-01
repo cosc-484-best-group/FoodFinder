@@ -363,9 +363,9 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             function (response)
             {
                 var dataList = response.data;
-                var result = dataList[0];
+                var isfavorited = dataList[0];
                 var yelpData = dataList[1];
-                $scope.ress = result;
+                $scope.ress = isfavorited;
                 
                 var newSpot = {
                     name: yelpData.name,
@@ -374,14 +374,14 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
                     loc: yelpData.location.city + ", " + yelpData.location.state
                 };
 
-                if(result)
+                if(isfavorited)
                 {
                     // TODO edit session favorites to remove new spot
                     var locs = JSON.parse(sessionStorage.getItem('favorites'));
                     var newdata = {name: yelpData.name, city: yelpData.location.city, state: yelpData.location.state, lat: yelpData.coordinates.latitude, long: yelpData.coordinates.longitude};
                     removeit(newdata, locs);
                     sessionStorage.setItem('favorites', JSON.stringify(locs));
-                    console.log("FAVSSSS: " + sessionStorage.getItem('favorites'));
+                    console.log("REM FAVS: " + sessionStorage.getItem('favorites'));
 
                     editMarker(newSpot, selected);
                     $scope.favorite = unstar;
@@ -393,7 +393,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
                     var newdata = {name: yelpData.name, city: yelpData.location.city, state: yelpData.location.state, lat: yelpData.coordinates.latitude, long: yelpData.coordinates.longitude};
                     addit(newdata, locs);
                     sessionStorage.setItem('favorites', JSON.stringify(locs));
-                    console.log("FAVSSSS: " + sessionStorage.getItem('favorites'));
+                    console.log("ADD FAVS: " + sessionStorage.getItem('favorites'));
 
 
                     editMarker(newSpot, starred);
