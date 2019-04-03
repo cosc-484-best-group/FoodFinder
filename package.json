@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
+    "dompurify": "^1.0.10",
     "express": "^4.16.4",
     "mongoose": "^5.4.17",
     "path": "^0.12.7",
