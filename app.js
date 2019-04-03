@@ -499,5 +499,5 @@ if(mode == SERVER_MODE) // use https on server
 // else test locally without https
 const httpServer = http.createServer(app);
 httpServer.listen(80, () => {
- 	console.log('HTTP Server running on port 80');
+     console.log('HTTP Server running on port 80');
 });

@@ -1,5 +1,10 @@
  - We need more speed
  - Put nearby markers in array
  - Add more nearby search parameters
+ - Create one account per email
+
+ - use forms to submit
+ - Use POST requests instead? 
 
  - Deny location access make it still work
+ - ngif instead of nghide

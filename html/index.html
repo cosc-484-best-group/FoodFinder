@@ -53,10 +53,10 @@
             <div id="map"></div>
 
 
-            <div id="details" ng-show="visible">
+            <div id="details" ng-if="visible">
                 <div id="detailshead">
                     <h1> {{ name }} {{ isshutdown }} </h1>
-            	    <img id="favorite" ng-src="{{ favorite }}" ng-click="favor()" alt="Favorite" ng-show="loggedin" />        
+            	    <img id="favorite" ng-src="{{ favorite }}" ng-click="favor()" alt="Favorite" ng-if="loggedin" />        
                 </div>
 				<hr>
 				<div id="deatilsbody">
