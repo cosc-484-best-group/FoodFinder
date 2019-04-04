@@ -17,7 +17,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             $scope.price = yelpData.price;
             $scope.phone = yelpData.display_phone;
             $scope.location = yelpData.location.city + ", " + yelpData.location.state;
-            
+            $scope.coordinates = yelpData.coordinates; 
 			if(yelpData.price == "$")
 				$scope.price = "low";
 			else if(yelpData.price == "$$")

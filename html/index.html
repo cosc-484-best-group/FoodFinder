@@ -57,6 +57,7 @@
                 <div id="detailshead">
                     <h1> {{ name }} {{ isshutdown }} </h1>
             	    <img id="favorite" ng-src="{{ favorite }}" ng-click="favor()" alt="Favorite" ng-show="loggedin" />        
+                    <a href="http://maps.apple.com/?q={{ name }}&sll={{ coordinates.latitude }},{{ coordinates.longitude }}"><img id="map" ng-src="appleMaps.png" style="border:0px;width:30px;height:30px;" title="Click to open in Maps" text></a> 
                 </div>
 				<hr>
 				<div id="deatilsbody">
