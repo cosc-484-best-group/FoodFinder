@@ -24,9 +24,10 @@
                         News
                     </h1>
                 </div>
-                <div  class="pill-nav">
+                
+                <div class="pill-nav">
                     <a href="/">Home</a>
-                    <a class="active" href="/news">News</a>
+                    <a class="active" href="/news">News  <span class="badge badge-light">2</span> </a><!-- notification does nothing -->
                     <a href="/contact">Contact</a>
                     <a href="/about">About</a>
                 </div> 
@@ -46,19 +47,7 @@
                 </blockquote>
             </div>
 
-            <div id="footer">
-                <div id="credits">
-                    <label id="author">
-                        Matt Stillwell  -  2019
-                    </label>
-                    <a href="https://www.linkedin.com/in/matt-stillwell-926035115/">
-                        <img id="linkedin" src="linkedinwhite.png" alt="linkedin"/>
-                    </a>
-                    <a href="https://github.com/cosc-484-best-group/FoodFinder">
-                        <img id="github" src="githubwhite.png" alt="github"/>
-                    </a>
-                </div>
-            </div>
+            <div id="bottomline"></div>
 			
 
             <!-- Bootstrap -->
@@ -67,6 +56,12 @@
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
             <script type="text/javascript" src="utils.js"></script>
+
+            <script>
+                $(function(){
+                    $('#bottomline').load('bottomline.html');
+                });
+            </script>
 
         </div>
 
