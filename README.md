@@ -1,6 +1,6 @@
 # Project
 
-Written by Matt Stillwell
+Written by Matt Stillwell and other Towson University students
 
 ## Accessing
 To access project go to:
