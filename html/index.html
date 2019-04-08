@@ -70,7 +70,7 @@
             	    <img id="favorite" ng-src="{{ favorite }}" ng-click="favor()" alt="Favorite" ng-show="loggedin" />        
 
                     <a href="http://maps.apple.com/?q={{ name }}&sll={{ coordinates.latitude }},{{ coordinates.longitude }}"><img id="map" ng-src="applemaps.png" style="border:0px;width:30px;height:30px;" title="Click to open in Apple Maps" text></a> 
-                    <a href="http://maps.google.com/maps/search/?api=1&{{ name }}/@{{ coordinates.latitude }},{{ coordinates.longitude }}"><img id="map" ng-src="googlemaps.png" style="border:0px;width:30px;height:30px;" title="Click to open in Google Maps" text></a> 
+                    <a href="http://maps.google.com/maps/search/?api=1&query={{ name }} {{ resloc }}"><img id="map" ng-src="googlemaps.png" style="border:0px;width:30px;height:30px;" title="Click to open in Google Maps" text></a> 
                     <a href="https://waze.com/ul?ll={{ coordinates.latitude }},{{ coordinates.longitude }}&navigate=yes"><img id="map" ng-src="wazemaps.png" style="border:0px;width:30px;height:30px;" title="Click to open in Waze" text></a> 
                 </div>
 				<hr>
