@@ -76,14 +76,14 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         drawCircle(39.3938317, -76.6074833, multiplier * parseFloat(r));
     }
     
-  /*  var radBox=document.getElementsByName("radBox")[0];
+    var radBox=document.getElementsByName("radBox")[0];
     radBox.addEventListener("keydown", function (e) 
     {
         if (e.code === "Enter") 
         {
             $scope.setSliderFromBox();
         }
-    });*/
+    });
     
     $scope.setSliderFromBox = function()
     {
