@@ -50,14 +50,14 @@
                     <button class="btn btn-dark righty" ng-click="nearby()"> Nearby </button>
                 </div>
 
-                <div ng-show="neary">
+                <div class="form-inline" ng-show="neary">
+                
                     <input id="slider" ng-click="setBoxFromSlider()" type="range" min="1" max="100" value="50">
-                </div>
-                
-                <div ng-show="neary">
-                    <input type="textbox" id="text" ng-keypress="$event.keyCode === 'Enter' ? setSliderFromBox() : null"  name="radBox" value=""></input>
-                </div>
-                
+                    &nbsp;&nbsp;
+                    <input type="textbox" id="text" ng-keypress="$event.keyCode === 'Enter' ? setSliderFromBox() : null"  name="radBox" value="" size=3></input>
+                    &nbsp;
+                    meters
+                </div> 
             </div>
                 
             <div id="map"></div>
