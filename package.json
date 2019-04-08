@@ -14,9 +14,5 @@
     "mongoose": "^5.4.17",
     "path": "^0.12.7",
     "yelp-fusion": "^2.0.2"
-  },
-  "devDependencies": {
-    "eslint": "^5.16.0",
-    "eslint-plugin-react": "^7.12.4"
   }
 }
