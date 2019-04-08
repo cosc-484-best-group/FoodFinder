@@ -76,10 +76,6 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         drawCircle(mycoords[0],mycoords[1], multiplier * parseFloat(r));
     }
     
-    $scope.checkPress = function (e)
-    {
-        e.key === "Enter" ? $scope.setSliderFromBox() : null;
-    }
     $scope.setSliderFromBox = function()
     {
        r=parseFloat(document.getElementsByName("radBox")[0].value);
