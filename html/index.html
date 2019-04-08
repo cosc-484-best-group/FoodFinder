@@ -51,7 +51,11 @@
                 </div>
 
                 <div ng-show="neary">
-                    <input id="slider" ng-click="circle()" type="range" min="1" max="100" value="50">
+                    <input id="slider" ng-click="setBoxFromSlider()" type="range" min="1" max="100" value="50">
+                </div>
+                
+                <div ng-show="neary">
+                    <input type="textbox" id="text" ng-keypress="$event.keyCode === 'Enter' ? setSliderFromBox() : null"  name="radBox" value=""></input>
                 </div>
                 
             </div>

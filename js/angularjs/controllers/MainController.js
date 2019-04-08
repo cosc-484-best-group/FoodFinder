@@ -56,7 +56,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
     }
 
-
+    //circle stuff
     $scope.plus = "+";
     $scope.neary = false;
     $scope.flip = function()
@@ -68,13 +68,36 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             $scope.plus = "+";
     }
 
-    $scope.circle = function()
+    $scope.circle = function(r)
     {
         multiplier = 100;
-        r = document.getElementById("slider").value;
         drawCircle(39.3938317, -76.6074833, multiplier * parseFloat(r));
     }
+    
+    var radBox=document.getElementsByName("radBox")[0];
+    radBox.addEventListener("keydown", function (e) 
+    {
+        if (e.code === "Enter") 
+        {
+            $scope.setSliderFromBox();
+        }
+    });
+    
+    $scope.setSliderFromBox = function()
+    {
+       r=parseInt(document.getElementsByName("radBox")[0].value);
+       document.getElementById("slider").value=r;
+       $scope.circle(r);
+        
+    }
 
+    $scope.setBoxFromSlider = function() {
+        r = document.getElementById("slider").value;
+        document.getElementsByName("radBox")[0].value = r
+        $scope.circle(r); 
+    }
+
+    
 
     // Pull mongo saved datapoints passes to yelp and marks on map
     $scope.init = function () 
