@@ -55,7 +55,7 @@
                     <!-- ng-keypress does nothing -->
                     <input id="slider" ng-click="setBoxFromSlider()" type="range" min="1" max="10" value="5" step="0.1">
                     &nbsp;&nbsp;
-                    <input type="textbox" id="text" ng-keypress="$event.keyCode === \"13\" ? console.log($scope.setSliderFromBox()) : null"  name="radBox" value="" size=3></input>
+                    <input type="textbox" id="text" ng-keypress="checkPress($event)"  name="radBox" value="" size=3></input>
                     &nbsp;
                     kilometers
                 </div> 

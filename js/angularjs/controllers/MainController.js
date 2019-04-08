@@ -76,15 +76,10 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         drawCircle(mycoords[0],mycoords[1], multiplier * parseFloat(r));
     }
     
-    var radBox=document.getElementsByName("radBox")[0];
-    radBox.addEventListener("keydown", function (e) 
+    $scope.checkPress = function (e)
     {
-        if (e.code === "Enter") 
-        {
-            $scope.setSliderFromBox();
-        }
-    });
-    
+        e.key === "Enter" ? $scope.setSliderFromBox() : null;
+    }
     $scope.setSliderFromBox = function()
     {
        r=parseFloat(document.getElementsByName("radBox")[0].value);
