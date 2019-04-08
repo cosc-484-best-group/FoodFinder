@@ -73,7 +73,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         //Google circle API takes the radius in meters (https://developers.google.com/maps/documentation/javascript/shapes#circles)
         //convert user-input from km to m
         multiplier = 1000;
-        drawCircle(39.3938317, -76.6074833, multiplier * parseFloat(r));
+        drawCircle(mycoords[0],mycoords[1], multiplier * parseFloat(r));
     }
     
     var radBox=document.getElementsByName("radBox")[0];
