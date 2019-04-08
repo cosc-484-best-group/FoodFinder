@@ -70,7 +70,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
     $scope.circle = function(r)
     {
-        multiplier = 100;
+        multiplier = 1000;
         drawCircle(39.3938317, -76.6074833, multiplier * parseFloat(r));
     }
     
@@ -85,7 +85,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
     
     $scope.setSliderFromBox = function()
     {
-       r=parseInt(document.getElementsByName("radBox")[0].value);
+       r=parseFloat(document.getElementsByName("radBox")[0].value);
        document.getElementById("slider").value=r;
        $scope.circle(r);
         
