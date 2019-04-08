@@ -29,6 +29,7 @@
                     <a href="/news">News  <span class="badge badge-light">2</span> </a>
                     <a href="/contact">Contact</a>
                     <a href="/about">About</a>
+                    <a class="btn btn-danger" id="loginbutton" ng-click="login()"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
                 </div> 
             </div>
 
@@ -36,12 +37,23 @@
                 <div class="form-inline" id="oneliner">
                         <input type="text" class="form-control" name="term" id="term" placeholder="Term">
                         <input type="text" class="form-control" name="location" id="location" placeholder="Location">
-                        <button class="btn btn-dark" id="submit" ng-click="yelp()"> Submit </button>
                 </div>
-                <button class="btn btn-dark" ng-click="nearby()"> Nearby </button>
-                <a class="btn btn-danger" id="loginbutton" ng-click="login()"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
 
-                <input type="range" min="1" max="100" value="50">
+
+                <a id="plus" ng-click="flip()"> {{ plus }} </a>
+                
+                <div class="righty" ng-show="!neary">
+                    <button class="btn btn-dark" id="submit" ng-click="yelp()"> Submit </button>
+                </div>
+
+                <div class="righty" ng-show="neary">
+                    <button class="btn btn-dark righty" ng-click="nearby()"> Nearby </button>
+                </div>
+
+                <div ng-show="neary">
+                    <input id="slider" ng-click="circle()" type="range" min="1" max="100" value="50">
+                </div>
+                
             </div>
                 
             <div id="map"></div>

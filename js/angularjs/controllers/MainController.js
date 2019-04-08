@@ -56,6 +56,26 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
     }
 
+
+    $scope.plus = "+";
+    $scope.neary = false;
+    $scope.flip = function()
+    {
+        $scope.neary = !$scope.neary;
+        if($scope.plus == "+")
+            $scope.plus = "-";
+        else
+            $scope.plus = "+";
+    }
+
+    $scope.circle = function()
+    {
+        multiplier = 100;
+        r = document.getElementById("slider").value;
+        drawCircle(39.3938317, -76.6074833, multiplier * parseFloat(r));
+    }
+
+
     // Pull mongo saved datapoints passes to yelp and marks on map
     $scope.init = function () 
     {

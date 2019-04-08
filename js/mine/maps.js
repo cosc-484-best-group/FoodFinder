@@ -133,6 +133,26 @@ function editMarker(resturant, type) {
     marker.setMap(map);
 }
 
+var circle;
+function drawCircle(x, y, r) 
+{
+    // Add the circle for this city to the map.
+    if(circle)
+        circle.setMap(null);
+    
+    circle = new google.maps.Circle({
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35,
+        map: map,
+        center: {lat: x, lng: y},
+        radius: r
+    });
+}
+
+
 // the smooth zoom function
 function smoothZoom (map, max, cnt) {
     if (cnt >= max) {
