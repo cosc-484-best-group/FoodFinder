@@ -4,7 +4,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
 	function setYelpScopes(yelpData)
 	{	
-     		$scope.all = yelpData;
+            $scope.all = yelpData;
             $scope.name = yelpData.name;
             $scope.image = yelpData.image_url;
 
@@ -70,18 +70,20 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
     $scope.circle = function(r)
     {
+        //Google circle API takes the radius in meters (https://developers.google.com/maps/documentation/javascript/shapes#circles)
+        //convert user-input from km to m
         multiplier = 1000;
         drawCircle(39.3938317, -76.6074833, multiplier * parseFloat(r));
     }
     
-    var radBox=document.getElementsByName("radBox")[0];
+  /*  var radBox=document.getElementsByName("radBox")[0];
     radBox.addEventListener("keydown", function (e) 
     {
         if (e.code === "Enter") 
         {
             $scope.setSliderFromBox();
         }
-    });
+    });*/
     
     $scope.setSliderFromBox = function()
     {
@@ -294,7 +296,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
                 setYelpScopes(yelpData);
                 
-            	$scope.favorite = unstar;
+                $scope.favorite = unstar;
 
                 var newSpot = {
                     name: yelpData.name,
