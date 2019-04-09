@@ -65,7 +65,11 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         if($scope.plus == "+")
             $scope.plus = "-";
         else
+        {
             $scope.plus = "+";
+            circle.setMap(null);
+            document.getElementById("slider").value = 50;
+        }
     }
 
     $scope.circle = function()
@@ -177,12 +181,19 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
     $scope.nearby = function () 
     {
 
-        var range = 200; //meters
+        
+        // var range = 1000; //meters
+        var price = "\"1, 2, 3\"";
+
+        var multiplier = 1000;
+        var range = document.getElementById("slider").value * multiplier; //meters
+
 
         // REST URL
         var url = "/places?lat=" + mycoords[0] + 
             "&long=" + mycoords[1] +
-            "&range=" + range;
+            "&range=" + range + 
+            "&price=" + price;
         var data = new FormData();
         
         // Set the configurations for the uploaded file

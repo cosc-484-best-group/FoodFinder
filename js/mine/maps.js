@@ -141,10 +141,10 @@ function drawCircle(x, y, r)
         circle.setMap(null);
     
     circle = new google.maps.Circle({
-        strokeColor: '#FF0000',
+        strokeColor: 'rgb(204,115,25)',
         strokeOpacity: 0.8,
         strokeWeight: 2,
-        fillColor: '#FF0000',
+        fillColor: 'rgb(255,207,158)',
         fillOpacity: 0.35,
         map: map,
         center: {lat: x, lng: y},
