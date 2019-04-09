@@ -198,7 +198,7 @@ app.get('/places', function (request, resp)
 
   yelp(args, function callback()
   {
-        console.log("dsdssdsds" + JSON.stringify(yelpData));
+        // console.log("dsdssdsds" + JSON.stringify(yelpData));
         resp.send(yelpData.businesses);
   });
 });
