@@ -63,7 +63,18 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
     {
         $scope.neary = !$scope.neary;
         if($scope.plus == "+")
+        {
             $scope.plus = "-";
+            
+            var val = 5;
+            if (document.getElementsByName("slider").value)
+                val = document.getElementsByName("slider").value;
+
+            multiplier = 1000;
+            document.getElementById("radBox").value = val;
+            document.getElementById("slider").value = val;
+            drawCircle(mycoords[0], mycoords[1], multiplier * val);
+        }
         else
         {
             $scope.plus = "+";
@@ -90,7 +101,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
     $scope.setBoxFromSlider = function() {
         r = document.getElementById("slider").value;
-        document.getElementsByName("radBox")[0].value = r
+        document.getElementById("radBox").value = r
         $scope.circle(r); 
     }
 

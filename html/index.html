@@ -34,12 +34,21 @@
             </div>
 
             <div id="searchbar">
-                <div class="form-inline" id="oneliner">
+                <div class="form-inline" id="oneliner" ng-show="!neary">
                         <input type="text" class="form-control" name="term" id="term" placeholder="Term">
                         <input type="text" class="form-control" name="location" id="location" placeholder="Location">
                 </div>
 
 
+                <div class="form-inline" id="oneliner" ng-show="neary">
+                    <!-- ng-keypress does nothing -->
+                    <input id="slider" ng-click="setBoxFromSlider()" type="range" min="1" max="10" value="5" step="0.1">
+                    &nbsp;&nbsp;
+                    <input type="textbox" id="radBox" ng-keypress="$event.key === 'Enter' ? setSliderFromBox() : null; "  name="radBox" value="" size=3></input>
+                    &nbsp;
+                    kilometers
+                </div> 
+                
                 <a id="plus" ng-click="flip()"> {{ plus }} </a>
                 
                 <div class="righty" ng-show="!neary">
@@ -50,15 +59,6 @@
                     <button class="btn btn-dark righty" ng-click="nearby()"> Nearby </button>
                 </div>
 
-                <div class="form-inline" ng-show="neary">
-               
-                    <!-- ng-keypress does nothing -->
-                    <input id="slider" ng-click="setBoxFromSlider()" type="range" min="1" max="10" value="5" step="0.1">
-                    &nbsp;&nbsp;
-                    <input type="textbox" id="text" ng-keypress="$event.key === 'Enter' ? setSliderFromBox() : null; "  name="radBox" value="" size=3></input>
-                    &nbsp;
-                    kilometers
-                </div> 
             </div>
                 
             <div id="map"></div>
@@ -95,7 +95,7 @@
             <div id="footer">
                 <div id="credits">
                     <label id="author">
-                        <a href="https://github.com/cosc-484-best-group"> Da Best Group  -  2019 </a>
+                        <a id="credits" href="https://github.com/cosc-484-best-group"> Da Best Group  -  2019 </a>
                     </label>
                     <a href="https://www.linkedin.com/in/matt-stillwell-926035115/">
                         <img id="linkedin" src="linkedinwhite.png" alt="linkedin"/>
