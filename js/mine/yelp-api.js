@@ -1,40 +1,47 @@
 
-exports.search = function (key, args, cb)
+class yelp_api 
 {
-
-  var https = require('https');
-
-  var options = {
-    'method': 'GET',
-    'hostname': 'api.yelp.com',
-    'path': buildURL(args),
-    'headers': {
-      'Authorization': 'Bearer ' + key
+    constructor(key) 
+    {
+        this.key = key;
     }
-  };
 
-  var url = options.hostname + buildURL(args);
-  console.log("URL: " + url);
+    search(args, callback) 
+    {
+      var https = require('https');
 
-  var req = https.request(options, function (res) 
-  {
-    var chunks = [];
-
-    res.on("data", function (chunk) {
-      chunks.push(chunk);
-    });
-
-    res.on("end", function (chunk) {
-      cb(JSON.parse(Buffer.concat(chunks).toString()));
-    });
-
-    res.on("error", function (error) {
-      console.error(error);
-    });
-  });
-
-  req.end();
-
+      var options = {
+        'method': 'GET',
+        'hostname': 'api.yelp.com',
+        'path': buildURL(args),
+        'headers': {
+          'Authorization': 'Bearer ' + this.key
+        }
+      };
+    
+      var url = options.hostname + buildURL(args);
+      console.log("URL: " + url);
+    
+      var req = https.request(options, function (res) 
+      {
+        var chunks = [];
+    
+        res.on("data", function (chunk) {
+          chunks.push(chunk);
+        });
+    
+        res.on("end", function (chunk) {
+          callback(JSON.parse(Buffer.concat(chunks).toString()));
+        });
+    
+        res.on("error", function (error) {
+          console.error(error);
+        });
+      });
+    
+      req.end();
+    }
+    
 }
 
 function buildURL(args)
@@ -116,3 +123,7 @@ function buildURL(args)
   return path;
   
 }
+
+
+module.exports = yelp_api;
+

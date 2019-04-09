@@ -15,7 +15,8 @@ var mongourl = "mongodb://localhost:27017/";
 
 // from https://www.yelp.com/developers/v3/manage_app
 const YELP_API_KEY = "4dIx9HKv-klKh_nvUWaHAZqe_a-wQqi49uoJICQIfxdWFj0VS-8uw1TfrFoe2CVsKJeX7BRv0nntSA4svU-G_qiSkfHxYIfk_D83YWoAjRMfuz21UMnzT5_PPA53XHYx";
-var yelper = require("./js/mine/yelp-api.js");
+var yelp_api = require("./js/mine/yelp-api.js");
+var yelper = new yelp_api(YELP_API_KEY);
 
 
 const SERVER_MODE = "server"; // run with https on server
@@ -418,7 +419,7 @@ function editfavorites(email, json)
 // ======================================
 function yelp(args, callmemaybe)
 {
-    yelper.search(YELP_API_KEY, args, function(data)
+    yelper.search(args, function(data)
     {
         console.log("yelp data pulled");        
         yelpData = data;
