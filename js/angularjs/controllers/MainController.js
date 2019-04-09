@@ -4,7 +4,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
 	function setYelpScopes(yelpData)
 	{	
-     		$scope.all = yelpData;
+            $scope.all = yelpData;
             $scope.name = yelpData.name;
             $scope.image = yelpData.image_url;
 
@@ -56,7 +56,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
     }
 
-
+    //circle stuff
     $scope.plus = "+";
     $scope.neary = false;
     $scope.flip = function()
@@ -72,13 +72,29 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         }
     }
 
-    $scope.circle = function()
+    $scope.circle = function(r)
     {
-        multiplier = 100;
-        r = document.getElementById("slider").value;
-        drawCircle(39.3938317, -76.6074833, multiplier * parseFloat(r));
+        //Google circle API takes the radius in meters (https://developers.google.com/maps/documentation/javascript/shapes#circles)
+        //convert user-input from km to m
+        multiplier = 1000;
+        drawCircle(mycoords[0],mycoords[1], multiplier * parseFloat(r));
+    }
+    
+    $scope.setSliderFromBox = function()
+    {
+       r=parseFloat(document.getElementsByName("radBox")[0].value);
+       document.getElementById("slider").value=r;
+       $scope.circle(r);
+        
     }
 
+    $scope.setBoxFromSlider = function() {
+        r = document.getElementById("slider").value;
+        document.getElementsByName("radBox")[0].value = r
+        $scope.circle(r); 
+    }
+
+    
 
     // Pull mongo saved datapoints passes to yelp and marks on map
     $scope.init = function () 
@@ -282,7 +298,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
                 setYelpScopes(yelpData);
                 
-            	$scope.favorite = unstar;
+                $scope.favorite = unstar;
 
                 var newSpot = {
                     name: yelpData.name,
