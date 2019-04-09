@@ -15,7 +15,7 @@ var mongourl = "mongodb://localhost:27017/";
 
 // from https://www.yelp.com/developers/v3/manage_app
 const YELP_API_KEY = "4dIx9HKv-klKh_nvUWaHAZqe_a-wQqi49uoJICQIfxdWFj0VS-8uw1TfrFoe2CVsKJeX7BRv0nntSA4svU-G_qiSkfHxYIfk_D83YWoAjRMfuz21UMnzT5_PPA53XHYx";
-const yelper = require('yelp-fusion');
+var yelper = require("./js/mine/yelp-api.js");
 
 
 const SERVER_MODE = "server"; // run with https on server
@@ -149,24 +149,57 @@ app.get('/createaccount', function (request, resp)
 // sends off yelp data on params passed in
 app.get('/yelp', function (request, resp)
 {
-  var term = request.query.term;
-  var location = request.query.location;
-  yelp(term, location, function callback()
-  {
-        resp.send(yelpData);
 
+  var args = {
+    term: request.query.term,
+    location: request.query.location
+    // latitude: 39.3938317, 
+    // longitude: -76.6074833,
+
+    // radius: 20000,
+    // categories: 'bars',
+    // locale: 'en_US',
+    // limit: 1,
+    // offset: 0,
+    // sort_by: "rating",
+    // price: "1,2,3",
+    // open_now: false,
+    // open_at: 0,
+    // attributes: "hot"
+  }
+
+  yelp(args, function callback()
+  {
+        resp.send(yelpData.businesses[0]);
   });
 });
 
 // sends off yelp data on params passed in
 app.get('/places', function (request, resp)
 {
-    var lat = request.query.lat;
-    var long = request.query.long;
-    var range = request.query.range;
-  yelps(lat, long, range, function callback()
+
+    var args = {
+        term: 'food',
+        // location: loc,
+        latitude: request.query.lat, 
+        longitude: request.query.long,
+    
+        radius: request.query.range
+        // categories: 'bars',
+        // locale: 'en_US',
+        // limit: 1,
+        // offset: 0,
+        // sort_by: "rating",
+        // price: "1,2,3",
+        // open_now: false,
+        // open_at: 0,
+        // attributes: "hot"
+    }
+
+  yelp(args, function callback()
   {
-        resp.send(yelpArray);
+        // console.log("dsdssdsds" + JSON.stringify(yelpData));
+        resp.send(yelpData.businesses);
   });
 });
 
@@ -184,6 +217,7 @@ app.get('/favorite', function (request, resp)
         //   console.log("F: " + JSON.stringify(favorites));
           // make sure not in there
           var alreadySaved = false;
+          yelpData = yelpData.businesses[0];
           for (i = 0; i < favorites.length; i++)
           {
               var fav = favorites[i];
@@ -382,58 +416,14 @@ function editfavorites(email, json)
 // ======================================
 //   YELP API
 // ======================================
-function yelp(term, loc, callmemaybe)
+function yelp(args, callmemaybe)
 {
-
-    const searchRequest =
+    yelper.search(YELP_API_KEY, args, function(data)
     {
-        term: term, //'Four Barrel Coffee',
-        location:  loc //'san francisco, ca'
-    };
-
-    var client = yelper.client(YELP_API_KEY);
-    client.search(searchRequest).then(response => {
-        yelpData = response.jsonBody.businesses[0];
-        prettyJson = JSON.stringify(yelpData, null, 4);
-
-        //console.log(prettyJson);
-        console.log("yelp data pulled");
+        console.log("yelp data pulled");        
+        yelpData = data;
         callmemaybe();
-
-      }).catch(e => {
-        console.log(e);
     });
-
-}
-
-// ======================================
-//   YELP PLACES NEARBY API
-// ======================================
-function yelps(lat, long, range, callmemaybe)
-{
-
-    const searchRequest =
-    {
-        term: 'food',
-        latitude: lat,
-        longitude: long,
-        // radius: range   // meters
-    };
-
-    var client = yelper.client(YELP_API_KEY);
-    client.search(searchRequest).then(response => {
-        yelpArray = response.jsonBody.businesses;
-        // yelpData = yelpArray[0];
-        // prettyJson = JSON.stringify(yelpData, null, 4);
-
-        //console.log(prettyJson);
-        console.log("yelp data pulled");
-        callmemaybe();
-
-      }).catch(e => {
-        console.log("yelp data not found");
-    });
-
 }
 
 
