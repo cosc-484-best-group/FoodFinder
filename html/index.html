@@ -41,12 +41,19 @@
 
 
                 <div class="form-inline" id="oneliner" ng-show="neary">
-                    <!-- ng-keypress does nothing -->
-                    <input id="slider" ng-click="setBoxFromSlider()" type="range" min="1" max="10" value="5" step="0.1">
-                    &nbsp;&nbsp;
-                    <input type="textbox" id="radBox" ng-keypress="$event.key === 'Enter' ? setSliderFromBox() : null; "  name="radBox" value="" size=3></input>
-                    &nbsp;
-                    kilometers
+                    <div style="border:3px solid rgb(92, 92, 92);padding:15px" id="oneliner">
+                        <input id="slider" ng-click="setBoxFromSlider()" type="range" min="1" max="10" value="5" step="0.1">
+                        &nbsp;&nbsp;
+                        <input type="textbox" id="radBox" ng-keypress="$event.key === 'Enter' ? setSliderFromBox() : null; "  name="radBox" value="" size=3></input>
+                        &nbsp;
+                        kilometers
+                    </div>
+                    <select>
+                        <option value="low">low</option>
+                        <option value="medium">medium</option>
+                        <option value="high">high</option>
+                        <option value="expensive">expensive</option>
+                      </select>
                 </div> 
                 
                 <a id="plus" ng-click="flip()"> {{ plus }} </a>
