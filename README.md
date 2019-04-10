@@ -1,4 +1,4 @@
-# Project
+# Food Finder
 
 Written by Matt Stillwell
 
