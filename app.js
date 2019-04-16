@@ -424,7 +424,6 @@ function yelp(args, callmemaybe)
     yelper.search(args).then(response => {
         console.log("yelp data pulled");        
         yelpData = response.jsonBody.businesses;
-        console.log(yelpData);
         callmemaybe();
       }).catch(e => {
         console.log(e);
