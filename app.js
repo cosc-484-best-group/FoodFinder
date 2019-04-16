@@ -421,7 +421,7 @@ function editfavorites(email, json)
 // ======================================
 function yelp(args, callmemaybe)
 {
-    client.search(args).then(response => {
+    yelper.search(args).then(response => {
         console.log("yelp data pulled");        
         yelpData = response.jsonBody.businesses;
         console.log(yelpData);
