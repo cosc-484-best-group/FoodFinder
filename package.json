@@ -12,6 +12,7 @@
     "bcrypt-nodejs": "0.0.3",
     "express": "^4.16.4",
     "mongoose": "^5.4.17",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "yelp-fusion": "^3.0.0"
   }
 }

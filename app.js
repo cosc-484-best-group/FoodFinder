@@ -1,3 +1,4 @@
+'use strict';
 
 // ======================================
 //   DEPENDENCIES
@@ -16,8 +17,8 @@ var mongourl = "mongodb://localhost:27017/";
 // from https://www.yelp.com/developers/v3/manage_app
 // https://github.com/mstill3/yelp-fusion-api
 const YELP_API_KEY = "4dIx9HKv-klKh_nvUWaHAZqe_a-wQqi49uoJICQIfxdWFj0VS-8uw1TfrFoe2CVsKJeX7BRv0nntSA4svU-G_qiSkfHxYIfk_D83YWoAjRMfuz21UMnzT5_PPA53XHYx";
-var yelp_fusion = require("yelp-fusion-api");
-var yelper = new yelp_fusion(YELP_API_KEY);
+const yelp_fusion = require('yelp-fusion');
+const yelper = yelp_fusion.client(YELP_API_KEY);
 
 
 const SERVER_MODE = "server"; // run with https on server
@@ -420,12 +421,14 @@ function editfavorites(email, json)
 // ======================================
 function yelp(args, callmemaybe)
 {
-    yelper.search(args, function(data)
-    {
+    client.search(args).then(response => {
         console.log("yelp data pulled");        
-        yelpData = data;
+        yelpData = response.jsonBody.businesses;
+        console.log(yelpData);
         callmemaybe();
-    });
+      }).catch(e => {
+        console.log(e);
+      });
 }
 
 
