@@ -1,3 +1,4 @@
+'use strict';
 
 // ======================================
 //   DEPENDENCIES
@@ -94,7 +95,7 @@ app.get('/loginaccount', function (request, resp)
     password = password.substring(1, password.length - 1);
 
     // pull account where email = account.email
-    pullaccount(email, function ()
+    pullaccount(email, function (account)
     {
 
         if(account)
@@ -170,9 +171,10 @@ app.get('/yelp', function (request, resp)
     // attributes: "hot"
   }
 
-  yelp(args, function callback()
+  yelp(args, function callback(bizs)
   {
-        resp.send(yelpData.businesses[0]);
+        console.log(bizs[0]);
+        resp.send(bizs[0]);
   });
 });
 
@@ -198,10 +200,10 @@ app.get('/places', function (request, resp)
         // attributes: "hot"
     }
 
-  yelp(args, function callback()
+  yelp(args, function callback(bizs)
   {
         // console.log("dsdssdsds" + JSON.stringify(yelpData));
-        resp.send(yelpData.businesses);
+        resp.send(bizs);
   });
 });
 
@@ -212,18 +214,37 @@ app.get('/favorite', function (request, resp)
   var email = request.query.email;
   var term = request.query.term;
   var location = request.query.location;
-  yelp(term, location, function callback()
+
+  var args = {
+    term: term,
+    location: location,
+    // latitude: request.query.lat, 
+    // longitude: request.query.long,
+    // radius: request.query.range
+    // categories: 'bars',
+    // locale: 'en_US',
+    // limit: 1,
+    // offset: 0,
+    // sort_by: "rating",
+    // price: "1,2,3",
+    // open_now: false,
+    // open_at: 0,
+    // attributes: "hot"
+}
+
+  yelp(args, function callback(bizs)
   {
       pullfavorites(email, function callback2(favorites)
       {
         //   console.log("F: " + JSON.stringify(favorites));
           // make sure not in there
           var alreadySaved = false;
-          yelpData = yelpData.businesses[0];
-          for (i = 0; i < favorites.length; i++)
+          var yelpData = bizs[0];
+          console.log("FAVS: " + favorites);
+          for (var i = 0; i < favorites.length; i++)
           {
               var fav = favorites[i];
-            //   console.log("One:"  + JSON.stringify(fav.name) + "   Two: " + JSON.stringify(yelpData.name));
+              console.log("One:"  + JSON.stringify(fav.name) + "   Two: " + JSON.stringify(yelpData.name));
               if(fav.name == yelpData.name &&
                  fav.city == yelpData.location.city &&
                  fav.state == yelpData.location.state)
@@ -302,10 +323,10 @@ function pullaccount(email, callback)
         {
             if (err)
                 throw err;
-            account = resp[0];
+            const account = resp[0];
             console.log("mongo account pulled");
             db.close();
-            callback();
+            callback(account);
         });
     });
 }
@@ -364,7 +385,7 @@ function exists(json, arr)
 // ======================================
 function pullfavorites(email, callback)
 {
-    pullaccount(email, function()
+    pullaccount(email, function(account)
     {
         callback(account.favorites);
     });
@@ -372,11 +393,11 @@ function pullfavorites(email, callback)
 
 function addfavorite(email, json, cb)
 {
-    pullfavorites(email, function()
+    pullfavorites(email, function(favorites)
     {
-        var favs = account.favorites;
-        addit(json, favs);
-        editfavorites(email, favs);
+        // var favs = account.favorites;
+        addit(json, favorites);
+        editfavorites(email, favorites);
         console.log("1 item inserted");
     });
 }
@@ -384,11 +405,11 @@ function addfavorite(email, json, cb)
 // TODO
 function removefavorite(email, json)
 {
-    pullfavorites(email, function()
+    pullfavorites(email, function(favorites)
     {
-        var favs = account.favorites;
-        removeit(json, favs);
-        editfavorites(email, favs);
+        // var favs = account.favorites;
+        removeit(json, favorites);
+        editfavorites(email, favorites);
         console.log("1 item removed");
     });
 }
@@ -420,11 +441,11 @@ function editfavorites(email, json)
 // ======================================
 function yelp(args, callmemaybe)
 {
-    client.search(args).then(response => {
+    yelper.search(args).then(response => {
         console.log("yelp data pulled");        
-        yelpData = response.jsonBody.businesses;
-        console.log(yelpData);
-        callmemaybe();
+        const yelpData = response.jsonBody.businesses;
+        // console.log(yelpData);
+        callmemaybe(yelpData);
       }).catch(e => {
         console.log(e);
       });
