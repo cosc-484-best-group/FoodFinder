@@ -64,6 +64,11 @@ router.get('/contact',function(request, response)
 {
     response.sendFile(path.join(__dirname + '/html/contact.html'));
 });
+router.get('/*', function(request, response) // else
+{
+    response.sendFile(path.join(__dirname + '/html/404.html'));
+});
+
 
 //make all resources avaliable on same level
 app.use(express.static(__dirname + '/html/'));

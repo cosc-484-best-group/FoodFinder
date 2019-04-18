@@ -133,7 +133,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
                 var newSpot = {
                     name: loc.name,
                     lat: loc.lat, 
-                    lon: loc.long, 
+                    lfavoriteson: loc.long, 
                     loc: loc.city + ", " + loc.state
                 };
                 addMarker(newSpot, starred);
@@ -450,7 +450,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
                     var newdata = {name: yelpData.name, city: yelpData.location.city, state: yelpData.location.state, lat: yelpData.coordinates.latitude, long: yelpData.coordinates.longitude};
                     removeit(newdata, locs);
                     sessionStorage.setItem('favorites', JSON.stringify(locs));
-                    // console.log("REM FAVS: " + sessionStorage.getItem('favorites'));
+                    console.log("REM FAVS: " + sessionStorage.getItem('favorites'));
 
                     editMarker(newSpot, selected);
                     $scope.favorite = unstar;
@@ -462,7 +462,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
                     var newdata = {name: yelpData.name, city: yelpData.location.city, state: yelpData.location.state, lat: yelpData.coordinates.latitude, long: yelpData.coordinates.longitude};
                     addit(newdata, locs);
                     sessionStorage.setItem('favorites', JSON.stringify(locs));
-                    // console.log("ADD FAVS: " + sessionStorage.getItem('favorites'));
+                    console.log("ADD FAVS: " + sessionStorage.getItem('favorites'));
 
 
                     editMarker(newSpot, starred);
