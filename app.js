@@ -64,10 +64,10 @@ router.get('/contact',function(request, response)
 {
     response.sendFile(path.join(__dirname + '/html/contact.html'));
 });
-router.get('/*', function(request, response) // else
-{
-    response.sendFile(path.join(__dirname + '/html/404.html'));
-});
+// router.get('/*', function(request, response) // else
+// {
+//     response.sendFile(path.join(__dirname + '/html/404.html'));
+// });
 
 
 //make all resources avaliable on same level
@@ -150,9 +150,6 @@ app.get('/createaccount', function (request, resp)
 // ======================================
 //   MAIN URL REQUESTS
 // ======================================
-// goose
-// db.data.insert({email: "stillwell006@gmail.com", username: "matt", password: "$2a$10$HI1L0S/AaQiKd0TNPBZHQeRBMzE1k9idceKkN6Q9LTuDGv91nN4X.", favorites: [{name: "Gino's Burgers & Chicken", city: "Towson", state: "MD", lat: 39.3958819737623, long: -76.5775761064767}] })
-
 
 // sends off yelp data on params passed in
 app.get('/yelp', function (request, resp)
@@ -178,8 +175,9 @@ app.get('/yelp', function (request, resp)
 
   yelp(args, function callback(bizs)
   {
-        console.log(bizs[0]);
-        resp.send(bizs[0]);
+      var biz = bizs[0];
+      console.log(biz);
+      resp.send(biz);
   });
 });
 
@@ -207,7 +205,6 @@ app.get('/places', function (request, resp)
 
   yelp(args, function callback(bizs)
   {
-        // console.log("dsdssdsds" + JSON.stringify(yelpData));
         resp.send(bizs);
   });
 });
@@ -449,11 +446,11 @@ function yelp(args, callmemaybe)
     yelper.search(args).then(response => {
         console.log("yelp data pulled");        
         const yelpData = response.jsonBody.businesses;
-        // console.log(yelpData);
         callmemaybe(yelpData);
       }).catch(e => {
         console.log(e);
       });
+    console.log('fuck');
 }
 
 

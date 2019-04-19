@@ -5,6 +5,9 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 	function setYelpScopes(yelpData)
 	{	
             $scope.all = yelpData;
+
+            // console.log(yelpData);
+
             $scope.name = yelpData.name;
             $scope.image = yelpData.image_url;
 
@@ -240,7 +243,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             function (response)
             {
                 var places = response.data;
-                // console.log(places);
+                console.log(places);
                 places.forEach(place => {
                     // console.log(place)
                     // console.log(place.vicinity);

@@ -83,6 +83,11 @@ function addMarker(resturant, type)
     });
     //markers.push(marker);
 
+    google.maps.event.addListenerOnce(map, 'idle', function(){
+        // do something only the first time the map is loaded
+        removeload();
+    });
+
     google.maps.event.addListener(marker, 'click', function() {
         // your magic goes here
         //alert(marker.title);
@@ -159,7 +164,8 @@ function smoothZoom (map, max, cnt) {
         return;
     }
     else {
-        z = google.maps.event.addListener(map, 'zoom_changed', function(event){
+        z = google.maps.event.addListener(map, 'zoom_changed', function(event)
+        {
             google.maps.event.removeListener(z);
             smoothZoom(map, max, cnt + 1);
         });
