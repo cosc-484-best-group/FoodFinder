@@ -124,23 +124,24 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
         // pull from HTML5 local storage
         var user = sessionStorage.getItem('username');
+        // console.log("USER: " + user);
         if(user)
         {
             $scope.loggedin = true;
-            var locs = JSON.parse(sessionStorage.getItem('favorites'));
-            // console.log(locs);
-            for(i = 0; i < locs.length; i++)
-            {
-                var loc = locs[i];
-                // console.log(loc);
-                var newSpot = {
-                    name: loc.name,
-                    lat: loc.lat, 
-                    lfavoriteson: loc.long, 
-                    loc: loc.city + ", " + loc.state
-                };
-                addMarker(newSpot, starred);
-            }
+            // var locs = JSON.parse(sessionStorage.getItem('favorites'));
+            // // console.log(locs);
+            // for(i = 0; i < locs.length; i++)
+            // {
+            //     var loc = locs[i];
+            //     // console.log(loc);
+            //     var newSpot = {
+            //         name: loc.name,
+            //         lat: loc.lat, 
+            //         lfavoriteson: loc.long, 
+            //         loc: loc.city + ", " + loc.state
+            //     };
+            //     addMarker(newSpot, starred);
+            // }
 
             // // REST URL
             // var url = "/init?locations=" + locs;
@@ -243,7 +244,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             function (response)
             {
                 var places = response.data;
-                console.log(places);
+                // console.log(places);
                 places.forEach(place => {
                     // console.log(place)
                     // console.log(place.vicinity);
@@ -453,7 +454,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
                     var newdata = {name: yelpData.name, city: yelpData.location.city, state: yelpData.location.state, lat: yelpData.coordinates.latitude, long: yelpData.coordinates.longitude};
                     removeit(newdata, locs);
                     sessionStorage.setItem('favorites', JSON.stringify(locs));
-                    console.log("REM FAVS: " + sessionStorage.getItem('favorites'));
+                    // console.log("REM FAVS: " + sessionStorage.getItem('favorites'));
 
                     editMarker(newSpot, selected);
                     $scope.favorite = unstar;
@@ -465,7 +466,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
                     var newdata = {name: yelpData.name, city: yelpData.location.city, state: yelpData.location.state, lat: yelpData.coordinates.latitude, long: yelpData.coordinates.longitude};
                     addit(newdata, locs);
                     sessionStorage.setItem('favorites', JSON.stringify(locs));
-                    console.log("ADD FAVS: " + sessionStorage.getItem('favorites'));
+                    // console.log("ADD FAVS: " + sessionStorage.getItem('favorites'));
 
 
                     editMarker(newSpot, starred);

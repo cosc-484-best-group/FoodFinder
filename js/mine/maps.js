@@ -4,43 +4,30 @@ var mycoords = [0, 0];
 
 function initMap() 
 {
-    if (location.protocol == 'https:')
-        getLocation();
-    else  // does not work in http
-    {
-        var towsonu = new google.maps.LatLng(39.3938317, -76.6074833);
-        mycoords = [39.3938317, -76.6074833]
-
-        var mapOptions = {
-            center: towsonu,
-            zoom: 12,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        
-        map = new google.maps.Map(document.getElementById("map"), mapOptions); 
-    }
+    getLocation();
 }
 
 function getLocation() 
 {
     if (navigator.geolocation)
-    {    
         navigator.geolocation.getCurrentPosition(showPosition);
-    }
     else
         console.log("Geolocation is not supported by this browser.");
 }
 
 function showPosition(position) 
 {
+    mapmeremoveloadaddmarker(position);
+}
+
+function mapmeremoveloadaddmarker(position)
+{
     var lat = position.coords.latitude;
     var long = position.coords.longitude;
-    mycoords = [lat, long]
-
-    var mycenter = new google.maps.LatLng(lat, long);
+    mycoords = [lat, long];
 
     var mapOptions = {
-        center: mycenter,
+        center: new google.maps.LatLng(lat, long),
         zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -49,14 +36,45 @@ function showPosition(position)
 
 
     // add me marker
-    var meSpot = {
+    meSpot = {
         name: "me",
         lat: lat,
         lon: long, 
         loc: "(" + lat + ", " + long + ")"
     };
-    addMarker(meSpot, me);
 
+    // cb(meSpot);
+    removeloadaddmarker(meSpot);
+}
+
+function removeloadaddmarker (meSpot)
+{
+    removeload();
+    addmemarker(meSpot);
+}
+
+function addmemarker (meSpot)
+{
+    addMarker(meSpot, me);
+    addfavmarkers();
+}
+
+function addfavmarkers()
+{
+    var locs = JSON.parse(sessionStorage.getItem('favorites'));
+
+    if(locs)
+        for(i = 0; i < locs.length; i++)
+        {
+            var loc = locs[i];
+            var newSpot = {
+                name: loc.name,
+                lat: loc.lat, 
+                lon: loc.long, 
+                loc: loc.city + ", " + loc.state
+            };
+            addMarker(newSpot, starred);
+        }
 }
 
 
@@ -68,6 +86,10 @@ var starred = "goldfeather.png";
 function addMarker(resturant, type) 
 {
     //var image = 'img/flagred.png';
+
+    if(!resturant)
+        return;
+
     var marker = new google.maps.Marker({
         position: new google.maps.LatLng(resturant.lat, resturant.lon),
         // position: neighborhoods[iterator],
@@ -75,18 +97,13 @@ function addMarker(resturant, type)
         icon: {                             
             url: type                      
         },
-        title:resturant.name,
+        title: resturant.name,
         // title:"Hello World!",
         draggable: false,
         animation: google.maps.Animation.DROP,
         visible: true
     });
     //markers.push(marker);
-
-    google.maps.event.addListenerOnce(map, 'idle', function(){
-        // do something only the first time the map is loaded
-        removeload();
-    });
 
     google.maps.event.addListener(marker, 'click', function() {
         // your magic goes here
@@ -104,7 +121,6 @@ function addMarker(resturant, type)
 }
 
 function editMarker(resturant, type) {
-    // console.log("fdf: " + type);
     //var image = 'img/flagred.png';
     var marker = new google.maps.Marker({
         position: new google.maps.LatLng(resturant.lat, resturant.lon),

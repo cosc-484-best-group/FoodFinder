@@ -21,22 +21,6 @@ const yelp_fusion = require('yelp-fusion');
 const yelper = yelp_fusion.client(YELP_API_KEY);
 
 
-const SERVER_MODE = "server"; // run with https on server
-const DEBUG_MODE = "debug"; // run locally
-var mode = SERVER_MODE;
-
-var input = process.argv[2]; // set as argument passed
-if(input) //nonempty
-    mode = input;
-if(mode == "app" || mode == "app.js") //passed with prior parameter
-    mode = SERVER_MODE;
-
-if(mode == SERVER_MODE)
-    console.log("SERVER MODE");
-if(mode == DEBUG_MODE)
-    console.log("DEBUG MODE");
-
-
 // ======================================
 //   ROUTING
 // ======================================
@@ -176,7 +160,7 @@ app.get('/yelp', function (request, resp)
   yelp(args, function callback(bizs)
   {
       var biz = bizs[0];
-      console.log(biz);
+    //   console.log(biz);
       resp.send(biz);
   });
 });
@@ -242,11 +226,11 @@ app.get('/favorite', function (request, resp)
           // make sure not in there
           var alreadySaved = false;
           var yelpData = bizs[0];
-          console.log("FAVS: " + favorites);
+        //   console.log("FAVS: " + favorites);
           for (var i = 0; i < favorites.length; i++)
           {
               var fav = favorites[i];
-              console.log("One:"  + JSON.stringify(fav.name) + "   Two: " + JSON.stringify(yelpData.name));
+            //   console.log("One:"  + JSON.stringify(fav.name) + "   Two: " + JSON.stringify(yelpData.name));
               if(fav.name == yelpData.name &&
                  fav.city == yelpData.location.city &&
                  fav.state == yelpData.location.state)
@@ -450,7 +434,6 @@ function yelp(args, callmemaybe)
       }).catch(e => {
         console.log(e);
       });
-    console.log('fuck');
 }
 
 
@@ -488,27 +471,26 @@ var comparePassword = function(plainPass, hashword, callback)
 // ======================================
 //   HTTPS Certificate
 // ======================================
-if(mode == SERVER_MODE) // use https on server
-{
-    const privateKey = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/privkey.pem', 'utf8');
-    const certificate = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/cert.pem', 'utf8');
-    const ca = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/chain.pem', 'utf8');
 
-    const credentials = {
-        key: privateKey,
-        cert: certificate,
-        ca: ca
-    };
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/foodfinder.xyz/chain.pem', 'utf8');
+
+const credentials = {
+    key: privateKey,
+    cert: certificate,
+    ca: ca
+};
 
 
-    // ======================================
-    //   Starting https server
-    // ======================================
-    const httpsServer = https.createServer(credentials, app);
-    httpsServer.listen(443, () => {
- 	    console.log('HTTPS Server running on port 443');
-    });
-}
+// ======================================
+//   Starting https server
+// ======================================
+const httpsServer = https.createServer(credentials, app);
+httpsServer.listen(443, () => {
+ 	console.log('HTTPS Server running on port 443');
+});
+
 
 // ======================================
 //   Starting http server
