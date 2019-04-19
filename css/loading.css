@@ -1,6 +1,6 @@
 div#load_screen 
 {
-    background:  rgb(73, 117, 73);                
+    background:  rgb(89, 150, 89);                
     opacity: 1;
     position: fixed;
     z-index: 3000;
@@ -12,7 +12,7 @@ div#load_screen
 div#load_screen > div#loading
 {
     /* background:  rgb(118, 134, 118);                 */
-    color: rgb(190, 190, 190);
+    /* color: rgb(190, 190, 190); */
     width: 30%;
     height: 10%;
     text-align: center;
