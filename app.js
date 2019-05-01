@@ -8,7 +8,8 @@ const fs = require('fs');
 const path = require('path');
 const http = require('http');
 const https = require('https');
-const googlefusion = require('./api/googlefusion');
+const MapFusionAPI = require('./api/MapFusionAPI');
+const MapFusionClient = require('./api/MapFusionClient');
 const MongoClient = require('mongodb').MongoClient;
 
 const app = express();
@@ -86,7 +87,7 @@ app.post('/goose', function (request, resp)
 });
   
 
-app.use('/api', googlefusion);
+app.use('/api', MapFusionAPI);
 
 // ======================================
 //   USER ACCOUNTS URL REQUESTS

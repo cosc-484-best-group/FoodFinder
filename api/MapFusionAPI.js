@@ -9,7 +9,7 @@ router.use(bodyParser.json());
 
 
 // RETURNS GOOGLE RESULTS
-router.get('/google-fusion', function (req, res) 
+router.get('/mapfusion', function (req, res) 
 {
     both(req.body, res);
 });
