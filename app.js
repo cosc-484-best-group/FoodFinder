@@ -8,6 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const http = require('http');
 const https = require('https');
+const googlefusion = require('./api/googlefusion');
 const MongoClient = require('mongodb').MongoClient;
 
 const app = express();
@@ -41,7 +42,7 @@ router.get('/login',function(request, response)
     response.sendFile(path.join(__dirname + '/html/login.html'));
 });
 router.get('/news',function(request, response)
-{
+{ls 
     response.sendFile(path.join(__dirname + '/html/news.html'));
 });
 router.get('/contact',function(request, response)
@@ -67,46 +68,65 @@ app.use(express.static(__dirname + '/css/'));
 app.use('/', router);
 
 
+// Setup read POST parameters
+var bodyParser = require('body-parser');
+
+app.use(bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+})); 
+
+
+// POST method route
+app.post('/goose', function (request, resp) 
+{
+    var ps = request.body;
+    console.log(ps);
+    resp.send('POST request to the homepage')
+});
+  
+
+app.use('/api', googlefusion);
+
 // ======================================
 //   USER ACCOUNTS URL REQUESTS
 // ======================================
 
-app.get('/loginaccount', function (request, resp)
+app.post('/loginaccount', function (request, resp)
 {
-    var email = request.query.email;
-    var password = request.query.password;
-
-    var username = "";
-    var locs = [];
+    console.log('goose');
+    console.log(request);
+    var email = request.body.email;
+    var password = request.body.password;
 
     // cut off quotes
-    email = email.substring(1, email.length - 1);
-    password = password.substring(1, password.length - 1);
+    // email = email.substring(1, email.length - 1);
+    // password = password.substring(1, password.length - 1);
 
     // pull account where email = account.email
-    pullaccount(email, function (account)
-    {
+    // pullaccount(email, function (account)
+    // {
 
-        if(account)
-        {
-            // and password == account.password
-            cryptPassword(password, function(error, hash)
-            {
-                comparePassword(password, account.password, function(error, isPasswordMatch)
-                {
-                    if(isPasswordMatch)
-                        resp.send({valid: true, email: account.email, username: account.username, favorites: account.favorites});
-                    else
-                        resp.send({valid: false, email: null, username: null, favorites: null});
-                });
-            });
-        }
-        else
-        {
-            resp.send({valid: false, email: null, username: null, favorites: null});
-        }
+    //     if(account)
+    //     {
+    //         // and password == account.password
+    //         cryptPassword(password, function(error, hash)
+    //         {
+    //             comparePassword(password, account.password, function(error, isPasswordMatch)
+    //             {
+    //                 if(isPasswordMatch)
+    //                     resp.send({valid: true, email: account.email, username: account.username, favorites: account.favorites});
+    //                 else
+    //                     resp.send({valid: false, email: null, username: null, favorites: null});
+    //             });
+    //         });
+    //     }
+    //     else
+    //     {
+    //         resp.send({valid: false, email: null, username: null, favorites: null});
+    //     }
 
-    });
+    // });
 
 });
 
@@ -139,23 +159,25 @@ app.get('/createaccount', function (request, resp)
 app.get('/yelp', function (request, resp)
 {
 
-  var args = {
-    term: request.query.term,
-    location: request.query.location
-    // latitude: 39.3938317, 
-    // longitude: -76.6074833,
+    var args;
+    var term = request.query.term;
+    var loc = request.query.location;
+    var lat = parseInt(request.query.lat);
+    var long = parseInt(request.query.long);
 
-    // radius: 20000,
-    // categories: 'bars',
-    // locale: 'en_US',
-    // limit: 1,
-    // offset: 0,
-    // sort_by: "rating",
-    // price: "1,2,3",
-    // open_now: false,
-    // open_at: 0,
-    // attributes: "hot"
-  }
+    if(!loc)
+        args = {
+            term: term,
+            latitude: lat, 
+            longitude: long,
+            sort_by: "distance"
+        }
+    else
+        args = {
+            term: term,
+            location: loc,
+            sort_by: "distance"
+        }
 
   yelp(args, function callback(bizs)
   {
@@ -192,6 +214,7 @@ app.get('/places', function (request, resp)
         resp.send(bizs);
   });
 });
+
 
 
 // GET method route pushes to mongo

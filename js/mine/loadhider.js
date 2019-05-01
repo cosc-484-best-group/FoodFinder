@@ -9,7 +9,6 @@ async function removeload()
         {
             load_screen.style.opacity = opacity; 
             await sleep(1);
-            // console.log(opacity);
         }
         document.body.removeChild(load_screen);
     }

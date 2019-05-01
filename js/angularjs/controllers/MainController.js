@@ -209,22 +209,22 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
     }
 
     // Sends textbox input to Yelp in Nodejs backend
-    $scope.nearby = function () 
+    $scope.nearby = function (distance) 
     {
 
-        
         // var range = 1000; //meters
         var price = "\"1, 2, 3\"";
 
         var multiplier = 1000;
-        var range = document.getElementById("slider").value * multiplier; //meters
+        var range = distance * multiplier; //meters
 
 
         // REST URL
         var url = "/places?lat=" + mycoords[0] + 
             "&long=" + mycoords[1] +
             "&range=" + range + 
-            "&price=" + price;
+            "&price=" + price +
+            "/";
         var data = new FormData();
         
         // Set the configurations for the uploaded file
@@ -263,26 +263,24 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
     };
 
     // Sends textbox input to Yelp in Nodejs backend
-    $scope.yelp = function () 
+    $scope.yelp = function (term, loc) 
     {
 
-        var term = document.getElementById("term").value;
-        var loc = document.getElementById("location").value;
-
         // both text fields empty
-        if(!term && !loc || term == "me")
+        if(!term || term == "me")
         {
             // hides bottom data panel
             $scope.visible = false;
             return;
         }
 
-        // need to use google api for coords to city state
-        //if (loc === "")
-        //    loc = myloc;
+        var url = "";
+        if(!loc)
+            url = "/yelp?term=" + encodeURIComponent(term) + "&lat=" + mycoords[0] + "&long=" + mycoords[1] + "/";
+        else
+            url = "/yelp?term=" + encodeURIComponent(term) + "&location=" + encodeURIComponent(loc) + "/";
 
         // REST URL
-        var url = "/yelp?term=\"" + term +"\"&location=\"" + loc + "\"";
         var data = new FormData();
         
         // Set the configurations for the uploaded file
@@ -350,7 +348,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         //console.log(loc);
 
         // REST URL
-        var url = "/yelp?term=\"" + term +"\"&location=\"" + loc + "\"";
+        var url = "/yelp?term=\"" + term +"\"&location=\"" + loc + "\"/";
         var data = new FormData();
 
         // shows bottom data panel
@@ -416,7 +414,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         var loc = document.getElementById("location").value;
 
         // REST URL
-        var url = "/favorite?email=" + email + "&term=\"" + term +"\"&location=\"" + loc + "\"";
+        var url = "/favorite?email=" + email + "&term=\"" + term +"\"&location=\"" + loc + "\"/";
         var data = new FormData();
 
         // Set the configurations for the uploaded file

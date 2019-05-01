@@ -31,9 +31,16 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
         var email = document.getElementById("myemail").value;
         var password = document.getElementById("mypassword").value;
 
+        console.log('ds');
+
         // REST URL
-        var url = "/loginaccount?email=\"" + email +"\"&password=\"" + password + "\"";
+        var url = "/loginaccount";
         var data = new FormData();
+        data.append("email", email);
+        data.append("password", password);
+        data.append("something", 'abcedf');
+        console.log(data.getAll('email'));
+        console.log("ijijiji " + JSON.stringify(data));
         
         // Set the configurations for the uploaded file
         var config =
@@ -47,7 +54,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
         }
 
         // Sends the file data off
-        $http.get(url, data, config).then(
+        $http.post(url, data, config).then(
             // Success
             function (response)
             {

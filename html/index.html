@@ -41,24 +41,29 @@
                 </div>
 
                 <div class="pill-nav">
-                    <a class="active" href="/">Home</a>
-                    <a href="/news">News  <span class="badge badge-light">2</span> </a>
-                    <a href="/contact">Contact</a>
-                    <a href="/about">About</a>
+                    <a class="active" href="/"> Home </a>
+                    <a href="/news"> News <span class="badge badge-light"> 2 </span> </a>
+                    <a href="/contact"> Contact </a>
+                    <a href="/about"> About </a>
                     <a class="btn btn-danger" id="loginbutton" ng-click="login()"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
                 </div> 
             </div>
 
             <div id="searchbar">
                 <div class="form-inline" id="oneliner" ng-show="!neary">
-                        <input type="text" class="form-control" name="term" id="term" placeholder="Term">
-                        <input type="text" class="form-control" name="location" id="location" placeholder="Location">
+                        <input type="text" class="form-control" name="term" id="term" placeholder="Term" ng-model="term">
+                        <input type="text" class="form-control" name="location" id="location" placeholder="Location (Optional)" ng-model="loc">
                 </div>
 
+                <!-- <form action="/loginaccount" method="post">
+                    First name: <input type="text" name="email"><br>
+                    Last name:  <input type="text" name="password"><br>
+                    <input type="submit" value="Submit">
+                </form> -->
 
                 <div class="form-inline" id="oneliner" ng-show="neary">
                     <div style="border:3px solid rgb(92, 92, 92);padding:15px" id="oneliner">
-                        <input id="slider" ng-mousemove="setBoxFromSlider()" type="range" min="1" max="10" value="5" step="0.1">
+                        <input id="slider" ng-mousemove="setBoxFromSlider()" type="range" min="1" max="10" value="5" step="0.1" ng-model="distance">
                         &nbsp;&nbsp;
                         <input type="textbox" id="radBox" ng-keypress="$event.key === 'Enter' ? setSliderFromBox() : null; "  name="radBox" value="" size=3></input>
                         &nbsp;
@@ -67,19 +72,19 @@
                     <select>
                         <option value="low">low</option>
                         <option value="medium">medium</option>
-                        <option value="high">high</option>
-                        <option value="expensive">expensive</option>
+                        <option value="high"> high </option>
+                        <option value="expensive"> expensive </option>
                       </select>
                 </div> 
                 
                 <a id="plus" ng-click="flip()"> {{ plus }} </a>
                 
                 <div class="righty" ng-show="!neary">
-                    <button class="btn btn-dark" id="submit" ng-click="yelp()"> Submit </button>
+                    <button class="btn btn-dark" id="submit" ng-click="yelp(term, loc)"> Submit </button>
                 </div>
 
                 <div class="righty" ng-show="neary">
-                    <button class="btn btn-dark righty" ng-click="nearby()"> Nearby </button>
+                    <button class="btn btn-dark righty" ng-click="nearby(distance)"> Nearby </button>
                 </div>
 
             </div>
