@@ -8,7 +8,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
             // console.log(yelpData);
 
-            $scope.name = data.name;
+            $scope.name = data.name; 
             $scope.image = data.image;
 
             if(data.is_closed)
