@@ -34,7 +34,22 @@ function bestofall(googleData, yelpData)
   if(googleData == "ZERO_RESULTS" && !yelpData[0])
   {
     return {
-      status: "none"
+      status: "none",
+      name: "", 
+      latitude: "",
+      longitude: "",
+      address: "",
+      phone: "", 
+      website: "",
+      image: "",
+      is_closed:"",
+      opening_hours: "", 
+      photos: "", 
+      price: "",
+      rating: "",
+      reviews: "",
+      categories: "",
+      transactions: ""
     };
   }
   else if(googleData == "ZERO_RESULTS" && yelpData[0])
@@ -47,12 +62,16 @@ function bestofall(googleData, yelpData)
       longitude: y.coordinates.longitude,
       address: y.location.display_address,
       phone: y.display_phone, 
+      website: "",
       image: y.image_url,
       is_closed: y.is_closed,
+      opening_hours: "", 
+      photos: "", 
       price: y.price,
       rating: y.rating,
+      reviews: "",
       categories: y.categories,
-      transactions: y.transactions,
+      transactions: y.transactions
     };
   }
   else
@@ -74,14 +93,11 @@ function bestofall(googleData, yelpData)
         is_closed: y.is_closed,
         opening_hours: g.opening_hours, 
         photos: g.photos, 
-        google_place_id: g.place_id, 
-        google_price: g.price_level, 
-        yelp_price: y.price,
-        google_rating: g.rating, 
-        yelp_rating: y.rating,
-        google_reviews: g.reviews,
+        price: y.price,
+        rating: ((parseFloat(g.rating) + parseFloat(y.rating)) / 2.0), 
+        reviews: g.reviews,
         categories: y.categories,
-        transactions: y.transactions,
+        transactions: y.transactions
       };
     }
     else // if not yelp data or does not match
@@ -95,12 +111,15 @@ function bestofall(googleData, yelpData)
         address: g.formatted_address, 
         phone: g.formatted_phone_number, 
         website: g.website,
+        image: "",
+        is_closed: "",
         opening_hours: g.opening_hours, 
         photos: g.photos, 
-        google_place_id: g.place_id, 
-        google_price: g.price_level, 
-        google_rating: g.rating, 
-        google_reviews: g.reviews,
+        price: g.price_level, 
+        rating: g.rating, 
+        reviews: g.reviews,
+        categories: "",
+        transactions: ""
       };
     }
   }
