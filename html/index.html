@@ -108,11 +108,12 @@
 			    			<img id="resturantimage" ng-src="{{ image }}" alt="Resturant image" />
 						</div>
 						<div class="col-8">
+                            <h6> Name: {{ name }} </h6>
                             <h6> Status: {{ source }} </h6>
                  			<h6> Rating: {{ rating }} </h6>
                  			<h6> Price: {{ price }} </h6>
                  			<h6> Phone: {{ phone }} </h6>
-                            <h6> Website: {{ website }} </h6>
+                            <h6> Website: <a ng-href="{{ website }}"> {{ website }} </a> </h6>
                             <h6> Open Now: {{ open }} </h6> 
                             <!-- <h6> Opening Hours: {{ hours }} </h6>  -->
                             <h6> Location: {{ location }} </h6>
