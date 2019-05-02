@@ -3,7 +3,7 @@ app.controller('EmailController', ['$scope', '$http', function ($scope, $http)
 {
 
     $scope.sendMessage = function(subject, message) 
-    {
+    { 
 
         // Sends email off
         var nodemailer = require('nodemailer');
