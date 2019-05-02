@@ -458,7 +458,7 @@ function mapfuse(args, callmemaybe)
 {
     mapfusion.search(args).then(response => {
         console.log("yelp data pulled");   
-        console.log("ABC " + response);     
+        console.log("ABC " + JSON.stringify(response));     
         const yelpData = response.jsonBody.businesses;
         callmemaybe(yelpData);
       }).catch(e => {
