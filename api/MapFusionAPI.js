@@ -65,6 +65,17 @@ function bestofall(googleData, yelpData)
   else if(googleData == "ZERO_RESULTS" && yelpData[0])
   {
     var y = yelpData[0];
+    
+    var addressfront = "";
+    if(y.address1)
+      addressfront += y.address1;
+    if(y.address2)
+      addressfront += " " + y.address2;
+    if(y.address3)
+      addressfront += " " + y.address3;
+    if(addressfront)
+      addressfront += ", ";
+
     json = {
       status: "yelp",
       name: y.name, 
@@ -74,7 +85,7 @@ function bestofall(googleData, yelpData)
         state: y.location.state,
         zipcode: y.location.zip_code,
         country: y.location.country,
-        address: y.address1 + ", " + y.location.city + ", " + y.location.state + " " + y.location.zip_code + ", " + y.location.country
+        address: addressfront + y.location.city + ", " + y.location.state + " " + y.location.zip_code + ", " + y.location.country
       },
       coordinates:
       {
