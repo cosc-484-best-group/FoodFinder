@@ -185,9 +185,8 @@ app.get('/yelp', function (request, resp)
             sort_by: "distance"
         }
 
-  mapfuse(args, function callback(bizs)
+  mapfuse(args, function callback(biz)
   {
-      var biz = bizs[0];
     //   console.log(biz);
       resp.send(biz);
   });
