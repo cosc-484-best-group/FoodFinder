@@ -12,7 +12,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             else if(data.status == "yelp")
                 $scope.sourceimg = "yelp-fusion.png";
             else if(data.status == "google")
-                $scope.sourceimg = "google-places.png";
+                $scope.sourceimg = "google-places-better.png";
             else  // no data found
                 $scope.visible = false;
 
