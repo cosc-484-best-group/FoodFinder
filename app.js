@@ -458,8 +458,8 @@ function mapfuse(args, callmemaybe)
 {
     mapfusion.search(args).then(response => {
         console.log("yelp data pulled");   
-        console.log("ABC " + JSON.stringify(response));     
-        const yelpData = response.jsonBody.businesses;
+        // console.log("ABC " + JSON.stringify(response));     
+        const yelpData = response;
         callmemaybe(yelpData);
       }).catch(e => {
         console.log(e);
