@@ -8,8 +8,8 @@ const fs = require('fs');
 const path = require('path');
 const http = require('http');
 const https = require('https');
-const MapFusionAPI = require('MapFusionAPI');
-const MapFusionClient = require('MapFusionClient');
+const MapFusionAPI = require('./api/MapFusionAPI');
+const MapFusionClient = require('./api/MapFusionClient');
 const MongoClient = require('mongodb').MongoClient;
 
 const app = express();
