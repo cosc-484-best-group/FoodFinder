@@ -47,7 +47,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
         }
 
         // Sends the file data off
-        $http.post(url, data, config).then(
+        $http.get(url, data, config).then(
             // Success
             function (response)
             {
