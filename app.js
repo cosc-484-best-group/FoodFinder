@@ -179,7 +179,7 @@ app.get('/yelp', function (request, resp)
             sort_by: "distance"
         }
     else
-        args = {
+        args = { 
             term: term,
             location: loc,
             sort_by: "distance"
