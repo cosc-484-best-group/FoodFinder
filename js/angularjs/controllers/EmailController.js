@@ -26,7 +26,11 @@ app.controller('EmailController', ['$scope', '$http', function ($scope, $http)
             function (response)
             {
                 if(response)
+                {
+                    document.getElementById("subject").value = "";
+                    document.getElementById("message").value = "";
                     alert("Message sent!");
+                }
             }
         );
     
