@@ -47,7 +47,7 @@ router.get('/login',function(request, response)
     response.sendFile(path.join(__dirname + '/html/login.html'));
 });
 router.get('/news',function(request, response)
-{ls 
+{
     response.sendFile(path.join(__dirname + '/html/news.html'));
 });
 router.get('/contact',function(request, response)

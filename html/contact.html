@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="artzfartz.css">   
     </head>
     <body>
-        <div class="container" id="main">
+        <div class="container" ng-controller="EmailController">
         
             <div id="topline">
                 <div class="lefty">
@@ -33,11 +33,11 @@
 
             <div id="contactpop">
                 <div>
-                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject">
-                    <textarea class="form-control" rows="4" cols="50" name="message" id="message" placeholder="Message"></textarea>
+                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" ng-model="subject">
+                    <textarea class="form-control" rows="4" cols="50" name="message" id="message" placeholder="Message" ng-model="message"></textarea>
                 </div>
 
-                <button class="btn btn-dark" id="sendmessage" ng-click="sendMessage()"> Send </button>
+                <button class="btn btn-dark" id="sendmessage" ng-click="sendMessage(subject, message)"> Send </button>
                 <div id="righty">
                     <button class="btn btn-dark" onclick="goback()"> Cancel </button>
                 </div>
@@ -64,6 +64,8 @@
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
             <script type="text/javascript" src="utils.js"></script>
+
+            <script type="text/javascript" src="EmailController.js"></script>
 
         </div>
 
