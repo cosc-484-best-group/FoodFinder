@@ -35,7 +35,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
                     cates += data.categories[i].title;
                 else
                     cates += ", " + data.categories[i].title;
-            $scope.categories = cates;
+            $scope.categories = cates; 
 
 			// //$scope.distance = yelpData.distance + " miles";
 			
