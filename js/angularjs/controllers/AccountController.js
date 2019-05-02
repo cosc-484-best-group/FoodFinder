@@ -32,7 +32,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
         var password = document.getElementById("mypassword").value;
 
         // REST URL
-        var url = "/loginccount?email=\"" + email +"\"&password=\"" + password + "\"";
+        var url = "/loginaccount?email=\"" + email +"\"&password=\"" + password + "\"";
         var data = new FormData();
         
         // Set the configurations for the uploaded file
