@@ -118,7 +118,13 @@ function gplaces(args, res)
   return new Promise(function(resolve, reject) 
   {
 
-    const places = google_places.client(args.google_api_key);
+    var google_api_key = args.google_api_key;
+    if(!google_api_key)
+    {
+      resolve("Error: Google API key not passed");
+      return;
+    }
+    const places = google_places.client(google_api_key);
 
     places.advancedSearch(args).then(response => {
         console.log("google data pulled");        
@@ -141,6 +147,12 @@ function yelpfusion(args, res)
   return new Promise(function(resolve, reject) 
   {
 
+    var yelp_api_key = args.yelp_api_key;
+    if(!yelp_api_key)
+    {
+      resolve("Error: Yelp API key not passed");
+      return;
+    }
     const yelper = yelp_fusion.client(args.yelp_api_key);
 
     yelper.search(args).then(response => {
