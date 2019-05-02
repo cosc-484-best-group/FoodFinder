@@ -112,6 +112,14 @@ function bestofall(googleData, yelpData)
     {
       var g = googleData.result;
       var y = yelpData[0];
+
+      var opening_hours = "";
+      if(g.opening_hours)
+        opening_hours = g.opening_hours;
+      var website = "";
+      if(g.website)
+        website = g.website;
+
       json = {
         status: "both",
         name: g.name, 
@@ -129,10 +137,10 @@ function bestofall(googleData, yelpData)
           longitude: y.coordinates.longitude
         },
         phone: g.formatted_phone_number, 
-        website: g.website,
+        website: website,
         image: y.image_url,
         is_closed: y.is_closed,
-        opening_hours: g.opening_hours, 
+        opening_hours: opening_hours, 
         photos: g.photos, 
         price: y.price,
         rating: ((parseFloat(g.rating) + parseFloat(y.rating)) / 2.0), 
@@ -156,6 +164,15 @@ function bestofall(googleData, yelpData)
       var state = loc2[0];
       var city = loc[loc.length - 3].trim();
 
+      var opening_hours = "";
+      if(g.opening_hours)
+        opening_hours = g.opening_hours;
+      var website = "";
+      if(g.website)
+        website = g.website;
+      var price = ""
+      if(g.price_level)
+        price = g.price_level;
 
       json = {
         status: "google",
@@ -174,12 +191,12 @@ function bestofall(googleData, yelpData)
           longitude: g.geometry.location.lng
         },
         phone: g.formatted_phone_number, 
-        website: g.website,
+        website: website,
         image: "",
         is_closed: "",
-        opening_hours: g.opening_hours, 
+        opening_hours: opening_hours, 
         photos: g.photos, 
-        price: g.price_level, 
+        price: price, 
         rating: g.rating, 
         reviews: g.reviews,
         categories: "",

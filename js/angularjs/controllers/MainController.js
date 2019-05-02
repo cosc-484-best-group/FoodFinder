@@ -44,7 +44,9 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             $scope.phone = data.phone;
             $scope.location = data.location.address;
             $scope.website = data.website;
-            $scope.open = data.opening_hours.open_now;
+
+            if(data.opening_hours)
+                $scope.open = data.opening_hours.open_now;
             $scope.hours = data.opening_hours;
             $scope.coordinates = data.coordinates.latitude + "," + data.coordinates.longitude; 
             
