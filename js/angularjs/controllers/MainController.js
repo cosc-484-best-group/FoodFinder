@@ -2,60 +2,61 @@
 app.controller('MainController', ['$scope', '$http', function ($scope, $http) 
 {
 
-	function setYelpScopes(yelpData)
+	function setYelpScopes(data)
 	{	
-            $scope.all = yelpData;
+            $scope.all = data;
 
             // console.log(yelpData);
 
-            $scope.name = yelpData.name;
-            $scope.image = yelpData.image_url;
+            $scope.name = data.name;
+            $scope.image = data.image;
 
-            if(yelpData.is_closed)
+            if(data.is_closed)
                 $scope.isshutdown = "(Closed)";
             else
                 $scope.isshutdown = "";
 
-            $scope.rating = yelpData.rating + "/5";
-            $scope.price = yelpData.price;
-            $scope.phone = yelpData.display_phone;
-            $scope.location = yelpData.location.city + ", " + yelpData.location.state;
-            $scope.coordinates = yelpData.coordinates; 
-			if(yelpData.price == "$")
+            $scope.rating = data.yelp_rating + "/5";
+
+            // $scope.phone = yelpData.display_phone;
+            // $scope.location = yelpData.location.city + ", " + yelpData.location.state;
+            // $scope.coordinates = yelpData.coordinates; 
+            
+            if(data.yelp_price == "$")
 				$scope.price = "low";
-			else if(yelpData.price == "$$")
+			else if(data.yelp_price == "$$")
 				$scope.price = "medium";
-			else if(yelpData.price == "$$$")
+			else if(data.yelp_price == "$$$")
 				$scope.price = "high";            
-			else if(yelpData.price == "$$$$")
+			else if(data.yelp_price == "$$$$")
 				$scope.price = "very high";
 
-			var cates = "";
-            for(i = 0; i < yelpData.categories.length; i++)
-                if(i == 0)
-                    cates += yelpData.categories[i].title;
-                else
-                    cates += ", " + yelpData.categories[i].title;
-            $scope.categories = cates;
+			// var cates = "";
+            // for(i = 0; i < yelpData.categories.length; i++)
+            //     if(i == 0)
+            //         cates += yelpData.categories[i].title;
+            //     else
+            //         cates += ", " + yelpData.categories[i].title;
+            // $scope.categories = cates;
 
-            var resloc = yelpData.location.address1;
-            if(yelpData.location.address2)
-                resloc += " " + yelpData.location.address2;
-            if(yelpData.location.address3)
-                resloc += " " + yelpData.location.address3;
-            resloc += " " + yelpData.location.city + ", " + yelpData.location.state;
-            resloc += " " + yelpData.location.country + " " + yelpData.location.zip_code;
+            // var resloc = yelpData.location.address1;
+            // if(yelpData.location.address2)
+            //     resloc += " " + yelpData.location.address2;
+            // if(yelpData.location.address3)
+            //     resloc += " " + yelpData.location.address3;
+            // resloc += " " + yelpData.location.city + ", " + yelpData.location.state;
+            // resloc += " " + yelpData.location.country + " " + yelpData.location.zip_code;
             
-            $scope.resloc = resloc;
-			//$scope.distance = yelpData.distance + " miles";
+            // $scope.resloc = resloc;
+			// //$scope.distance = yelpData.distance + " miles";
 			
-			var trans = "";
-            for(i = 0; i < yelpData.transactions.length; i++)
-                if(i == 0)
-                    trans += yelpData.transactions[i];
-                else
-                    trans += ", " + yelpData.transactions[i];
-            $scope.transactions = trans;
+			// var trans = "";
+            // for(i = 0; i < yelpData.transactions.length; i++)
+            //     if(i == 0)
+            //         trans += yelpData.transactions[i];
+            //     else
+            //         trans += ", " + yelpData.transactions[i];
+            // $scope.transactions = trans;
 
     }
 
@@ -299,30 +300,30 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             // Success
             function (response)
             {
-                var yelpData = response.data;
+                var data = response.data;
 
                 // no yelp data found
-                if(!yelpData)
+                if(!data)
                 {
                     // hides bottom data panel
                     $scope.visible = false;
                     return;
                 }
 
-                setYelpScopes(yelpData);
+                setYelpScopes(data);
                 
                 $scope.favorite = unstar;
 
                 var newSpot = {
-                    name: yelpData.name,
-                    lat: yelpData.coordinates.latitude, 
-                    lon: yelpData.coordinates.longitude, 
-                    loc: yelpData.location.city + ", " + yelpData.location.state
+                    name: data.name,
+                    lat: data.latitude, 
+                    lon: data.longitude, 
+                    loc: data.address
                 };
                 addMarker(newSpot, selected);
 
-                document.getElementById("term").value = yelpData.name;
-                document.getElementById("location").value = yelpData.location.city + ", " + yelpData.location.state;
+                document.getElementById("term").value = data.name;
+                document.getElementById("location").value = data.address;
 
                 // shows bottom data panel
                 $scope.visible = true;
