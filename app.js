@@ -16,11 +16,17 @@ const app = express();
 const router = express.Router();
 var mongourl = "mongodb://localhost:27017/";
 
-// from https://www.yelp.com/developers/v3/manage_app
-// https://github.com/mstill3/yelp-fusion-api
+// // from https://www.yelp.com/developers/v3/manage_app
+// // https://github.com/mstill3/yelp-fusion-api
+// const YELP_API_KEY = "4dIx9HKv-klKh_nvUWaHAZqe_a-wQqi49uoJICQIfxdWFj0VS-8uw1TfrFoe2CVsKJeX7BRv0nntSA4svU-G_qiSkfHxYIfk_D83YWoAjRMfuz21UMnzT5_PPA53XHYx";
+// const yelp_fusion = require('yelp-fusion');
+// const yelper = yelp_fusion.client(YELP_API_KEY);
+
+const GOOGLE_API_KEY = "AIzaSyCQUvuEdmTO1JRZWHILlN2hbWuCJ8PyrN8";
 const YELP_API_KEY = "4dIx9HKv-klKh_nvUWaHAZqe_a-wQqi49uoJICQIfxdWFj0VS-8uw1TfrFoe2CVsKJeX7BRv0nntSA4svU-G_qiSkfHxYIfk_D83YWoAjRMfuz21UMnzT5_PPA53XHYx";
-const yelp_fusion = require('yelp-fusion');
-const yelper = yelp_fusion.client(YELP_API_KEY);
+
+const mf = require('./MapFusionClient');
+const mapfusion = mf.client(GOOGLE_API_KEY, YELP_API_KEY);
 
 
 // ======================================
@@ -180,7 +186,7 @@ app.get('/yelp', function (request, resp)
             sort_by: "distance"
         }
 
-  yelp(args, function callback(bizs)
+  mapfuse(args, function callback(bizs)
   {
       var biz = bizs[0];
     //   console.log(biz);
@@ -210,7 +216,7 @@ app.get('/places', function (request, resp)
         // attributes: "hot"
     }
 
-  yelp(args, function callback(bizs)
+  mapfuse(args, function callback(bizs)
   {
         resp.send(bizs);
   });
@@ -242,7 +248,7 @@ app.get('/favorite', function (request, resp)
     // attributes: "hot"
 }
 
-  yelp(args, function callback(bizs)
+  mapfuse(args, function callback(bizs)
   {
       pullfavorites(email, function callback2(favorites)
       {
@@ -449,9 +455,9 @@ function editfavorites(email, json)
 // ======================================
 //   YELP API
 // ======================================
-function yelp(args, callmemaybe)
+function mapfuse(args, callmemaybe)
 {
-    yelper.search(args).then(response => {
+    mapfusion.search(args).then(response => {
         console.log("yelp data pulled");        
         const yelpData = response.jsonBody.businesses;
         callmemaybe(yelpData);

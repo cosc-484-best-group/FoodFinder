@@ -159,7 +159,7 @@ function yelpfusion(args, res)
         console.log("yelp data pulled");        
         const yelpData = response.jsonBody.businesses;
         resolve(yelpData);
-      }).catch(e => {  
+      }).catch(e => {
         console.log(e);
         reject(e);
       });
