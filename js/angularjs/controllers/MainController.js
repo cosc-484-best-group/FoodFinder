@@ -8,13 +8,24 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             $scope.source = data.status;
             
             if(data.status == "both")
+            {
                 $scope.sourceimg = "both.png";
+                $scope.sourcetitle = "MapFusion API"
+            }
             else if(data.status == "yelp")
+            {
                 $scope.sourceimg = "yelp-fusion.png";
+                $scope.sourcetitle = "Yelp-Fusion API"
+            }
             else if(data.status == "google")
+            {
                 $scope.sourceimg = "google-places-better.png";
+                $scope.sourcetitle = "GooglePlaces API"
+            }
             else  // no data found
+            {
                 $scope.visible = false;
+            }
 
             $scope.name = data.name; 
             
