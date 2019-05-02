@@ -36,9 +36,19 @@ function bestofall(googleData, yelpData)
     return {
       status: "none",
       name: "", 
-      latitude: "",
-      longitude: "",
-      address: "",
+      location:
+      {
+        city: "",
+        state: "",
+        zipcode: "",
+        country: "",
+        address: ""
+      },
+      coordinates:
+      {
+        latitude: "",
+        longitude: ""
+      },
       phone: "", 
       website: "",
       image: "",
@@ -58,9 +68,19 @@ function bestofall(googleData, yelpData)
     json = {
       status: "yelp",
       name: y.name, 
-      latitude: y.coordinates.latitude,
-      longitude: y.coordinates.longitude,
-      address: y.location.display_address,
+      location:
+      {
+        city: y.location.city,
+        state: y.location.state,
+        zipcode: y.location.zip_code,
+        country: y.location.country,
+        address: y.address1 + ", " + y.location.city + ", " + y.location.state + " " + y.location.zip_code + ", " + y.location.country
+      },
+      coordinates:
+      {
+        latitude: y.coordinates.latitude,
+        longitude: y.coordinates.longitude
+      },
       phone: y.display_phone, 
       website: "",
       image: y.image_url,
@@ -84,9 +104,19 @@ function bestofall(googleData, yelpData)
       json = {
         status: "both",
         name: g.name, 
-        latitude: y.coordinates.latitude,
-        longitude: y.coordinates.longitude,
-        address: g.formatted_address, 
+        location:
+        {
+          city: y.location.city,
+          state: y.location.state,
+          zipcode: y.location.zip_code,
+          country: y.location.country,
+          address: g.formatted_address
+        },
+        coordinates:
+        {
+          latitude: y.coordinates.latitude,
+          longitude: y.coordinates.longitude
+        },
         phone: g.formatted_phone_number, 
         website: g.website,
         image: y.image_url,
@@ -102,13 +132,36 @@ function bestofall(googleData, yelpData)
     }
     else // if not yelp data or does not match
     {
+
+      var str = "8600 Lasalle Rd #250C, Towson, MD 21286, USA";
+      var str2 = "140 George St, The Rocks NSW 2000, Australia";
+      
       var g = googleData.result;
+
+      var loc = g.formatted_address.split(',');
+      var country = loc[loc.length - 1].trim();
+      var loc2 = loc[loc.length - 2].trim().split(' ');
+      var zipcode = loc2[1];
+      var state = loc2[0];
+      var city = loc[loc.length - 3].trim();
+
+
       json = {
         status: "google",
         name: g.name, 
-        latitude: g.geometry.location.lat,
-        longitude: g.geometry.location.lng,
-        address: g.formatted_address, 
+        location:
+        {
+          city: city,
+          state: state,
+          zipcode: zipcode,
+          country: country,
+          address: g.formatted_address
+        },
+        coordinates:
+        {
+          latitude: g.geometry.location.lat,
+          longitude: g.geometry.location.lng
+        },
         phone: g.formatted_phone_number, 
         website: g.website,
         image: "",

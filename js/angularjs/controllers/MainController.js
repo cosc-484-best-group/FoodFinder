@@ -42,11 +42,11 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             $scope.rating = data.rating + "/5";
 
             $scope.phone = data.phone;
-            $scope.location = data.address;
+            $scope.location = data.location.address;
             $scope.website = data.website;
             $scope.open = data.opening_hours.open_now;
             $scope.hours = data.opening_hours;
-            $scope.coordinates = data.latitude + "," + data.longitude; 
+            $scope.coordinates = data.coordinates.latitude + "," + data.coordinates.longitude; 
             
             if(data.price == "$")
 				$scope.price = "low";
@@ -281,14 +281,14 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
                 var newSpot = {
                     name: data.name,
-                    lat: data.latitude, 
-                    lon: data.longitude, 
-                    loc: data.address
+                    lat: data.coordinates.latitude, 
+                    lon: data.coordinates.longitude, 
+                    loc: data.location.city + " " + data.location.state
                 };
                 addMarker(newSpot, selected);
 
                 document.getElementById("term").value = data.name;
-                document.getElementById("location").value = data.address;
+                document.getElementById("location").value = data.location.city + " " + data.location.state;
 
                 // shows bottom data panel
                 $scope.visible = true;

@@ -265,24 +265,23 @@ app.get('/favorite', function (request, resp)
     // attributes: "hot"
 }
 
-  mapfuse(args, function callback(bizs)
+  mapfuse(args, function callback(biz)
   {
       pullfavorites(email, function callback2(favorites)
       {
         //   console.log("F: " + JSON.stringify(favorites));
           // make sure not in there
           var alreadySaved = false;
-          var yelpData = bizs[0];
 
-          console.log("BIZS: " + bizs);
+          console.log("BIZ: " + biz);
           console.log("FAVS: " + favorites);
           for (var i = 0; i < favorites.length; i++)
           {
               var fav = favorites[i];
             //   console.log("One:"  + JSON.stringify(fav.name) + "   Two: " + JSON.stringify(yelpData.name));
-              if(fav.name == yelpData.name &&
-                 fav.city == yelpData.location.city &&
-                 fav.state == yelpData.location.state)
+              if(fav.name == biz.name &&
+                 fav.city == biz.location.city &&
+                 fav.state ==  biz.location.state)
               {
                   console.log("already saved");
                   alreadySaved = true;
@@ -290,13 +289,13 @@ app.get('/favorite', function (request, resp)
           }
           if(!alreadySaved) // favorite
           {
-              addfavorite(email, {"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude});
+              addfavorite(email, {"name": biz.name, "city": biz.location.city, "state": biz.location.state, "lat": biz.coordinates.latitude, "long": biz.coordinates.longitude});
           }
           else // unfavorite
           {
-              removefavorite(email, {"name": yelpData.name, "city": yelpData.location.city, "state": yelpData.location.state, "lat": yelpData.coordinates.latitude, "long": yelpData.coordinates.longitude});
+              removefavorite(email, {"name": biz.name, "city": biz.location.city, "state": biz.location.state, "lat": biz.coordinates.latitude, "long": biz.coordinates.longitude});
           }
-          resp.send([alreadySaved, yelpData]);
+          resp.send([alreadySaved, biz]);
       });
   });
 });
