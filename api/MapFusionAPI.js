@@ -21,7 +21,7 @@ function both(args, res)
       yelpfusion(args, res).then(yelpData => {
         res.status(200).send(bestofall(googleData, yelpData));
       }).catch(e => {
-        console.log(e);
+        console.log(e); 
       });
     }).catch(e => {
       console.log(e);
