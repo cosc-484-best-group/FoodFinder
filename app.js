@@ -81,58 +81,77 @@ app.use(bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 })); 
-
-
-// POST method route
-app.post('/goose', function (request, resp) 
-{
-    var ps = request.body;
-    console.log(ps);
-    resp.send('POST request to the homepage')
-});
   
 
+// setup API
 app.use('/api', MapFusionAPI);
+
 
 // ======================================
 //   USER ACCOUNTS URL REQUESTS
 // ======================================
 
-app.post('/loginaccount', function (request, resp)
+app.get('/sendmail', function(request, resp)
 {
-    console.log('goose');
-    console.log(request);
-    var email = request.body.email;
-    var password = request.body.password;
+
+    // Sends email off
+    var nodemailer = require('nodemailer');
+
+    let transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,  //any
+        secure: true,
+        auth: {
+            user: 'bobertb492@gmail.com',
+            pass: 'Bobby15Cool!'
+        }
+    });
+
+    let mailOptions = {
+        from: '"Food Finder" <bobertb492@gmail.com>',
+        to: 'stillwell006@gmail.com',
+        subject: request.query.subject,
+        html: request.query.message
+    };
+
+    transporter.sendMail(mailOptions);
+    resp.send(true);
+
+});
+
+app.get('/loginaccount', function (request, resp)
+{
+    var email = request.query.email;
+    var password = request.query.password;
 
     // cut off quotes
-    // email = email.substring(1, email.length - 1);
-    // password = password.substring(1, password.length - 1);
+    email = email.substring(1, email.length - 1);
+    password = password.substring(1, password.length - 1);
 
     // pull account where email = account.email
-    // pullaccount(email, function (account)
-    // {
+    pullaccount(email, function (account)
+    {
 
-    //     if(account)
-    //     {
-    //         // and password == account.password
-    //         cryptPassword(password, function(error, hash)
-    //         {
-    //             comparePassword(password, account.password, function(error, isPasswordMatch)
-    //             {
-    //                 if(isPasswordMatch)
-    //                     resp.send({valid: true, email: account.email, username: account.username, favorites: account.favorites});
-    //                 else
-    //                     resp.send({valid: false, email: null, username: null, favorites: null});
-    //             });
-    //         });
-    //     }
-    //     else
-    //     {
-    //         resp.send({valid: false, email: null, username: null, favorites: null});
-    //     }
+        if(account)
+        {
+            // and password == account.password
+            cryptPassword(password, function(error, hash)
+            {
+                comparePassword(password, account.password, function(error, isPasswordMatch)
+                {
+                    if(isPasswordMatch)
+                        resp.send({valid: true, email: account.email, username: account.username, favorites: account.favorites});
+                    else
+                        resp.send({valid: false, email: null, username: null, favorites: null});
+                });
+            });
+        }
+        else
+        {
+            resp.send({valid: false, email: null, username: null, favorites: null});
+        }
 
-    // });
+    });
 
 });
 

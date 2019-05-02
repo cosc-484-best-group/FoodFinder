@@ -5,28 +5,30 @@ app.controller('EmailController', ['$scope', '$http', function ($scope, $http)
     $scope.sendMessage = function(subject, message) 
     { 
 
-        // Sends email off
-        var nodemailer = require('nodemailer');
-
-        let transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,  //any
-            secure: true,
-            auth: {
-                user: 'bobertb492@gmail.com',
-                pass: 'Bobby15Cool!'
+        // REST URL
+        var url = "/sendmail?subject=" + encodeURI(subject) + "&message=" + encodeURI(message); 
+        var data = new FormData();
+     
+        // Set the configurations for the uploaded file
+        var config =
+        {
+            transformRequest: angular.identity,
+            transformResponse: angular.identity,
+            headers: 
+            {
+                'Content-Type': undefined
             }
-        });
+        }
 
-        let mailOptions = {
-            from: '"Food Finder" <bobertb492@gmail.com>',
-            to: 'stillwell006@gmail.com',
-            subject: subject,
-            html: message
-        };
-
-        transporter.sendMail(mailOptions);
-        alert('Email Sent!');
+        // Sends the file data off
+        $http.get(url, data, config).then(
+            // Success
+            function (response)
+            {
+                if(response)
+                    alert("Message sent!");
+            }
+        );
     
     }
 
