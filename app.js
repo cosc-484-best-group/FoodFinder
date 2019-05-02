@@ -24,9 +24,7 @@ var mongourl = "mongodb://localhost:27017/";
 
 const GOOGLE_API_KEY = "AIzaSyCQUvuEdmTO1JRZWHILlN2hbWuCJ8PyrN8";
 const YELP_API_KEY = "4dIx9HKv-klKh_nvUWaHAZqe_a-wQqi49uoJICQIfxdWFj0VS-8uw1TfrFoe2CVsKJeX7BRv0nntSA4svU-G_qiSkfHxYIfk_D83YWoAjRMfuz21UMnzT5_PPA53XHYx";
-
-const mf = require('MapFusionClient');
-const mapfusion = mf.client(GOOGLE_API_KEY, YELP_API_KEY);
+const mapfusion = MapFusionClient.client(GOOGLE_API_KEY, YELP_API_KEY);
 
 
 // ======================================
