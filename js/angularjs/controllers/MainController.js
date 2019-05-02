@@ -5,7 +5,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 	function setYelpScopes(data)
 	{	
             $scope.all = data;
-
+            $scope.source = data.status;
             // console.log(yelpData);
 
             $scope.name = data.name; 
@@ -16,47 +16,40 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             else
                 $scope.isshutdown = "";
 
-            $scope.rating = data.yelp_rating + "/5";
+            $scope.rating = data.rating + "/5";
 
-            // $scope.phone = yelpData.display_phone;
-            // $scope.location = yelpData.location.city + ", " + yelpData.location.state;
+            $scope.phone = data.phone;
+            $scope.location = data.address;
+            $scope.website = data.website;
+            $scope.hours = data.opening_hours;
             // $scope.coordinates = yelpData.coordinates; 
             
-            if(data.yelp_price == "$")
+            if(data.price == "$")
 				$scope.price = "low";
-			else if(data.yelp_price == "$$")
+			else if(data.price == "$$")
 				$scope.price = "medium";
-			else if(data.yelp_price == "$$$")
+			else if(data.price == "$$$")
 				$scope.price = "high";            
-			else if(data.yelp_price == "$$$$")
+			else if(data.price == "$$$$")
 				$scope.price = "very high";
 
-			// var cates = "";
-            // for(i = 0; i < yelpData.categories.length; i++)
-            //     if(i == 0)
-            //         cates += yelpData.categories[i].title;
-            //     else
-            //         cates += ", " + yelpData.categories[i].title;
-            // $scope.categories = cates;
+			var cates = "";
+            for(i = 0; i < data.categories.length; i++)
+                if(i == 0)
+                    cates += data.categories[i].title;
+                else
+                    cates += ", " + data.categories[i].title;
+            $scope.categories = cates;
 
-            // var resloc = yelpData.location.address1;
-            // if(yelpData.location.address2)
-            //     resloc += " " + yelpData.location.address2;
-            // if(yelpData.location.address3)
-            //     resloc += " " + yelpData.location.address3;
-            // resloc += " " + yelpData.location.city + ", " + yelpData.location.state;
-            // resloc += " " + yelpData.location.country + " " + yelpData.location.zip_code;
-            
-            // $scope.resloc = resloc;
 			// //$scope.distance = yelpData.distance + " miles";
 			
-			// var trans = "";
-            // for(i = 0; i < yelpData.transactions.length; i++)
-            //     if(i == 0)
-            //         trans += yelpData.transactions[i];
-            //     else
-            //         trans += ", " + yelpData.transactions[i];
-            // $scope.transactions = trans;
+			var trans = "";
+            for(i = 0; i < data.transactions.length; i++)
+                if(i == 0)
+                    trans += data.transactions[i];
+                else
+                    trans += ", " + data.transactions[i];
+            $scope.transactions = trans;
 
     }
 
