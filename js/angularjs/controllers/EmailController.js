@@ -20,7 +20,7 @@ app.controller('EmailController', ['$scope', '$http', function ($scope, $http)
             }
         }
 
-        // Sends the file data off
+        // Sends the file data off 
         $http.get(url, data, config).then(
             // Success
             function (response)
