@@ -19,7 +19,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             }
             else if(data.status == "google")
             {
-                $scope.sourceimg = "google-places-better.png";
+                $scope.sourceimg = "google-places.png";
                 $scope.sourcetitle = "GooglePlaces API"
             }
             else  // no data found
@@ -146,56 +146,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         if(user)
         {
             $scope.loggedin = true;
-            // var locs = JSON.parse(sessionStorage.getItem('favorites'));
-            // // console.log(locs);
-            // for(i = 0; i < locs.length; i++)
-            // {
-            //     var loc = locs[i];
-            //     // console.log(loc);
-            //     var newSpot = {
-            //         name: loc.name,
-            //         lat: loc.lat, 
-            //         lfavoriteson: loc.long, 
-            //         loc: loc.city + ", " + loc.state
-            //     };
-            //     addMarker(newSpot, starred);
-            // }
-
-            // // REST URL
-            // var url = "/init?locations=" + locs;
-            // var data = new FormData();
-
-            // // Set the configurations for the uploaded file
-            // var config =
-            // {
-            //     transformRequest: angular.identity,
-            //     transformResponse: angular.identity,
-            //     headers: 
-            //     {
-            //         'Content-Type': undefined
-            //     }
-            // }
-
-            // // Sends the file data off
-            // $http.get(url, data, config).then(
-            //     // Success
-            //     function (response)
-            //     {
-            //         // yelp data for each mongo rid
-            //         var yelpDataList = response.data;
-            //         for(i = 0; i < yelpDataList.length; i++)
-            //         {
-            //             yelpData = yelpDataList[i];
-            //             var newSpot = {
-            //                 name: yelpData.name,
-            //                 lat: yelpData.coordinates.latitude, 
-            //                 lon: yelpData.coordinates.longitude, 
-            //                 loc: yelpData.location.city + ", " + yelpData.location.state
-            //             };
-            //             addMarker(newSpot, starred);
-            //         }
-            //     }
-            // );
+            // favorites marker logic in maps.js
         }
 
 
@@ -203,9 +154,6 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             document.getElementById('loginbutton').innerHTML = user;
         else
             document.getElementById('loginbutton').innerHTML = "Login";
-
-
-        
 
     };
 

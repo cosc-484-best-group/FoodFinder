@@ -273,7 +273,9 @@ app.get('/favorite', function (request, resp)
           // make sure not in there
           var alreadySaved = false;
           var yelpData = bizs[0];
-        //   console.log("FAVS: " + favorites);
+
+          console.log("BIZS: " + bizs);
+          console.log("FAVS: " + favorites);
           for (var i = 0; i < favorites.length; i++)
           {
               var fav = favorites[i];
