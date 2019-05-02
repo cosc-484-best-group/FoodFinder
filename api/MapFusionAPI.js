@@ -67,12 +67,12 @@ function bestofall(googleData, yelpData)
     var y = yelpData[0];
     
     var addressfront = "";
-    if(y.address1)
-      addressfront += y.address1;
-    if(y.address2)
-      addressfront += " " + y.address2;
-    if(y.address3)
-      addressfront += " " + y.address3;
+    if(y.location.address1)
+      addressfront += y.location.address1;
+    if(y.location.address2)
+      addressfront += " " + y.location.address2;
+    if(y.location.address3)
+      addressfront += " " + y.location.address3;
     if(addressfront)
       addressfront += ", ";
 
