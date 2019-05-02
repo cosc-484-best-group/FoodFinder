@@ -6,11 +6,6 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 	{	
             $scope.all = data;
             $scope.source = data.status;
-            // console.log(yelpData);
-
-            $scope.name = data.name; 
-            $scope.image = data.image;
-
             if(data.is_closed)
                 $scope.isshutdown = "(Closed)";
             else
@@ -21,8 +16,9 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             $scope.phone = data.phone;
             $scope.location = data.address;
             $scope.website = data.website;
+            $scope.open = data.opening_hours.open_now;
             $scope.hours = data.opening_hours;
-            // $scope.coordinates = yelpData.coordinates; 
+            $scope.coordinates = data.latitude + "," + data.longitude; 
             
             if(data.price == "$")
 				$scope.price = "low";
