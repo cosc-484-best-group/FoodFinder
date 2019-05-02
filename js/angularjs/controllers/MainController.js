@@ -6,6 +6,16 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 	{	
             $scope.all = data;
             $scope.source = data.status;
+            
+            if(data.status == "both")
+                $scope.sourceimg = "both.png";
+            else if(data.status == "yelp")
+                $scope.sourceimg = "yelp-fusion.png";
+            else if(data.status == "google")
+                $scope.sourceimg = "google-places.png";
+            else
+                $scope.sourceimg = "none.png";
+
             $scope.name = data.name; 
             $scope.image = data.image;
             if(data.is_closed)
