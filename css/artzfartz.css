@@ -196,6 +196,12 @@ hr
     width: 150px;
 }
 
+#sourceimage
+{
+    padding: 5px;
+    width: 50px;
+}
+
 #favorite
 {
     cursor: pointer;
