@@ -17,7 +17,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
     function redirectHome()
     {
         location.href = "/";
-    }
+    } 
 
     function redirectLogin()
     {
