@@ -5,37 +5,23 @@ const request = require('request');
 class MapFusionClient 
 {
     // Constructor
-    constructor(verbose=false)
+    constructor(google_api_key, yelp_api_key, verbose=false)
     {
-        // this.google_key = google_api_key;
-        // this.yelp_api_key = yelp_api_key;
+        this.google_key = google_api_key;
+        this.yelp_key = yelp_api_key;
         this.verbose = verbose;
     }
-
-    // Builds URL from parameters
-    _formURL(baseURL, parameters)
-    {
-        var url = baseURL;
-        if(parameters.inputtype != "phonenumber")
-            url += Object.keys(parameters).map(function(k) {
-                return encodeURIComponent(k) + '=' + encodeURIComponent(parameters[k]);
-            }).join('&');
-        else  // encoding phone number URL breaks the URL
-            url += Object.keys(parameters).map(function(k) {
-                return encodeURIComponent(k) + '=' + parameters[k];
-            }).join('&');
-        url += '&key=' + this.apiKey;
-        return url;
-    }
-
+    
     // Finds a places basic info
     search(parameters, resp)
     {
 
         // Place parameters into the URL
         var url = 'https://foodfinder.xyz/api/mapfusion';
-        console.log(parameters);
 
+        // append api keys to args
+        parameters['google_api_key'] = this.google_key;
+        parameters['yelp_api_key'] = this.yelp_key;
 
         // Return a promise with the search id
         return new Promise(function(resolve, reject) 
@@ -56,9 +42,9 @@ class MapFusionClient
     
 }
 
-const createClient = (options) => 
+const createClient = (googleapikey, yelpapikey, args) => 
 {
-    return new MapFusionClient(options);
+    return new MapFusionClient(googleapikey, yelpapikey, args);
 };
 
 module.exports = 

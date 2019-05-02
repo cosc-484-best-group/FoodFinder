@@ -108,9 +108,7 @@ function bestofall(googleData, yelpData)
 }
 
 
-const GOOGLE_API_KEY = "AIzaSyCQUvuEdmTO1JRZWHILlN2hbWuCJ8PyrN8";
 const google_places = require('./googleplaces/googleplacescontroller');
-const places = google_places.client(GOOGLE_API_KEY);
 
 // ======================================
 //   GOOGLE PLACES API
@@ -119,6 +117,9 @@ function gplaces(args, res)
 {
   return new Promise(function(resolve, reject) 
   {
+
+    const places = google_places.client(args.google_api_key);
+
     places.advancedSearch(args).then(response => {
         console.log("google data pulled");        
         resolve(response);
@@ -130,9 +131,7 @@ function gplaces(args, res)
 }
 
 
-const YELP_API_KEY = "4dIx9HKv-klKh_nvUWaHAZqe_a-wQqi49uoJICQIfxdWFj0VS-8uw1TfrFoe2CVsKJeX7BRv0nntSA4svU-G_qiSkfHxYIfk_D83YWoAjRMfuz21UMnzT5_PPA53XHYx";
 const yelp_fusion = require('yelp-fusion');
-const yelper = yelp_fusion.client(YELP_API_KEY);
 
 // ======================================
 //   YELP API
@@ -141,6 +140,9 @@ function yelpfusion(args, res)
 {
   return new Promise(function(resolve, reject) 
   {
+
+    const yelper = yelp_fusion.client(args.yelp_api_key);
+
     yelper.search(args).then(response => {
         console.log("yelp data pulled");        
         const yelpData = response.jsonBody.businesses;
