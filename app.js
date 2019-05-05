@@ -16,16 +16,19 @@ const app = express();
 const router = express.Router();
 var mongourl = "mongodb://localhost:27017/";
 
+var auths = fs.readFileSync("auths.txt", "utf8").split("\n");
+const GOOGLE_API_KEY = auths[0];
+const YELP_API_KEY = auths[1];
+const GMAIL_USERNAME = auths[2];
+const GMAIL_PASSWORD = auths[3];
+
 // // from https://www.yelp.com/developers/v3/manage_app
 // // https://github.com/mstill3/yelp-fusion-api
 // const YELP_API_KEY = "4dIx9HKv-klKh_nvUWaHAZqe_a-wQqi49uoJICQIfxdWFj0VS-8uw1TfrFoe2CVsKJeX7BRv0nntSA4svU-G_qiSkfHxYIfk_D83YWoAjRMfuz21UMnzT5_PPA53XHYx";
 // const yelp_fusion = require('yelp-fusion');
 // const yelper = yelp_fusion.client(YELP_API_KEY);
 
-const GOOGLE_API_KEY = "AIzaSyCQUvuEdmTO1JRZWHILlN2hbWuCJ8PyrN8";
-const YELP_API_KEY = "4dIx9HKv-klKh_nvUWaHAZqe_a-wQqi49uoJICQIfxdWFj0VS-8uw1TfrFoe2CVsKJeX7BRv0nntSA4svU-G_qiSkfHxYIfk_D83YWoAjRMfuz21UMnzT5_PPA53XHYx";
 const mapfusion = MapFusionClient.client(GOOGLE_API_KEY, YELP_API_KEY);
-
 
 // ======================================
 //   ROUTING
@@ -102,13 +105,13 @@ app.get('/sendmail', function(request, resp)
         port: 465,  //any
         secure: true,
         auth: {
-            user: 'bobertb492@gmail.com',
-            pass: 'Bobby15Cool!'
+            user: GMAIL_USERNAME,
+            pass: GMAIL_PASSWORD
         }
     });
 
     let mailOptions = {
-        from: '"Food Finder" <bobertb492@gmail.com>',
+        from: '"Food Finder" <' + GMAIL_USERNAME + '>',
         to: 'stillwell006@gmail.com',
         subject: request.query.subject,
         html: request.query.message
