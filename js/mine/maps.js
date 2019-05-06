@@ -154,8 +154,29 @@ function editMarker(resturant, type) {
     marker.setMap(map);
 }
 
+
+function clearShapeListeners(){
+    google.maps.event.clearListeners(drawingManager, 'circlecomplete');
+    google.maps.event.clearListeners(drawingManager, 'rectanglecomplete');
+    google.maps.event.clearListeners(drawingManager, 'polygoncomplete');
+}
+
+
+var drawingManager = new google.maps.drawing.DrawingManager({
+    drawingControl: true,
+    drawingControlOptions: {
+        position: google.maps.ControlPosition.BOTTOM_LEFT,
+    }
+});
+
+
+google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event){
+    shapes.push(event.overlay);
+});
+
+
 var circle;
-function drawCircle(x, y, r) 
+function drawCircle(x, y, r)
 {
     // Add the circle for this city to the map.
     if(circle)
@@ -174,6 +195,23 @@ function drawCircle(x, y, r)
 }
 
 
+function setDrawingMode(mode){
+    deleteAllShapes();
+    if(mode == null){
+      drawingManager.setMap(null);
+    }else{
+      drawingManager.setOptions({
+        drawingMode: mode,
+        drawingControlOptions: {
+          position: google.maps.ControlPosition.BOTTOM_LEFT,
+          drawingModes: [mode]
+        }
+      });
+      drawingManager.setMap(map);
+    }
+}
+
+
 // the smooth zoom function
 function smoothZoom (map, max, cnt) {
     if (cnt >= max) {
@@ -187,4 +225,4 @@ function smoothZoom (map, max, cnt) {
         });
         setTimeout(function(){map.setZoom(cnt)}, 80); // 80ms is what I found to work well on my system -- it might not work well on all systems
     }
-}  
+}

@@ -10,17 +10,17 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             if(data.status == "both")
             {
                 $scope.sourceimg = "both.png";
-                $scope.sourcetitle = "MapFusion API"
+                $scope.sourcetitle = "MapFusion API";
             }
             else if(data.status == "yelp")
             {
                 $scope.sourceimg = "yelp-fusion.png";
-                $scope.sourcetitle = "Yelp-Fusion API"
+                $scope.sourcetitle = "Yelp-Fusion API";
             }
             else if(data.status == "google")
             {
                 $scope.sourceimg = "google-places.png";
-                $scope.sourcetitle = "GooglePlaces API"
+                $scope.sourcetitle = "GooglePlaces API";
             }
             else  // no data found
             {
@@ -30,7 +30,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             $scope.name = data.name; 
             
             if(data.image == "")
-                $scope.image = "resturant.jpeg"
+                $scope.image = "resturant.jpeg";
             else
                 $scope.image = data.image;
             
@@ -79,6 +79,48 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
     }
 
+    $scope.circle = "circle";
+    $scope.rectangle = "rectangle";
+    $scope.polygon = "polygon";
+    $scope.patterns = ["circle", "rectangle", "polygon"]
+    $scope.setDrawingPattern = function(type){
+        switch(type){
+            case $scope.circle:
+                setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
+                // $('.navbar-soptions')[0].style.minHeight = "390px";
+                google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle){
+                    $(".navbar-lat-input")[0].value = circle.getCenter().lat().toFixed(7);
+                    $(".navbar-lon-input")[0].value = circle.getCenter().lng().toFixed(7);
+                    $(".navbar-rad-input")[0].value = (circle.getRadius() / 1000).toFixed(4);
+                });
+                break;
+            case $scope.rectangle:
+                setDrawingMode(google.maps.drawing.OverlayType.RECTANGLE);
+                // $('.navbar-soptions')[0].style.minHeight = "360px";
+                google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(rectangle){
+                    let tl = rectangle.getBounds().getNorthEast().lat().toFixed(7) + "," + rectangle.getBounds().getSouthWest().lng().toFixed(7)
+                    let br = rectangle.getBounds().getSouthWest().lat().toFixed(7) + "," + rectangle.getBounds().getNorthEast().lng().toFixed(7)
+                    $(".navbar-tl-input")[0].value = tl
+                    $(".navbar-br-input")[0].value = br
+                });
+                break;
+            case $scope.polygon:
+                setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+                // $('.navbar-soptions')[0].style.minHeight = "330px";
+                google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon){
+                    let path = polygon.getPath().getArray();
+                    let latlon = "";
+                    for(i in path){
+                        latlon += path[i].lat().toFixed(7) + ',' + path[i].lng().toFixed(7) + ';';
+                    }
+                    $('.navbar-latlon-input')[0].value = latlon;
+                });
+                break;
+            default:
+                return;
+        }
+    }
+    
     //circle stuff
     $scope.plus = "+";
     $scope.neary = false;
