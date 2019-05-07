@@ -124,6 +124,7 @@ app.get('/sendmail', function(request, resp)
 
 app.post('/loginaccount', function (request, resp)
 {
+    console.log(JSON.stringify(request.body));
     var email = request.body.email;
     var password = request.body.password;
 
