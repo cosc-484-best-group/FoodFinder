@@ -238,7 +238,8 @@ app.get('/places', function (request, resp)
 
   mapfuse2(args, function callback(bizs)
   {
-        console.log("dsfsdfsdfsdfsfdsdfs" + bizs);
+      
+        console.log("dsfsdfsdfsdfsfdsdfs" + JSON.stringify(bizs));
         resp.send(bizs);
   });
 });
