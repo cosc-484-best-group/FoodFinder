@@ -278,7 +278,7 @@ function gplaces(send=true, args, res)
       resolve("Error: Google API key not passed");
       return;
     }
-    const places = google_places.client(google_api_key);
+    const places = google_places.client(google_api_key, verbose=true);
 
     places.nearbySearch(args).then(response => {
         console.log("google data pulled");        
