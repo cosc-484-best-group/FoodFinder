@@ -2,8 +2,17 @@
 var map;
 var mycoords = [0, 0];
 
+
+var drawingManager = null
+
 function initMap() 
 {
+    drawingManager = new google.maps.drawing.DrawingManager({
+        drawingControl: true,
+        drawingControlOptions: {
+            position: google.maps.ControlPosition.BOTTOM_LEFT,
+        }
+    });
     getLocation();
 }
 
@@ -160,14 +169,6 @@ function clearShapeListeners(){
     google.maps.event.clearListeners(drawingManager, 'rectanglecomplete');
     google.maps.event.clearListeners(drawingManager, 'polygoncomplete');
 }
-
-
-var drawingManager = new google.maps.drawing.DrawingManager({
-    drawingControl: true,
-    drawingControlOptions: {
-        position: google.maps.ControlPosition.BOTTOM_LEFT,
-    }
-});
 
 
 google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event){
