@@ -33,9 +33,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
 
         // REST URL
         var url = "/loginaccount";
-        var data = new FormData();
-        data.append("email", email);
-        data.append("password", password);
+        var data = {"email": email, "password": password}
         
         // Set the configurations for the uploaded file
 
@@ -148,19 +146,19 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
         }
 
         // REST URL
-        var url = "/createaccount?email=\"" + email +"\"&username=\"" + username +"\"&password=\"" + password + "\"";
-        var data = new FormData();
+        var url = "/createaccount";
+        var data = {"email": email, "username": username, "password": password}
         
         // Set the configurations for the uploaded file
-        var config =
-        {
-            transformRequest: angular.identity,
-            transformResponse: angular.identity,
-            headers: 
-            {
-                'Content-Type': undefined
-            }
-        }
+        // var config =
+        // {
+        //     transformRequest: angular.identity,
+        //     transformResponse: angular.identity,
+        //     headers: 
+        //     {
+        //         'Content-Type': undefined
+        //     }
+        // }
 
         $.ajax({
             type: "POST",
