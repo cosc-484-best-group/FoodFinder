@@ -15,7 +15,7 @@ class GooglePlacesClient
     _formURL(baseURL, parameters)
     {
         var url = baseURL;
-        if(parameters.inputtype != "phonenumber")
+        if(parameters.inputtype && parameters.inputtype == "textquery")
             url += Object.keys(parameters).map(function(k) {
                 return encodeURIComponent(k) + '=' + encodeURIComponent(parameters[k]);
             }).join('&');
