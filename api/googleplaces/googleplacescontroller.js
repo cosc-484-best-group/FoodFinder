@@ -20,7 +20,7 @@ class GooglePlacesController
         var args = {
             location: arg.latitude + "," + arg.longitude,
             radius: arg.radius,
-            type: 'resturant'
+            type: 'restaurant'
         }
         return new Promise(function(resolve, reject) 
         {
