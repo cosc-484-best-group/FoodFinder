@@ -1,5 +1,3 @@
-import { encode } from "punycode";
-
 app.controller('AccountController', ['$scope', '$http', function ($scope, $http) 
 {
 
