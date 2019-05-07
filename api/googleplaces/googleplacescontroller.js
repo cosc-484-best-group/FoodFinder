@@ -18,7 +18,7 @@ class GooglePlacesController
     {
         var $this = this;
         var args = {
-            location: arg.location,
+            location: arg.latitude + "," + arg.longitude,
             radius: arg.radius,
             type: 'resturant',
             key: this.apiKey
