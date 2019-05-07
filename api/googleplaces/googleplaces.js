@@ -59,7 +59,7 @@ class GooglePlacesClient
     {
 
         // Place parameters into the URL
-        var url = this._formURL('https://maps.googleapis.com/maps/api/place/nearbysearch/output?', parameters);
+        var url = this._formURL('https://maps.googleapis.com/maps/api/place/nearbysearch/json?', parameters);
         if(this.verbose) console.log("URL: " + url);
 
         // Return a promise with the search id

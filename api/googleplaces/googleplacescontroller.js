@@ -18,10 +18,10 @@ class GooglePlacesController
     {
         var $this = this;
         var args = {
-            key: this.apiKey,
             location: arg.location,
             radius: arg.radius,
-            rankby: 'distance'
+            type: 'resturant',
+            key: this.apiKey
         }
         return new Promise(function(resolve, reject) 
         {
