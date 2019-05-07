@@ -84,7 +84,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
     $scope.rectangle = "rectangle";
     $scope.polygon = "polygon";
     $scope.patterns = ["circle", "rectangle", "polygon"];
-    
+
     $scope.drawingPattern = "None"
     $scope.setDrawingPattern = function(type){
         switch(type){
@@ -112,25 +112,25 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
     $scope.flip = function()
     {
         $scope.neary = !$scope.neary;
-        if($scope.plus == "+")
-        {
-            $scope.plus = "-";
+        // if($scope.plus == "+")
+        // {
+        //     $scope.plus = "-";
             
-            var val = 5;
-            if (document.getElementsByName("slider").value)
-                val = document.getElementsByName("slider").value;
+        //     var val = 5;
+        //     if (document.getElementsByName("slider").value)
+        //         val = document.getElementsByName("slider").value;
 
-            multiplier = 1000;
-            document.getElementById("radBox").value = val;
-            document.getElementById("slider").value = val;
-            drawCircle(mycoords[0], mycoords[1], multiplier * val);
-        }
-        else
-        {
-            $scope.plus = "+";
-            circle.setMap(null);
-            document.getElementById("slider").value = 50;
-        }
+        //     multiplier = 1000;
+        //     document.getElementById("radBox").value = val;
+        //     document.getElementById("slider").value = val;
+        //     drawCircle(mycoords[0], mycoords[1], multiplier * val);
+        // }
+        // else
+        // {
+        //     $scope.plus = "+";
+        //     circle.setMap(null);
+        //     document.getElementById("slider").value = 50;
+        // }
     }
 
     $scope.circle = function(r)
