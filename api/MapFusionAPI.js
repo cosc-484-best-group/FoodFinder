@@ -51,12 +51,7 @@ function bothSearch(args, res)
 function bothNearby(args, res)
 {
   
-  yelpfusion(args, res).then(yelpData => {
-    res.status(200).send(yelpData);
-  }).catch(e => {
-    console.log(e);
-    res.status(500).send(e); 
-  });
+  yelpfusion(args, res);
 
     // gplaces(send=false, args, res).then(googleData => {
     //   yelpfusion(send=false, args, res).then(yelpData => {
@@ -287,7 +282,7 @@ function yelpfusion(send=true, args, res)
 {
   return new Promise(function(resolve, reject) 
   {
-
+    console.log("dsdsd: " + args);
     var yelp_api_key = args.yelp_api_key;
     if(!yelp_api_key)
     {
