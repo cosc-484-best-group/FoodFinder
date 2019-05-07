@@ -39,6 +39,34 @@ class MapFusionClient
             });
         });
     }
+
+    // Finds a places basic info
+    nearby(parameters, resp)
+    {
+
+        // Place parameters into the URL
+        var url = 'https://foodfinder.xyz/api/mapfusion/nearby-yelp';
+
+        // append api keys to args
+        parameters['google_api_key'] = this.google_key;
+        parameters['yelp_api_key'] = this.yelp_key;
+
+        // Return a promise with the search id
+        return new Promise(function(resolve, reject) 
+        {
+            request(url, { json: true, body: parameters }, (error, response, body) => 
+            {
+                if (error) 
+                    return reject("Unreachable URL"); 
+                
+                if(body.status == "INVALID_REQUEST")
+                    return reject(body);
+
+                resolve(body, resp);
+
+            });
+        });
+    }
     
 }
 
