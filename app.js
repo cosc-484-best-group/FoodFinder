@@ -124,13 +124,9 @@ app.get('/sendmail', function(request, resp)
 
 app.post('/loginaccount', function (request, resp)
 {
-    console.log(request.body);
     var email = request.body.email;
     var password = request.body.password;
 
-    // cut off quotes
-    email = email.substring(1, email.length - 1);
-    password = password.substring(1, password.length - 1);
 
     // pull account where email = account.email
     pullaccount(email, function (account)
@@ -165,10 +161,6 @@ app.post('/createaccount', function (request, resp)
     var username = request.body.username;
     var password = request.body.password;
 
-    // cut off quotes
-    email = email.substring(1, email.length - 1);
-    username = username.substring(1, username.length - 1);
-    password = password.substring(1, password.length - 1);
 
     // encryption
     cryptPassword(password, function(error, hash)
