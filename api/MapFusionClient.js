@@ -17,7 +17,7 @@ class MapFusionClient
     {
 
         // Place parameters into the URL
-        var url = 'https://foodfinder.xyz/api/mapfusion';
+        var url = 'https://foodfinder.xyz/api/mapfusion/search';
 
         // append api keys to args
         parameters['google_api_key'] = this.google_key;
