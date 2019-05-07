@@ -161,10 +161,10 @@ app.post('/createaccount', function (request, resp)
     var username = request.body.username;
     var password = request.body.password;
 
-
     // encryption
     cryptPassword(password, function(error, hash)
     {
+        console.log(email + hash);
         pushaccount({email: email, username: username, password: hash, favorites: []});
         resp.send(true);  // catch if bad!!!
     });
