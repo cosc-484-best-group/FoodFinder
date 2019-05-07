@@ -244,7 +244,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             function (response)
             {
                 var places = response.data;
-                console.log("dsfsdfsdf" + places);
+                console.log("dsfsdfsdf" + JSON.stringify(places));
                 places.forEach(place => {
                     // console.log(place)
                     // console.log(place.vicinity);
