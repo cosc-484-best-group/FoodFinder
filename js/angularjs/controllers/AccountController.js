@@ -32,35 +32,28 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
         var password = document.getElementById("mypassword").value;
 
         // REST URL
-        var url = "/loginaccount?email=\"" + email +"\"&password=\"" + password + "\"";
+        var url = "/loginaccount";
         var data = new FormData();
+        data.append("email", email);
+        data.append("password", password);
         
         // Set the configurations for the uploaded file
-        var config =
-        {
-            transformRequest: angular.identity,
-            transformResponse: angular.identity,
-            headers: 
-            {
-                'Content-Type': undefined
-            }
-        }
 
-        // Sends the file data off
-        $http.get(url, data, config).then(
-            // Success
-            function (response)
-            {
-                var result = response.data.valid;
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            success: function(response){
+                var result = response.valid;
                 // console.log(result);
                 if(result)
                 {
                     $scope.results = "Logged in!";
 
                     // push to HTML5 local storage
-                    sessionStorage.setItem('email', response.data.email);
-                    sessionStorage.setItem('username', response.data.username);
-                    sessionStorage.setItem('favorites', JSON.stringify(response.data.favorites));
+                    sessionStorage.setItem('email', response.email);
+                    sessionStorage.setItem('username', response.username);
+                    sessionStorage.setItem('favorites', JSON.stringify(response.favorites));
                     
                     successColor();
                     setTimeout(redirectHome(), 50000);
@@ -73,8 +66,48 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
                     failureColor();
                 }
                 $scope.visible = true;
-            }
-        );
+            },
+            dataType: "application/x-www-form-urlencoded"
+        });
+        // var config =
+        // {
+        //     transformRequest: angular.identity,
+        //     transformResponse: angular.identity,
+        //     headers: 
+        //     {
+        //         'Content-Type': undefined
+        //     }
+        // }
+
+        // Sends the file data off
+        // $http.get(url, data, config).then(
+        //     // Success
+        //     function (response)
+        //     {
+        //         var result = response.data.valid;
+        //         // console.log(result);
+        //         if(result)
+        //         {
+        //             $scope.results = "Logged in!";
+
+        //             // push to HTML5 local storage
+        //             sessionStorage.setItem('email', response.data.email);
+        //             sessionStorage.setItem('username', response.data.username);
+        //             sessionStorage.setItem('favorites', JSON.stringify(response.data.favorites));
+                    
+        //             successColor();
+        //             setTimeout(redirectHome(), 50000);
+        //         }
+        //         else
+        //         {
+        //             $scope.results = "Invalid Credentials"
+        //             document.getElementById("myemail").value = "";
+        //             document.getElementById("mypassword").value = "";
+        //             failureColor();
+        //         }
+        //         $scope.visible = true;
+        //     }
+        // );
 
     };
 

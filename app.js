@@ -80,7 +80,7 @@ app.use('/', router);
 // Setup read POST parameters
 var bodyParser = require('body-parser');
 
-app.use(bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 })); 
@@ -122,10 +122,10 @@ app.get('/sendmail', function(request, resp)
 
 });
 
-app.get('/loginaccount', function (request, resp)
+app.post('/loginaccount', function (request, resp)
 {
-    var email = request.query.email;
-    var password = request.query.password;
+    var email = request.body.email;
+    var password = request.body.password;
 
     // cut off quotes
     email = email.substring(1, email.length - 1);
