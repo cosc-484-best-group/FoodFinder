@@ -1,9 +1,21 @@
 
 var map;
 var mycoords = [0, 0];
+var shapes = [];
+
+var drawingManager = null
 
 function initMap() 
 {
+    drawingManager = new google.maps.drawing.DrawingManager({
+        drawingControl: true,
+        drawingControlOptions: {
+            position: google.maps.ControlPosition.BOTTOM_LEFT,
+        }
+    });
+    google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event){
+        shapes.push(event.overlay);
+    });
     getLocation();
 }
 
@@ -154,8 +166,16 @@ function editMarker(resturant, type) {
     marker.setMap(map);
 }
 
+
+function clearShapeListeners(){
+    google.maps.event.clearListeners(drawingManager, 'circlecomplete');
+    google.maps.event.clearListeners(drawingManager, 'rectanglecomplete');
+    google.maps.event.clearListeners(drawingManager, 'polygoncomplete');
+}
+
+
 var circle;
-function drawCircle(x, y, r) 
+function drawCircle(x, y, r)
 {
     // Add the circle for this city to the map.
     if(circle)
@@ -174,6 +194,88 @@ function drawCircle(x, y, r)
 }
 
 
+function setDrawingMode(mode){
+    deleteAllShapes();
+    if(mode == null){
+      drawingManager.setMap(null);
+    }else{
+      drawingManager.setOptions({
+        drawingMode: mode,
+        drawingControlOptions: {
+          position: google.maps.ControlPosition.BOTTOM_LEFT,
+          drawingModes: [mode]
+        }
+      });
+      drawingManager.setMap(map);
+    }
+}
+
+
+function deleteAllShapes(){
+    for(i in shapes){
+        shapes[i].setMap(null);
+    }
+    shapes = [];
+}
+
+
+function searchByCircle(){
+    setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
+    // $('.navbar-soptions')[0].style.minHeight = "390px";
+    google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle){
+        $("#point-lat")[0].value = circle.getCenter().lat().toFixed(7);
+        $("#point-lon")[0].value = circle.getCenter().lng().toFixed(7);
+        $("#point-rad")[0].value = (circle.getRadius() / 1000).toFixed(4);
+        mycoords = [circle.getCenter().lat().toFixed(7), circle.getCenter().lng().toFixed(7)]
+    });
+}
+
+
+function searchByRectangle(){
+    setDrawingMode(google.maps.drawing.OverlayType.RECTANGLE);
+    // $('.navbar-soptions')[0].style.minHeight = "360px";
+    google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(rectangle){
+        let tl = rectangle.getBounds().getNorthEast().lat().toFixed(7) + "," + rectangle.getBounds().getSouthWest().lng().toFixed(7)
+        let br = rectangle.getBounds().getSouthWest().lat().toFixed(7) + "," + rectangle.getBounds().getNorthEast().lng().toFixed(7)
+        $("#box-tl")[0].value = tl
+        $("#box-br")[0].value = br
+    });
+}
+
+
+function searchByPolygon(){
+    setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+    // $('.navbar-soptions')[0].style.minHeight = "330px";
+    google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon){
+        let path = polygon.getPath().getArray();
+        let latlon = "";
+        for(i in path){
+            latlon += path[i].lat().toFixed(7) + ',' + path[i].lng().toFixed(7) + ';';
+        }
+        $('#poly-latlon')[0].value = latlon;
+    });
+}
+
+
+function resetSearch(){
+    setDrawingMode(null);
+    clearShapeListeners();
+}
+
+var places = null
+function googleFindPlace(){
+    places = new google.maps.places.PlacesService(map);
+    places.findPlaceFromQuery({
+        fields: ["place_id", "price_level", "name", "formatted_address"],
+        locationBias: new google.maps.Circle({
+            center: new google.maps.LatLng(39.3938949,-76.5925164),
+            radius: 10000
+        }),
+        query: "Chipotle"
+    });
+}
+
+
 // the smooth zoom function
 function smoothZoom (map, max, cnt) {
     if (cnt >= max) {
@@ -187,4 +289,4 @@ function smoothZoom (map, max, cnt) {
         });
         setTimeout(function(){map.setZoom(cnt)}, 80); // 80ms is what I found to work well on my system -- it might not work well on all systems
     }
-}  
+}

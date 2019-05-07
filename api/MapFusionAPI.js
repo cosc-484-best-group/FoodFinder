@@ -8,23 +8,69 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
 
-// RETURNS GOOGLE RESULTS
-router.get('/mapfusion', function (req, res) 
+// RETURNS MAPFUSION RESULTS
+router.get('/mapfusion/search', function (req, res) 
 {
-    both(req.body, res);
+    bothSearch(req.body, res);
+});
+
+// RETURNS MAPFUSION RESULTS
+router.get('/mapfusion/nearby-google', function (req, res) 
+{
+    googlenearby(req.body, res);
+});
+
+// RETURNS MAPFUSION RESULTS
+router.get('/mapfusion/nearby-yelp', function (req, res) 
+{
+    yelpnearby(req.body, res);
+});
+
+// RETURNS GOOGLE RESULTS
+router.get('/googleplaces', function (req, res) 
+{
+    gplace(req.body, res);
+});
+
+// RETURNS YELP RESULTS
+router.get('/yelpfusion', function (req, res) 
+{
+    yelpfusion(req.body, res);
 });
 
 
-function both(args, res)
+function bothSearch(args, res)
 {
-    gplaces(args, res).then(googleData => {
-      yelpfusion(args, res).then(yelpData => {
+    gplace(send=false, args, res).then(googleData => {
+      yelpfusion(send=false, args, res).then(yelpData => {
         res.status(200).send(bestofall(googleData, yelpData));
       }).catch(e => {
-        console.log(e); 
+        console.log(e);
+        res.status(500).send(e); 
       });
     }).catch(e => {
       console.log(e);
+      res.status(500).send(e);
+    });
+}
+
+function googlenearby(args, res)
+{
+    gplaces(send=false, args, res).then(yelpData => {
+      res.status(200).send(yelpData);
+    }).catch(e => {
+      console.log(e);
+      res.status(500).send(e); 
+    });
+}
+
+function yelpnearby(args, res)
+{
+    yelpfusion(send=false, args, res).then(yelpData => {
+      res.status(200).send(yelpData);
+    }).catch(e => {
+      console.log(e);
+      res.status(500).send(e); 
     });
 }
 
@@ -152,11 +198,7 @@ function bestofall(googleData, yelpData)
     else // if not yelp data or does not match
     {
 
-      var str = "8600 Lasalle Rd #250C, Towson, MD 21286, USA";
-      var str2 = "140 George St, The Rocks NSW 2000, Australia";
-      
       var g = googleData.result;
-
       var loc = g.formatted_address.split(',');
       var country = loc[loc.length - 1].trim();
       var loc2 = loc[loc.length - 2].trim().split(' ');
@@ -213,7 +255,7 @@ const google_places = require('./googleplaces/googleplacescontroller');
 // ======================================
 //   GOOGLE PLACES API
 // ======================================
-function gplaces(args, res)
+function gplace(send=true, args, res)
 {
   return new Promise(function(resolve, reject) 
   {
@@ -229,9 +271,36 @@ function gplaces(args, res)
     places.advancedSearch(args).then(response => {
         console.log("google data pulled");        
         resolve(response);
+        if(send)  res.status(200).send(response);
     }).catch(e => {
         console.log(e);
         reject(e);
+        if(send)  res.status(500).send(e);
+    });
+  });
+}
+
+function gplaces(send=true, args, res)
+{
+  return new Promise(function(resolve, reject) 
+  {
+
+    var google_api_key = args.google_api_key;
+    if(!google_api_key)
+    {
+      resolve("Error: Google API key not passed");
+      return;
+    }
+    const places = google_places.client(google_api_key);
+
+    places.nearbySearch(args).then(response => {
+        console.log("google data pulled");        
+        resolve(response);
+        if(send)  res.status(200).send(response);
+    }).catch(e => {
+        console.log(e);
+        reject(e);
+        if(send)  res.status(500).send(e);
     });
   });
 }
@@ -242,11 +311,11 @@ const yelp_fusion = require('yelp-fusion');
 // ======================================
 //   YELP API
 // ======================================
-function yelpfusion(args, res)
+function yelpfusion(send=true, args, res)
 {
   return new Promise(function(resolve, reject) 
   {
-
+    
     var yelp_api_key = args.yelp_api_key;
     if(!yelp_api_key)
     {
@@ -259,9 +328,11 @@ function yelpfusion(args, res)
         console.log("yelp data pulled");        
         const yelpData = response.jsonBody.businesses;
         resolve(yelpData);
+        if(send)  res.status(200).send(yelpData);
       }).catch(e => {
         console.log(e);
         reject(e);
+        if(send)  res.status(500).send(e);
       });
   });
 }

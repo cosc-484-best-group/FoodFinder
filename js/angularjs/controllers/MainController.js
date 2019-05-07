@@ -4,23 +4,24 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
 	function setYelpScopes(data)
 	{	
+            console.log("dsdsd: " + JSON.stringify(data));
             $scope.all = data;
             $scope.source = data.status;
             
             if(data.status == "both")
             {
                 $scope.sourceimg = "both.png";
-                $scope.sourcetitle = "MapFusion API"
+                $scope.sourcetitle = "MapFusion API";
             }
             else if(data.status == "yelp")
             {
                 $scope.sourceimg = "yelp-fusion.png";
-                $scope.sourcetitle = "Yelp-Fusion API"
+                $scope.sourcetitle = "Yelp-Fusion API";
             }
             else if(data.status == "google")
             {
                 $scope.sourceimg = "google-places.png";
-                $scope.sourcetitle = "GooglePlaces API"
+                $scope.sourcetitle = "GooglePlaces API";
             }
             else  // no data found
             {
@@ -30,7 +31,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             $scope.name = data.name; 
             
             if(data.image == "")
-                $scope.image = "resturant.jpeg"
+                $scope.image = "resturant.jpeg";
             else
                 $scope.image = data.image;
             
@@ -42,7 +43,8 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             $scope.rating = data.rating + "/5";
 
             $scope.phone = data.phone;
-            $scope.location = data.location.address;
+            if(data.location)
+                $scope.location = data.location.address;
             $scope.website = data.website;
 
             if(data.opening_hours)
@@ -79,6 +81,37 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
     }
 
+
+    $scope.circle = "circle";
+    $scope.rectangle = "rectangle";
+    $scope.polygon = "polygon";
+    $scope.patterns = ["circle", "rectangle", "polygon"];
+
+    $scope.drawingPattern = "None"
+    $scope.setDrawingPattern = function(type){
+        inputs = document.getElementsByClassName("shape-input");
+        for(var i in inputs){
+            inputs[i].value = "";
+        }
+        switch(type){
+            case $scope.circle:
+                searchByCircle();
+                $scope.drawingPattern = $scope.circle;
+                break;
+            case $scope.rectangle:
+                searchByRectangle();
+                $scope.drawingPattern = $scope.rectangle;
+                break;
+            case $scope.polygon:
+                searchByPolygon();
+                $scope.drawingPattern = $scope.polygon;
+                break;
+            default:
+                return;
+        }
+    }
+
+
     //circle stuff
     $scope.plus = "+";
     $scope.neary = false;
@@ -89,24 +122,24 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         {
             $scope.plus = "-";
             
-            var val = 5;
-            if (document.getElementsByName("slider").value)
-                val = document.getElementsByName("slider").value;
+        //     var val = 5;
+        //     if (document.getElementsByName("slider").value)
+        //         val = document.getElementsByName("slider").value;
 
-            multiplier = 1000;
-            document.getElementById("radBox").value = val;
-            document.getElementById("slider").value = val;
-            drawCircle(mycoords[0], mycoords[1], multiplier * val);
+        //     multiplier = 1000;
+        //     document.getElementById("radBox").value = val;
+        //     document.getElementById("slider").value = val;
+        //     drawCircle(mycoords[0], mycoords[1], multiplier * val);
         }
         else
         {
             $scope.plus = "+";
-            circle.setMap(null);
-            document.getElementById("slider").value = 50;
+        //     circle.setMap(null);
+        //     document.getElementById("slider").value = 50;
         }
     }
 
-    $scope.circle = function(r)
+    $scope.fcircle = function(r)
     {
         //Google circle API takes the radius in meters (https://developers.google.com/maps/documentation/javascript/shapes#circles)
         //convert user-input from km to m
@@ -118,14 +151,14 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
     {
        r=parseFloat(document.getElementsByName("radBox")[0].value);
        document.getElementById("slider").value=r;
-       $scope.circle(r);
+       $scope.fcircle(r);
         
     }
 
     $scope.setBoxFromSlider = function() {
         r = document.getElementById("slider").value;
         document.getElementById("radBox").value = r
-        $scope.circle(r); 
+        $scope.fcircle(r); 
     }
 
     
@@ -179,7 +212,6 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
     // Sends textbox input to Yelp in Nodejs backend
     $scope.nearby = function (distance) 
     {
-
         // var range = 1000; //meters
         var price = "\"1, 2, 3\"";
 
@@ -191,8 +223,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         var url = "/places?lat=" + mycoords[0] + 
             "&long=" + mycoords[1] +
             "&range=" + range + 
-            "&price=" + price +
-            "/";
+            "&price=" + price;
         var data = new FormData();
         
         // Set the configurations for the uploaded file

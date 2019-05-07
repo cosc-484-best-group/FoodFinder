@@ -15,7 +15,7 @@ class GooglePlacesClient
     _formURL(baseURL, parameters)
     {
         var url = baseURL;
-        if(parameters.inputtype != "phonenumber")
+        if(parameters.inputtype && parameters.inputtype == "textquery")
             url += Object.keys(parameters).map(function(k) {
                 return encodeURIComponent(k) + '=' + encodeURIComponent(parameters[k]);
             }).join('&');
@@ -35,6 +35,31 @@ class GooglePlacesClient
 
         // Place parameters into the URL
         var url = this._formURL('https://maps.googleapis.com/maps/api/place/findplacefromtext/json?', parameters);
+        if(this.verbose) console.log("URL: " + url);
+
+        // Return a promise with the search id
+        return new Promise(function(resolve, reject) 
+        {
+            request(url, { json: true }, (error, response, body) => 
+            {
+                if (error) 
+                    return reject("Unreachable URL"); 
+                
+                if(body.status == "INVALID_REQUEST")
+                    return reject(body);
+
+                resolve(body, resp);
+
+            });
+        });
+    }
+
+    // Finds nearby places
+    nearby(parameters, resp)
+    {
+
+        // Place parameters into the URL
+        var url = this._formURL('https://maps.googleapis.com/maps/api/place/nearbysearch/json?', parameters);
         if(this.verbose) console.log("URL: " + url);
 
         // Return a promise with the search id
