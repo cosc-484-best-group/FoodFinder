@@ -42,7 +42,8 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             $scope.rating = data.rating + "/5";
 
             $scope.phone = data.phone;
-            $scope.location = data.location.address;
+            if(data.location)
+                $scope.location = data.location.address;
             $scope.website = data.website;
 
             if(data.opening_hours)
