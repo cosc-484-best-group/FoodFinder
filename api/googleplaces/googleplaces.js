@@ -5,7 +5,7 @@ const request = require('request');
 class GooglePlacesClient 
 {
     // Constructor
-    constructor(apiKey, verbose=false)
+    constructor(apiKey, verbose=true)
     {
         this.apiKey = apiKey;
         this.verbose = verbose;
