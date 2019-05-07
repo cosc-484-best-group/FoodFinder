@@ -224,7 +224,7 @@ app.get('/places', function (request, resp)
         latitude: request.query.lat, 
         longitude: request.query.long,
     
-        radius: 1500
+        radius: 3500
         // categories: 'bars',
         // locale: 'en_US',
         // limit: 1,
