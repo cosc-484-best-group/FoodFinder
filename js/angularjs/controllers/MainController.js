@@ -87,18 +87,22 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
     $scope.drawingPattern = "None"
     $scope.setDrawingPattern = function(type){
+        inputs = document.getElementsByClassName("shape-input");
+        for(var i in inputs){
+            inputs[i].value = "";
+        }
         switch(type){
             case $scope.circle:
                 searchByCircle();
-                $scope.drawingPattern = $scope.circle
+                $scope.drawingPattern = $scope.circle;
                 break;
             case $scope.rectangle:
                 searchByRectangle();
-                $scope.drawingPattern = $scope.rectangle
+                $scope.drawingPattern = $scope.rectangle;
                 break;
             case $scope.polygon:
                 searchByPolygon();
-                $scope.drawingPattern = $scope.polygon
+                $scope.drawingPattern = $scope.polygon;
                 break;
             default:
                 return;
