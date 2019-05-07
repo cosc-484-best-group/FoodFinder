@@ -42,7 +42,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
             transformResponse: angular.identity,
             headers: 
             {
-                'Content-Type': undefined
+                'Content-Type': "application/x-www-form-urlencoded"
             }
         }
 
