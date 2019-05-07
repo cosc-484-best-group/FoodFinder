@@ -158,7 +158,7 @@ app.post('/loginaccount', function (request, resp)
 
 });
 
-app.get('/createaccount', function (request, resp)
+app.post('/createaccount', function (request, resp)
 {
     var email = request.query.email;
     var username = request.query.username;
