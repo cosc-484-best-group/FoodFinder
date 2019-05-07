@@ -261,6 +261,19 @@ function resetSearch(){
     clearShapeListeners();
 }
 
+var places = null
+function googleFindPlace(){
+    places = new google.maps.places.PlacesService(map);
+    places.findPlaceFromQuery({
+        fields: ["place_id", "price_level", "name", "formatted_address"],
+        locationBias: new google.maps.Circle({
+            center: new google.maps.LatLng(39.3938949,-76.5925164),
+            radius: 10000
+        }),
+        query: "Chipotle"
+    });
+}
+
 
 // the smooth zoom function
 function smoothZoom (map, max, cnt) {
