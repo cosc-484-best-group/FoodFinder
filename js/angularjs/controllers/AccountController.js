@@ -1,3 +1,4 @@
+import { encode } from "punycode";
 
 app.controller('AccountController', ['$scope', '$http', function ($scope, $http) 
 {
@@ -33,7 +34,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
 
         // REST URL
         var url = "/loginaccount";
-        var data = {"email": email, "password": password}
+        var data = "email=" + encodeURI(email) + "&password=" + encodeURI(password);
         
         // Set the configurations for the uploaded file
 
@@ -117,7 +118,8 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
 
         // REST URL
         var url = "/createaccount";
-        var data = {"email": email, "username": username, "password": password}
+        var data = "email=" + encodeURI(email) + "&password=" + encodeURI(password) + "&username=" + encodeURI(username);
+        // var data = {"email": email, "username": username, "password": password};
         
         // Set the configurations for the uploaded file
         var config =
