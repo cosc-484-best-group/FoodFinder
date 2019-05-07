@@ -17,7 +17,7 @@ router.get('/mapfusion/search', function (req, res)
 // RETURNS MAPFUSION RESULTS
 router.get('/mapfusion/nearby', function (req, res) 
 {
-    bothSearch(req.body, res);
+    bothNearby(req.body, res);
 });
 
 // RETURNS GOOGLE RESULTS
