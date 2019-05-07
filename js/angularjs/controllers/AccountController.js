@@ -51,8 +51,10 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
             // Success
             function (response)
             {
+                response=JSON.parse(response);
                 console.log(response);
-                var result = response.valid;
+
+                var result = response.data.valid;
                 if(result)
                 {
                     $scope.results = "Logged in!";
@@ -135,7 +137,8 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
             // Success
             function (response)
             {
-                var result = response.valid;
+                response=JSON.parse(response);
+                var result = response.data.valid;
                 if(result)
                 {
                     $scope.results = "Account created!";
