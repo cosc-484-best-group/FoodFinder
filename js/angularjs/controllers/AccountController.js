@@ -51,6 +51,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
             // Success
             function (response)
             {
+                console.log(response);
                 var result = response.valid;
                 if(result)
                 {
