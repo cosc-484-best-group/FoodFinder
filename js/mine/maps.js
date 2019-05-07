@@ -212,6 +212,49 @@ function setDrawingMode(mode){
 }
 
 
+function searchByCircle(){
+    setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
+    // $('.navbar-soptions')[0].style.minHeight = "390px";
+    google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle){
+        $("#point-lat")[0].value = circle.getCenter().lat().toFixed(7);
+        $("#point-lon")[0].value = circle.getCenter().lng().toFixed(7);
+        $("#point-rad")[0].value = (circle.getRadius() / 1000).toFixed(4);
+    });
+}
+
+
+function searchByRectangle(){
+    setDrawingMode(google.maps.drawing.OverlayType.RECTANGLE);
+    // $('.navbar-soptions')[0].style.minHeight = "360px";
+    google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(rectangle){
+        let tl = rectangle.getBounds().getNorthEast().lat().toFixed(7) + "," + rectangle.getBounds().getSouthWest().lng().toFixed(7)
+        let br = rectangle.getBounds().getSouthWest().lat().toFixed(7) + "," + rectangle.getBounds().getNorthEast().lng().toFixed(7)
+        $("#box-tl")[0].value = tl
+        $("#box-br")[0].value = br
+    });
+}
+
+
+function searchByPolygon(){
+    setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+    // $('.navbar-soptions')[0].style.minHeight = "330px";
+    google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon){
+        let path = polygon.getPath().getArray();
+        let latlon = "";
+        for(i in path){
+            latlon += path[i].lat().toFixed(7) + ',' + path[i].lng().toFixed(7) + ';';
+        }
+        $('#poly-latlon')[0].value = latlon;
+    });
+}
+
+
+function resetSearch(){
+    setDrawingMode(null);
+    clearShapeListeners();
+}
+
+
 // the smooth zoom function
 function smoothZoom (map, max, cnt) {
     if (cnt >= max) {

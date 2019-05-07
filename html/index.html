@@ -45,7 +45,7 @@
                     <a href="/news"> News <span class="badge badge-light"> 2 </span> </a>
                     <a href="/contact"> Contact </a>
                     <a href="/about"> About </a>
-                    <a class="btn btn-danger" id="loginbutton" ng-click="login()"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
+                    <a class="btn btn-danger" id="loginbutton" ng-click="login()"> Login </a>
                 </div> 
             </div>
 
@@ -69,12 +69,19 @@
                         &nbsp;
                         kilometers
                     </div> -->
-                    <select>
-                        <option value="low">low</option>
-                        <option value="medium">medium</option>
-                        <option value="high"> high </option>
-                        <option value="expensive"> expensive </option>
-                      </select>
+                    <select onchange="setDrawingPattern(this.value)">
+                        <option disabled selected value="">Select One</option>
+                        <option value="circle">Circle</option>
+                        <option value="rectangle">Rectangle</option>
+                        <option value="polygon">Polygon</option>
+                    </select>
+                    <input ng-show="drawingPattern=='circle'" type="text" id="point-lat" class="circle-input" placeholder="lat">
+                    <input ng-show="drawingPattern=='circle'" type="text" id="point-lon" class="circle-input" placeholder="lon">
+                    <input ng-show="drawingPattern=='circle'" type="text" id="point-rad" class="circle-input" placeholder="rad">
+                    <input ng-show="drawingPattern=='rectangle'" type="text" id="box-tl" class="rect-input" placeholder="tl">
+                    <input ng-show="drawingPattern=='rectangle'" type="text" id="box-br" class="rect-input" placeholder="br">
+                    <input ng-show="drawingPattern=='polygon'" type="text" id="poly-latlon" class="poly-input" placeholder="latlon">
+                    <button type="reset" onclick="resetSearch()" class="search-reset">Reset</button>
                 </div> 
 
                 <a id="plus" ng-click="flip()"> {{ plus }} </a>
@@ -146,7 +153,7 @@
 
             <!-- Outside APIs -->
             <script type="text/javascript" src="maps.js"></script>
-            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQUvuEdmTO1JRZWHILlN2hbWuCJ8PyrN8&callback=initMap"> </script>
+            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5zYY2YqpLcCAUgorJhi5mZvU22C-kGNQ&libraries=drawing,visualization&callback=initMap"> </script>
 
             <!-- Bootstrap -->
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
