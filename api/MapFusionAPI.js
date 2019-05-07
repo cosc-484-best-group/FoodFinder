@@ -23,7 +23,7 @@ router.get('/mapfusion/nearby', function (req, res)
 // RETURNS GOOGLE RESULTS
 router.get('/googleplaces', function (req, res) 
 {
-    gplaces(req.body, res);
+    gplace(req.body, res);
 });
 
 // RETURNS YELP RESULTS
@@ -35,7 +35,7 @@ router.get('/yelpfusion', function (req, res)
 
 function bothSearch(args, res)
 {
-    gplaces(send=false, args, res).then(googleData => {
+    gplace(send=false, args, res).then(googleData => {
       yelpfusion(send=false, args, res).then(yelpData => {
         res.status(200).send(bestofall(googleData, yelpData));
       }).catch(e => {
@@ -52,7 +52,7 @@ function bothNearby(args, res)
 {
   
   
-    yelpfusion(send=false, args, res).then(yelpData => {
+    gplaces(send=false, args, res).then(yelpData => {
       res.status(200).send(yelpData);
     }).catch(e => {
       console.log(e);
@@ -242,7 +242,7 @@ const google_places = require('./googleplaces/googleplacescontroller');
 // ======================================
 //   GOOGLE PLACES API
 // ======================================
-function gplaces(send=true, args, res)
+function gplace(send=true, args, res)
 {
   return new Promise(function(resolve, reject) 
   {
@@ -267,6 +267,31 @@ function gplaces(send=true, args, res)
   });
 }
 
+function gplaces(send=true, args, res)
+{
+  return new Promise(function(resolve, reject) 
+  {
+
+    var google_api_key = args.google_api_key;
+    if(!google_api_key)
+    {
+      resolve("Error: Google API key not passed");
+      return;
+    }
+    const places = google_places.client(google_api_key);
+
+    places.nearby(args).then(response => {
+        console.log("google data pulled");        
+        resolve(response);
+        if(send)  res.status(200).send(response);
+    }).catch(e => {
+        console.log(e);
+        reject(e);
+        if(send)  res.status(500).send(e);
+    });
+  });
+}
+
 
 const yelp_fusion = require('yelp-fusion');
 
@@ -277,11 +302,6 @@ function yelpfusion(send=true, args, res)
 {
   return new Promise(function(resolve, reject) 
   {
-    // console.log("dsdsd: " + JSON.stringify(args));
-    for(var key in args)
-    {
-      console.log(key);
-    }
     
     var yelp_api_key = args.yelp_api_key;
     if(!yelp_api_key)

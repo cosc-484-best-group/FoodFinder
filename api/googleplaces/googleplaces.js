@@ -54,6 +54,31 @@ class GooglePlacesClient
         });
     }
 
+    // Finds nearby places
+    nearby(parameters, resp)
+    {
+
+        // Place parameters into the URL
+        var url = this._formURL('https://maps.googleapis.com/maps/api/place/nearbysearch/output?', parameters);
+        if(this.verbose) console.log("URL: " + url);
+
+        // Return a promise with the search id
+        return new Promise(function(resolve, reject) 
+        {
+            request(url, { json: true }, (error, response, body) => 
+            {
+                if (error) 
+                    return reject("Unreachable URL"); 
+                
+                if(body.status == "INVALID_REQUEST")
+                    return reject(body);
+
+                resolve(body, resp);
+
+            });
+        });
+    }
+
     // Finds a places details
     details(place_id, resp)
     {

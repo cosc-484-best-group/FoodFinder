@@ -12,6 +12,29 @@ class GooglePlacesController
         this.places = google_places.client(apiKey, verbose);
     }
 
+
+    // Finds nearby
+    basicSearch(arg)
+    {
+        var $this = this;
+        var args = {
+            key: this.apiKey,
+            location: arg.location,
+            radius: arg.radius,
+            rankby: 'distance'
+        }
+        return new Promise(function(resolve, reject) 
+        {
+            $this.places.nearby(args).then(response => {
+                resolve(response);
+                if($this.verbose) console.log(response);
+            }).catch(e => {
+                reject(e);
+                console.log(e);
+            });
+        });
+    }
+
     // Finds places that match input query
     basicSearch(arg)
     {
