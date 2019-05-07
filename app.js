@@ -160,9 +160,9 @@ app.post('/loginaccount', function (request, resp)
 
 app.post('/createaccount', function (request, resp)
 {
-    var email = request.query.email;
-    var username = request.query.username;
-    var password = request.query.password;
+    var email = request.body.email;
+    var username = request.body.username;
+    var password = request.body.password;
 
     // cut off quotes
     email = email.substring(1, email.length - 1);
