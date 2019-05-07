@@ -282,8 +282,8 @@ function yelpfusion(send=true, args, res)
 {
   return new Promise(function(resolve, reject) 
   {
-    console.log("dsdsd: " + args);
-    var yelp_api_key = args.yelp_api_key;
+    console.log("dsdsd: " + JSON.stringify(args));
+    var yelp_api_key = args['yelp_api_key'];
     if(!yelp_api_key)
     {
       resolve("Error: Yelp API key not passed");
