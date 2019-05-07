@@ -15,9 +15,15 @@ router.get('/mapfusion/search', function (req, res)
 });
 
 // RETURNS MAPFUSION RESULTS
-router.get('/mapfusion/nearby', function (req, res) 
+router.get('/mapfusion/nearby-google', function (req, res) 
 {
-    bothNearby(req.body, res);
+    googlenearby(req.body, res);
+});
+
+// RETURNS MAPFUSION RESULTS
+router.get('/mapfusion/nearby-yelp', function (req, res) 
+{
+    yelpnearby(req.body, res);
 });
 
 // RETURNS GOOGLE RESULTS
@@ -48,17 +54,24 @@ function bothSearch(args, res)
     });
 }
 
-function bothNearby(args, res)
+function googlenearby(args, res)
 {
-  
-  
     gplaces(send=false, args, res).then(yelpData => {
       res.status(200).send(yelpData);
     }).catch(e => {
       console.log(e);
       res.status(500).send(e); 
     });
+}
 
+function yelpnearby(args, res)
+{
+    yelpfusion(send=false, args, res).then(yelpData => {
+      res.status(200).send(yelpData);
+    }).catch(e => {
+      console.log(e);
+      res.status(500).send(e); 
+    });
 }
 
 function bestofall(googleData, yelpData)
@@ -278,7 +291,7 @@ function gplaces(send=true, args, res)
       resolve("Error: Google API key not passed");
       return;
     }
-    const places = google_places.client(google_api_key, verbose=true);
+    const places = google_places.client(google_api_key);
 
     places.nearbySearch(args).then(response => {
         console.log("google data pulled");        
