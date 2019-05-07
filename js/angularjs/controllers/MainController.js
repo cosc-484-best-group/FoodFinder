@@ -112,9 +112,9 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
     $scope.flip = function()
     {
         $scope.neary = !$scope.neary;
-        // if($scope.plus == "+")
-        // {
-        //     $scope.plus = "-";
+        if($scope.plus == "+")
+        {
+            $scope.plus = "-";
             
         //     var val = 5;
         //     if (document.getElementsByName("slider").value)
@@ -124,13 +124,13 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         //     document.getElementById("radBox").value = val;
         //     document.getElementById("slider").value = val;
         //     drawCircle(mycoords[0], mycoords[1], multiplier * val);
-        // }
-        // else
-        // {
-        //     $scope.plus = "+";
+        }
+        else
+        {
+            $scope.plus = "+";
         //     circle.setMap(null);
         //     document.getElementById("slider").value = 50;
-        // }
+        }
     }
 
     $scope.circle = function(r)
