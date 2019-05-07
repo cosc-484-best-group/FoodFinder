@@ -16,7 +16,7 @@ const app = express();
 const router = express.Router();
 var mongourl = "mongodb://localhost:27017/";
 
-var auths = fs.readFileSync("auths.txt", "utf8").split("\n");
+var auths = fs.readFileSync("../auths.txt", "utf8").split("\n");
 const GOOGLE_API_KEY = auths[0];
 const YELP_API_KEY = auths[1];
 const GMAIL_USERNAME = auths[2];
