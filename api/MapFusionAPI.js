@@ -51,19 +51,14 @@ function bothSearch(args, res)
 function bothNearby(args, res)
 {
   
-  yelpfusion(args, res);
+  
+    yelpfusion(send=false, args, res).then(yelpData => {
+      res.status(200).send(yelpData);
+    }).catch(e => {
+      console.log(e);
+      res.status(500).send(e); 
+    });
 
-    // gplaces(send=false, args, res).then(googleData => {
-    //   yelpfusion(send=false, args, res).then(yelpData => {
-    //     res.status(200).send(bestofall(googleData, yelpData));
-    //   }).catch(e => {
-    //     console.log(e);
-    //     res.status(500).send(e); 
-    //   });
-    // }).catch(e => {
-    //   console.log(e);
-    //   res.status(500).send(e);
-    // });
 }
 
 function bestofall(googleData, yelpData)
@@ -282,7 +277,11 @@ function yelpfusion(send=true, args, res)
 {
   return new Promise(function(resolve, reject) 
   {
-    console.log("dsdsd: " + JSON.stringify(args));
+    // console.log("dsdsd: " + JSON.stringify(args));
+    for(var key in args)
+    {
+      console.log(key);
+    }
     
     var yelp_api_key = args.yelp_api_key;
     if(!yelp_api_key)
