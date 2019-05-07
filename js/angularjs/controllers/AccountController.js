@@ -37,22 +37,31 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
         
         // Set the configurations for the uploaded file
 
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: data,
-            dataType: "application/x-www-form-urlencoded",
-            success: function(response){
-                var result = response.valid;
-                // console.log(result);
+        var config =
+        {
+            transformRequest: angular.identity,
+            transformResponse: angular.identity,
+            headers: 
+            {
+                'Content-Type': undefined
+            }
+        }
+
+        // Sends the file data off
+        $http.post(url, data, config).then(
+            // Success
+            function (response)
+            {
+                var result = response.data.valid;
+                console.log(result);
                 if(result)
                 {
                     $scope.results = "Logged in!";
 
                     // push to HTML5 local storage
-                    sessionStorage.setItem('email', response.email);
-                    sessionStorage.setItem('username', response.username);
-                    sessionStorage.setItem('favorites', JSON.stringify(response.favorites));
+                    sessionStorage.setItem('email', response.data.email);
+                    sessionStorage.setItem('username', response.data.username);
+                    sessionStorage.setItem('favorites', JSON.stringify(response.data.favorites));
                     
                     successColor();
                     setTimeout(redirectHome(), 50000);
@@ -66,46 +75,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
                 }
                 $scope.visible = true;
             }
-        });
-        // var config =
-        // {
-        //     transformRequest: angular.identity,
-        //     transformResponse: angular.identity,
-        //     headers: 
-        //     {
-        //         'Content-Type': undefined
-        //     }
-        // }
-
-        // Sends the file data off
-        // $http.get(url, data, config).then(
-        //     // Success
-        //     function (response)
-        //     {
-        //         var result = response.data.valid;
-        //         // console.log(result);
-        //         if(result)
-        //         {
-        //             $scope.results = "Logged in!";
-
-        //             // push to HTML5 local storage
-        //             sessionStorage.setItem('email', response.data.email);
-        //             sessionStorage.setItem('username', response.data.username);
-        //             sessionStorage.setItem('favorites', JSON.stringify(response.data.favorites));
-                    
-        //             successColor();
-        //             setTimeout(redirectHome(), 50000);
-        //         }
-        //         else
-        //         {
-        //             $scope.results = "Invalid Credentials"
-        //             document.getElementById("myemail").value = "";
-        //             document.getElementById("mypassword").value = "";
-        //             failureColor();
-        //         }
-        //         $scope.visible = true;
-        //     }
-        // );
+        );
 
     };
 
@@ -150,22 +120,21 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
         var data = {"email": email, "username": username, "password": password}
         
         // Set the configurations for the uploaded file
-        // var config =
-        // {
-        //     transformRequest: angular.identity,
-        //     transformResponse: angular.identity,
-        //     headers: 
-        //     {
-        //         'Content-Type': undefined
-        //     }
-        // }
+        var config =
+        {
+            transformRequest: angular.identity,
+            transformResponse: angular.identity,
+            headers: 
+            {
+                'Content-Type': undefined
+            }
+        }
 
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: data,
-            dataType: "application/x-www-form-urlencoded",
-            success: function(response){
+        // Sends the file data off
+        $http.post(url, data, config).then(
+            // Success
+            function (response)
+            {
                 var result = response;
                 if(result)
                 {
@@ -180,27 +149,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
                 }
                 $scope.visible = true;
             }
-        });
-        // Sends the file data off
-        // $http.get(url, data, config).then(
-        //     // Success
-        //     function (response)
-        //     {
-        //         var result = response;
-        //         if(result)
-        //         {
-        //             $scope.results = "Account created!";
-        //             successColor();
-        //             setTimeout(redirectLogin(), 50000);
-        //         }
-        //         else
-        //         {
-        //             $scope.results = "Unable to create account, please try again"
-        //             failureColor();
-        //         }
-        //         $scope.visible = true;
-        //     }
-        // );
+        );
 
     };
     
