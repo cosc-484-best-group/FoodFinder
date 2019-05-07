@@ -53,7 +53,7 @@ function bothNearby(args, res)
   
   
     yelpfusion(send=false, args, res).then(yelpData => {
-      res.status(200).send(bestofall(googleData, yelpData));
+      res.status(200).send(yelpData);
     }).catch(e => {
       console.log(e);
       res.status(500).send(e); 
