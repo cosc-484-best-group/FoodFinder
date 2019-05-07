@@ -139,7 +139,7 @@ app.post('/loginaccount', function (request, resp)
             {
                 comparePassword(password, account.password, function(error, isPasswordMatch)
                 {
-                    console.log(email + hash);
+                    console.log(email + hash + " -- " + isPasswordMatch);
                     if(isPasswordMatch)
                         resp.send({valid: true, email: account.email, username: account.username, favorites: account.favorites});
                     else
