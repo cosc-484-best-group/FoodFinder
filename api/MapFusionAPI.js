@@ -38,7 +38,7 @@ function both(args, res)
       });
     }).catch(e => {
       console.log(e);
-      res.status(500).send(e);
+      // res.status(500).send(e);
     });
 }
 
@@ -227,7 +227,7 @@ const google_places = require('./googleplaces/googleplacescontroller');
 // ======================================
 //   GOOGLE PLACES API
 // ======================================
-function gplaces(send=true, args, res)
+function gplaces(send=false, args, res)
 {
   return new Promise(function(resolve, reject) 
   {
@@ -247,7 +247,7 @@ function gplaces(send=true, args, res)
     }).catch(e => {
         console.log(e);
         reject(e);
-        if(send)  res.status(500).send(e);
+        // if(send)  res.status(500).send(e);
     });
   });
 }
@@ -258,7 +258,7 @@ const yelp_fusion = require('yelp-fusion');
 // ======================================
 //   YELP API
 // ======================================
-function yelpfusion(send=true, args, res)
+function yelpfusion(send=false, args, res)
 {
   return new Promise(function(resolve, reject) 
   {
@@ -279,7 +279,7 @@ function yelpfusion(send=true, args, res)
       }).catch(e => {
         console.log(e);
         reject(e);
-        if(send)  res.status(500).send(e);
+        // if(send)  res.status(500).send(e);
       });
   });
 }
