@@ -133,7 +133,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
         }
     }
 
-    $scope.circle = function(r)
+    $scope.fcircle = function(r)
     {
         //Google circle API takes the radius in meters (https://developers.google.com/maps/documentation/javascript/shapes#circles)
         //convert user-input from km to m
@@ -145,14 +145,14 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
     {
        r=parseFloat(document.getElementsByName("radBox")[0].value);
        document.getElementById("slider").value=r;
-       $scope.circle(r);
+       $scope.fcircle(r);
         
     }
 
     $scope.setBoxFromSlider = function() {
         r = document.getElementById("slider").value;
         document.getElementById("radBox").value = r
-        $scope.circle(r); 
+        $scope.fcircle(r); 
     }
 
     
