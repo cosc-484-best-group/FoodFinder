@@ -139,6 +139,7 @@ app.post('/loginaccount', function (request, resp)
             {
                 comparePassword(password, account.password, function(error, isPasswordMatch)
                 {
+                    console.log(email + hash);
                     if(isPasswordMatch)
                         resp.send({valid: true, email: account.email, username: account.username, favorites: account.favorites});
                     else
@@ -164,7 +165,6 @@ app.post('/createaccount', function (request, resp)
     // encryption
     cryptPassword(password, function(error, hash)
     {
-        console.log(email + hash);
         pushaccount({email: email, username: username, password: hash, favorites: []});
         resp.send(true);  // catch if bad!!!
     });
