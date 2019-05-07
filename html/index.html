@@ -72,12 +72,12 @@
                     <select ng-change="setDrawingPattern(drawtype)" ng-model="drawtype">
                         <option disabled selected value="">Select One</option>
                         <option value="circle">Circle</option>
-                        <option value="rectangle">Rectangle</option>
+                        <optiondistance value="rectangle">Rectangle</optiondistance>
                         <option value="polygon">Polygon</option>
                     </select>
                     <input ng-show="drawingPattern=='circle'" type="text" id="point-lat" class="circle-input shape-input" placeholder="lat">
                     <input ng-show="drawingPattern=='circle'" type="text" id="point-lon" class="circle-input shape-input" placeholder="lon">
-                    <input ng-show="drawingPattern=='circle'" type="text" id="point-rad" class="circle-input shape-input" placeholder="rad">
+                    <input ng-model="distance" ng-show="drawingPattern=='circle'" type="text" id="point-rad" class="circle-input shape-input" placeholder="rad">
                     <input ng-show="drawingPattern=='rectangle'" type="text" id="box-tl" class="rect-input shape-input" placeholder="tl">
                     <input ng-show="drawingPattern=='rectangle'" type="text" id="box-br" class="rect-input shape-input" placeholder="br">
                     <input ng-show="drawingPattern=='polygon'" type="text" id="poly-latlon" class="poly-input shape-input" placeholder="latlon">

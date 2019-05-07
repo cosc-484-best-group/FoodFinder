@@ -210,53 +210,52 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
     // Sends textbox input to Yelp in Nodejs backend
     $scope.nearby = function (distance) 
     {
-        googleFindPlace()
-        // // var range = 1000; //meters
-        // var price = "\"1, 2, 3\"";
+        // var range = 1000; //meters
+        var price = "\"1, 2, 3\"";
 
-        // var multiplier = 1000;
-        // var range = distance * multiplier; //meters
+        var multiplier = 1000;
+        var range = distance * multiplier; //meters
 
 
-        // // REST URL
-        // var url = "/places?lat=" + mycoords[0] + 
-        //     "&long=" + mycoords[1] +
-        //     "&range=" + range + 
-        //     "&price=" + price;
-        // var data = new FormData();
+        // REST URL
+        var url = "/places?lat=" + mycoords[0] + 
+            "&long=" + mycoords[1] +
+            "&range=" + range + 
+            "&price=" + price;
+        var data = new FormData();
         
-        // // Set the configurations for the uploaded file
-        // var config =
-        // {
-        //     transformRequest: angular.identity,
-        //     transformResponse: angular.identity,
-        //     headers: 
-        //     {
-        //         'Content-Type': undefined
-        //     }
-        // }
+        // Set the configurations for the uploaded file
+        var config =
+        {
+            transformRequest: angular.identity,
+            transformResponse: angular.identity,
+            headers: 
+            {
+                'Content-Type': undefined
+            }
+        }
 
-        // // Sends the file data off
-        // $http.get(url, data, config).then(
-        //     // Success
-        //     function (response)
-        //     {
-        //         var places = response.data;
-        //         // console.log(places);
-        //         places.forEach(place => {
-        //             // console.log(place)
-        //             // console.log(place.vicinity);
-        //             var newSpot = {
-        //                 name: place.name,
-        //                 lat: place.coordinates.latitude, 
-        //                 lon: place.coordinates.longitude, 
-        //                 loc: place.location.city + ", " + place.location.state
-        //             };
-        //             addMarker(newSpot, found);
-        //         });
-        //         // $scope.dta = places;
-        //     }
-        // );
+        // Sends the file data off
+        $http.get(url, data, config).then(
+            // Success
+            function (response)
+            {
+                var places = response.data;
+                // console.log(places);
+                places.forEach(place => {
+                    // console.log(place)
+                    // console.log(place.vicinity);
+                    var newSpot = {
+                        name: place.name,
+                        lat: place.coordinates.latitude, 
+                        lon: place.coordinates.longitude, 
+                        loc: place.location.city + ", " + place.location.state
+                    };
+                    addMarker(newSpot, found);
+                });
+                // $scope.dta = places;
+            }
+        );
 
     };
 

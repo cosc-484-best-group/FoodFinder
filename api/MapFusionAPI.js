@@ -280,7 +280,7 @@ function gplaces(send=true, args, res)
     }
     const places = google_places.client(google_api_key);
 
-    places.nearby(args).then(response => {
+    places.nearbySearch(args).then(response => {
         console.log("google data pulled");        
         resolve(response);
         if(send)  res.status(200).send(response);

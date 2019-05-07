@@ -14,7 +14,7 @@ class GooglePlacesController
 
 
     // Finds nearby
-    basicSearch(arg)
+    nearbySearch(arg)
     {
         var $this = this;
         var args = {

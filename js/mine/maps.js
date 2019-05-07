@@ -226,6 +226,7 @@ function searchByCircle(){
         $("#point-lat")[0].value = circle.getCenter().lat().toFixed(7);
         $("#point-lon")[0].value = circle.getCenter().lng().toFixed(7);
         $("#point-rad")[0].value = (circle.getRadius() / 1000).toFixed(4);
+        mycoords = [circle.getCenter().lat().toFixed(7), circle.getCenter().lng().toFixed(7)]
     });
 }
 
