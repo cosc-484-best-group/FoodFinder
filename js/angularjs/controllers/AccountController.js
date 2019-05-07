@@ -43,6 +43,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
             type: "POST",
             url: url,
             data: data,
+            dataType: "application/x-www-form-urlencoded",
             success: function(response){
                 var result = response.valid;
                 // console.log(result);
@@ -66,8 +67,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
                     failureColor();
                 }
                 $scope.visible = true;
-            },
-            dataType: "application/x-www-form-urlencoded"
+            }
         });
         // var config =
         // {
@@ -162,12 +162,13 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
             }
         }
 
-        // Sends the file data off
-        $http.get(url, data, config).then(
-            // Success
-            function (response)
-            {
-                var result = response.data;
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            dataType: "application/x-www-form-urlencoded",
+            success: function(response){
+                var result = response;
                 if(result)
                 {
                     $scope.results = "Account created!";
@@ -181,7 +182,27 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
                 }
                 $scope.visible = true;
             }
-        );
+        });
+        // Sends the file data off
+        // $http.get(url, data, config).then(
+        //     // Success
+        //     function (response)
+        //     {
+        //         var result = response;
+        //         if(result)
+        //         {
+        //             $scope.results = "Account created!";
+        //             successColor();
+        //             setTimeout(redirectLogin(), 50000);
+        //         }
+        //         else
+        //         {
+        //             $scope.results = "Unable to create account, please try again"
+        //             failureColor();
+        //         }
+        //         $scope.visible = true;
+        //     }
+        // );
 
     };
     
