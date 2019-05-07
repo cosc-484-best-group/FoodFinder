@@ -224,7 +224,7 @@ app.get('/places', function (request, resp)
         latitude: request.query.lat, 
         longitude: request.query.long,
     
-        radius: request.query.range
+        radius: 1500
         // categories: 'bars',
         // locale: 'en_US',
         // limit: 1,
@@ -238,7 +238,7 @@ app.get('/places', function (request, resp)
 
   mapfuse2(args, function callback(bizs)
   {
-      
+
         console.log("dsfsdfsdfsdfsfdsdfs" + JSON.stringify(bizs));
         resp.send(bizs);
   });
