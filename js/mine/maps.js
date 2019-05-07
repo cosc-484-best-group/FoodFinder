@@ -1,7 +1,7 @@
 
 var map;
 var mycoords = [0, 0];
-
+var shapes = [];
 
 var drawingManager = null
 
@@ -208,6 +208,14 @@ function setDrawingMode(mode){
       });
       drawingManager.setMap(map);
     }
+}
+
+
+function deleteAllShapes(){
+    for(i in shapes){
+        shapes[i].setMap(null);
+    }
+    shapes = [];
 }
 
 
