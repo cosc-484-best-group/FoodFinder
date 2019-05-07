@@ -52,6 +52,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             $scope.hours = data.opening_hours;
             $scope.coordinates = data.coordinates.latitude + "," + data.coordinates.longitude; 
             
+            // if 1 from google ....
             if(data.price == "$")
 				$scope.price = "low";
 			else if(data.price == "$$")
@@ -243,7 +244,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
             function (response)
             {
                 var places = response.data;
-                // console.log(places);
+                console.log("dsfsdfsdf" + JSON.stringify(places));
                 places.forEach(place => {
                     // console.log(place)
                     // console.log(place.vicinity);

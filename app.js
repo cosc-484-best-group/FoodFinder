@@ -224,7 +224,7 @@ app.get('/places', function (request, resp)
         latitude: request.query.lat, 
         longitude: request.query.long,
     
-        radius: request.query.range
+        radius: 3500
         // categories: 'bars',
         // locale: 'en_US',
         // limit: 1,
@@ -236,8 +236,10 @@ app.get('/places', function (request, resp)
         // attributes: "hot"
     }
 
-  mapfuse(args, function callback(bizs)
+  mapfuse2(args, function callback(bizs)
   {
+
+        console.log("dsfsdfsdfsdfsfdsdfs" + JSON.stringify(bizs));
         resp.send(bizs);
   });
 });
@@ -483,6 +485,21 @@ function mapfuse(args, callmemaybe)
         // console.log("ABC " + JSON.stringify(response));     
         const yelpData = response;
         callmemaybe(yelpData);
+      }).catch(e => {
+        console.log(e);
+      });
+}
+
+// ======================================
+//   YELP API
+// ======================================
+function mapfuse2(args, callmemaybe)
+{
+    mapfusion.nearby(args).then(response => {
+        console.log("yelp data pulled");   
+        // console.log("ABC " + JSON.stringify(response));     
+        const bizs = response;
+        callmemaybe(bizs);
       }).catch(e => {
         console.log(e);
       });
