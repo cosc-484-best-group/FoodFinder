@@ -9,25 +9,31 @@ router.use(bodyParser.json());
 
 
 // RETURNS MAPFUSION RESULTS
-router.get('/mapfusion', function (req, res) 
+router.get('/mapfusion/search', function (req, res) 
 {
-    both(req.body, res);
+    bothSearch(req.body, res);
+});
+
+// RETURNS MAPFUSION RESULTS
+router.get('/mapfusion/nearby', function (req, res) 
+{
+    bothNearby(req.body, res);
 });
 
 // RETURNS GOOGLE RESULTS
 router.get('/googleplaces', function (req, res) 
 {
-    gplaces(send=true, req.body, res);
+    gplaces(req.body, res);
 });
 
 // RETURNS YELP RESULTS
 router.get('/yelpfusion', function (req, res) 
 {
-    yelpfusion(send=true, req.body, res);
+    yelpfusion(req.body, res);
 });
 
 
-function both(args, res)
+function bothSearch(args, res)
 {
     gplaces(send=false, args, res).then(googleData => {
       yelpfusion(send=false, args, res).then(yelpData => {
@@ -38,8 +44,31 @@ function both(args, res)
       });
     }).catch(e => {
       console.log(e);
-      // res.status(500).send(e);
+      res.status(500).send(e);
     });
+}
+
+function bothNearby(args, res)
+{
+  
+  yelpfusion(args, res).then(yelpData => {
+    res.status(200).send(yelpData);
+  }).catch(e => {
+    console.log(e);
+    res.status(500).send(e); 
+  });
+
+    // gplaces(send=false, args, res).then(googleData => {
+    //   yelpfusion(send=false, args, res).then(yelpData => {
+    //     res.status(200).send(bestofall(googleData, yelpData));
+    //   }).catch(e => {
+    //     console.log(e);
+    //     res.status(500).send(e); 
+    //   });
+    // }).catch(e => {
+    //   console.log(e);
+    //   res.status(500).send(e);
+    // });
 }
 
 function bestofall(googleData, yelpData)
@@ -166,11 +195,7 @@ function bestofall(googleData, yelpData)
     else // if not yelp data or does not match
     {
 
-      var str = "8600 Lasalle Rd #250C, Towson, MD 21286, USA";
-      var str2 = "140 George St, The Rocks NSW 2000, Australia";
-      
       var g = googleData.result;
-
       var loc = g.formatted_address.split(',');
       var country = loc[loc.length - 1].trim();
       var loc2 = loc[loc.length - 2].trim().split(' ');
@@ -227,7 +252,7 @@ const google_places = require('./googleplaces/googleplacescontroller');
 // ======================================
 //   GOOGLE PLACES API
 // ======================================
-function gplaces(send=false, args, res)
+function gplaces(send=true, args, res)
 {
   return new Promise(function(resolve, reject) 
   {
@@ -247,7 +272,7 @@ function gplaces(send=false, args, res)
     }).catch(e => {
         console.log(e);
         reject(e);
-        // if(send)  res.status(500).send(e);
+        if(send)  res.status(500).send(e);
     });
   });
 }
@@ -258,7 +283,7 @@ const yelp_fusion = require('yelp-fusion');
 // ======================================
 //   YELP API
 // ======================================
-function yelpfusion(send=false, args, res)
+function yelpfusion(send=true, args, res)
 {
   return new Promise(function(resolve, reject) 
   {
@@ -279,7 +304,7 @@ function yelpfusion(send=false, args, res)
       }).catch(e => {
         console.log(e);
         reject(e);
-        // if(send)  res.status(500).send(e);
+        if(send)  res.status(500).send(e);
       });
   });
 }
