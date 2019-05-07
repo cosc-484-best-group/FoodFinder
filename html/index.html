@@ -86,10 +86,6 @@
 
                 <a id="plus" ng-click="flip()"> {{ plus }} </a>
                 
-                <a id="draw-circle" ng-click="setDrawType('circle')" ng-show="neary"> {{ circle }} </a>
-                <a id="draw-rectangle" ng-click="setDrawType('rectangle')" ng-show="neary"> {{ rectangle }} </a>
-                <a id="draw-polygon" ng-click="setDrawType('polygon')" ng-show="neary"> {{ polygon }} </a>
-                
                 <div class="righty" ng-show="!neary">
                     <button class="btn btn-dark" id="submit" ng-click="yelp(term, loc)"> Submit </button>
                 </div>
