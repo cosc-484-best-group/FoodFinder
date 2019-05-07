@@ -8,23 +8,37 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
 
-// RETURNS GOOGLE RESULTS
+// RETURNS MAPFUSION RESULTS
 router.get('/mapfusion', function (req, res) 
 {
     both(req.body, res);
 });
 
+// RETURNS GOOGLE RESULTS
+router.get('/googleplaces', function (req, res) 
+{
+    gplaces(send=true, req.body, res);
+});
+
+// RETURNS YELP RESULTS
+router.get('/yelpfusion', function (req, res) 
+{
+    yelpfusion(send=true, req.body, res);
+});
+
 
 function both(args, res)
 {
-    gplaces(args, res).then(googleData => {
-      yelpfusion(args, res).then(yelpData => {
+    gplaces(send=false, args, res).then(googleData => {
+      yelpfusion(send=false, args, res).then(yelpData => {
         res.status(200).send(bestofall(googleData, yelpData));
       }).catch(e => {
-        console.log(e); 
+        console.log(e);
+        res.status(500).send(e); 
       });
     }).catch(e => {
       console.log(e);
+      res.status(500).send(e);
     });
 }
 
@@ -213,7 +227,7 @@ const google_places = require('./googleplaces/googleplacescontroller');
 // ======================================
 //   GOOGLE PLACES API
 // ======================================
-function gplaces(args, res)
+function gplaces(send=true, args, res)
 {
   return new Promise(function(resolve, reject) 
   {
@@ -229,9 +243,11 @@ function gplaces(args, res)
     places.advancedSearch(args).then(response => {
         console.log("google data pulled");        
         resolve(response);
+        if(send)  res.status(200).send(response);
     }).catch(e => {
         console.log(e);
         reject(e);
+        if(send)  res.status(500).send(e);
     });
   });
 }
@@ -242,7 +258,7 @@ const yelp_fusion = require('yelp-fusion');
 // ======================================
 //   YELP API
 // ======================================
-function yelpfusion(args, res)
+function yelpfusion(send=true, args, res)
 {
   return new Promise(function(resolve, reject) 
   {
@@ -259,9 +275,11 @@ function yelpfusion(args, res)
         console.log("yelp data pulled");        
         const yelpData = response.jsonBody.businesses;
         resolve(yelpData);
+        if(send)  res.status(200).send(yelpData);
       }).catch(e => {
         console.log(e);
         reject(e);
+        if(send)  res.status(500).send(e);
       });
   });
 }
