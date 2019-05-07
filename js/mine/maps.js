@@ -13,6 +13,9 @@ function initMap()
             position: google.maps.ControlPosition.BOTTOM_LEFT,
         }
     });
+    google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event){
+        shapes.push(event.overlay);
+    });
     getLocation();
 }
 
@@ -169,11 +172,6 @@ function clearShapeListeners(){
     google.maps.event.clearListeners(drawingManager, 'rectanglecomplete');
     google.maps.event.clearListeners(drawingManager, 'polygoncomplete');
 }
-
-
-google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event){
-    shapes.push(event.overlay);
-});
 
 
 var circle;
