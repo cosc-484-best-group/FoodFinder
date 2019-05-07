@@ -4,6 +4,7 @@ app.controller('MainController', ['$scope', '$http', function ($scope, $http)
 
 	function setYelpScopes(data)
 	{	
+            console.log("dsdsd: " + JSON.stringify(data));
             $scope.all = data;
             $scope.source = data.status;
             
