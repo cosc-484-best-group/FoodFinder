@@ -52,7 +52,6 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
             function (response)
             {
                 var result = response.data.valid;
-                console.log(result);
                 if(result)
                 {
                     $scope.results = "Logged in!";
@@ -126,7 +125,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
             transformResponse: angular.identity,
             headers: 
             {
-                'Content-Type': undefined
+                'Content-Type': "application/x-www-form-urlencoded"
             }
         }
 
@@ -135,7 +134,7 @@ app.controller('AccountController', ['$scope', '$http', function ($scope, $http)
             // Success
             function (response)
             {
-                var result = response;
+                var result = response.data.valid;
                 if(result)
                 {
                     $scope.results = "Account created!";
